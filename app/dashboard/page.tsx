@@ -15,6 +15,11 @@ export default function Dashboard() {
   const [status, setStatus] = useState<"connecting" | "on" | "off">("connecting");
   const [lines, setLines] = useState<Line[]>([]);
   const [input, setInput] = useState("");
+  const [instruct, setInstruct] = useState("");
+  // Brain status pushed from Termi each AFK pass.
+  type BrainTerminal = { title: string; progress: string; instruction?: string; complete?: boolean; blocker?: string; tests?: { name: string; passed: boolean }[] };
+  type BrainStatus = { type: string; status: string; isRunning: boolean; pass: number; terminals: BrainTerminal[] };
+  const [brain, setBrain] = useState<BrainStatus | null>(null);
   const [latency, setLatency] = useState<number | null>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const feedRef = useRef<HTMLDivElement>(null);
@@ -41,6 +46,8 @@ export default function Dashboard() {
     channel.on("broadcast", { event: "msg" }, ({ payload }) => {
       const p = payload as Record<string, unknown>;
       if (p.type === "pong") { if (pingAtRef.current) setLatency(Date.now() - pingAtRef.current); pingAtRef.current = 0; return; }
+      // Brain status update — render in the brain panel, don't clutter the console feed.
+      if (p.type === "brain_status") { setBrain(p as unknown as BrainStatus); return; }
       log(`${(p.type as string) || "message"}: ${(p.message as string) ?? JSON.stringify(p)}`, "in");
     });
     channel.subscribe((s) => {
@@ -62,6 +69,14 @@ export default function Dashboard() {
     channelRef.current.send({ type: "broadcast", event: "msg", payload: { type: "command", command: text, t: Date.now() } });
     log(`command: ${text}`, "out");
     setInput("");
+  };
+
+  const sendInstruct = () => {
+    const text = instruct.trim();
+    if (!text || !channelRef.current) return;
+    channelRef.current.send({ type: "broadcast", event: "msg", payload: { type: "command", command: `instruct:${text}`, t: Date.now() } });
+    log(`instruct brain: ${text}`, "out");
+    setInstruct("");
   };
 
   const signOut = async () => { await createClient().auth.signOut(); router.replace("/login"); };
@@ -99,6 +114,51 @@ export default function Dashboard() {
             <span className="text-xs text-neutral-500 tabular-nums">{latency != null ? `${latency} ms` : "— ms"}</span>
           </div>
         </div>
+
+        {/* Brain Activity */}
+        {brain && brain.isRunning && (
+          <div className="mt-6 rounded-2xl border border-[--color-line] bg-[--color-panel] p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
+              <h2 className="text-sm font-bold">Brain Activity (AFK)</h2>
+              <span className="text-xs text-neutral-500 ml-auto">pass {brain.pass}</span>
+            </div>
+            <p className="text-sm text-neutral-300 mb-3">{brain.status}</p>
+            <div className="space-y-2">
+              {brain.terminals.map((t, i) => (
+                <div key={i} className="rounded-lg bg-[--color-ink] p-3 text-xs">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`w-2 h-2 rounded-full ${t.complete ? "bg-green-500" : t.blocker ? "bg-red-500" : "bg-orange-500"}`} />
+                    <span className="font-semibold font-mono">{t.title}</span>
+                    {t.blocker && <span className="text-red-400 ml-auto">blocked</span>}
+                    {t.complete && <span className="text-green-400 ml-auto">done</span>}
+                  </div>
+                  <p className="text-neutral-400">{t.progress}</p>
+                  {t.instruction && <p className="text-neutral-600 mt-1">task: {t.instruction}</p>}
+                  {t.tests && t.tests.length > 0 && (
+                    <div className="mt-1.5 space-y-0.5">
+                      {t.tests.map((tc, j) => (
+                        <div key={j} className={tc.passed ? "text-green-500" : "text-red-400"}>
+                          {tc.passed ? "✓" : "✗"} {tc.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2 mt-4">
+              <input
+                value={instruct}
+                onChange={(e) => setInstruct(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendInstruct()}
+                placeholder="Give the brain new instructions…"
+                className="flex-1 rounded-lg border border-[--color-line] bg-[--color-ink] px-3 py-2.5 font-mono text-xs outline-none focus:border-orange-500 transition"
+              />
+              <button onClick={sendInstruct} className="rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 text-xs font-semibold transition">Instruct</button>
+            </div>
+          </div>
+        )}
 
         {/* Console */}
         <div className="mt-6 rounded-2xl border border-[--color-line] bg-[--color-panel] overflow-hidden shadow-xl">
