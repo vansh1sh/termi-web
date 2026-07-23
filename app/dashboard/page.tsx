@@ -20,6 +20,9 @@ export default function Dashboard() {
   type BrainTerminal = { title: string; progress: string; instruction?: string; complete?: boolean; blocker?: string; tests?: { name: string; passed: boolean }[] };
   type BrainStatus = { type: string; status: string; isRunning: boolean; pass: number; terminals: BrainTerminal[] };
   const [brain, setBrain] = useState<BrainStatus | null>(null);
+  // Lightweight presence heartbeat from Termi (shown even when AFK is off).
+  type Presence = { terminalCount: number; activeTitle: string; cwd: string; afkRunning: boolean; provider: string; at: number };
+  const [presence, setPresence] = useState<Presence | null>(null);
   const [latency, setLatency] = useState<number | null>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const feedRef = useRef<HTMLDivElement>(null);
@@ -48,6 +51,7 @@ export default function Dashboard() {
       if (p.type === "pong") { if (pingAtRef.current) setLatency(Date.now() - pingAtRef.current); pingAtRef.current = 0; return; }
       // Brain status update — render in the brain panel, don't clutter the console feed.
       if (p.type === "brain_status") { setBrain(p as unknown as BrainStatus); return; }
+      if (p.type === "presence") { setPresence({ ...(p as unknown as Presence), at: Date.now() }); return; }
       log(`${(p.type as string) || "message"}: ${(p.message as string) ?? JSON.stringify(p)}`, "in");
     });
     channel.subscribe((s) => {
@@ -115,14 +119,49 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Brain Activity */}
-        {brain && brain.isRunning && (
-          <div className="mt-6 rounded-2xl border border-[--color-line] bg-[--color-panel] p-5">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse" />
-              <h2 className="text-sm font-bold">Brain Activity (AFK)</h2>
-              <span className="text-xs text-neutral-500 ml-auto">pass {brain.pass}</span>
+        {/* Live session (presence heartbeat from Termi) */}
+        <div className="mt-6 grid grid-cols-3 gap-3">
+          <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4">
+            <div className="text-2xl font-bold">{presence?.terminalCount ?? "—"}</div>
+            <div className="text-xs text-neutral-500 mt-0.5">open terminals</div>
+          </div>
+          <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4">
+            <div className="text-sm font-semibold font-mono truncate">{presence?.activeTitle ?? "—"}</div>
+            <div className="text-xs text-neutral-500 mt-0.5 truncate">{presence?.cwd ?? "active terminal"}</div>
+          </div>
+          <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4">
+            <div className="flex items-center gap-2">
+              <span className={`w-2 h-2 rounded-full ${presence?.afkRunning ? "bg-orange-500 animate-pulse" : "bg-neutral-600"}`} />
+              <span className="text-sm font-semibold">{presence?.afkRunning ? "AFK running" : "Idle"}</span>
             </div>
+            <div className="text-xs text-neutral-500 mt-0.5">{presence?.provider ?? "brain"}</div>
+          </div>
+        </div>
+
+        {/* Brain Activity — always shown; explains itself when idle */}
+        <div className="mt-6 rounded-2xl border border-[--color-line] bg-[--color-panel] p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <span className={`w-2.5 h-2.5 rounded-full ${brain?.isRunning ? "bg-orange-500 animate-pulse" : "bg-neutral-600"}`} />
+            <h2 className="text-sm font-bold">Brain Activity</h2>
+            {brain?.isRunning
+              ? <span className="text-xs text-neutral-500 ml-auto">pass {brain.pass}</span>
+              : <span className="text-xs text-neutral-500 ml-auto">idle</span>}
+          </div>
+
+          {/* Stat row */}
+          <div className="flex gap-6 mb-4 text-sm">
+            <div><span className="text-lg font-bold">{brain?.terminals.length ?? 0}</span> <span className="text-neutral-500">terminals</span></div>
+            <div><span className="text-lg font-bold text-green-400">{brain?.terminals.filter(t => t.complete).length ?? 0}</span> <span className="text-neutral-500">done</span></div>
+            <div><span className="text-lg font-bold text-red-400">{brain?.terminals.filter(t => t.blocker).length ?? 0}</span> <span className="text-neutral-500">blocked</span></div>
+          </div>
+
+          {!brain?.isRunning ? (
+            <p className="text-sm text-neutral-500">
+              No AFK session running. Start AFK mode in Termi (with a goal) and live progress, per-terminal
+              summaries, and test checks will stream here — and you can steer the brain below.
+            </p>
+          ) : (
+          <>
             <p className="text-sm text-neutral-300 mb-3">{brain.status}</p>
             <div className="space-y-2">
               {brain.terminals.map((t, i) => (
@@ -147,18 +186,21 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-2 mt-4">
-              <input
-                value={instruct}
-                onChange={(e) => setInstruct(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendInstruct()}
-                placeholder="Give the brain new instructions…"
-                className="flex-1 rounded-lg border border-[--color-line] bg-[--color-ink] px-3 py-2.5 font-mono text-xs outline-none focus:border-orange-500 transition"
-              />
-              <button onClick={sendInstruct} className="rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 text-xs font-semibold transition">Instruct</button>
-            </div>
+          </>
+          )}
+
+          {/* Instruct brain — always available */}
+          <div className="flex gap-2 mt-4">
+            <input
+              value={instruct}
+              onChange={(e) => setInstruct(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendInstruct()}
+              placeholder="Give the brain new instructions…"
+              className="flex-1 rounded-lg border border-[--color-line] bg-[--color-ink] px-3 py-2.5 font-mono text-xs outline-none focus:border-orange-500 transition"
+            />
+            <button onClick={sendInstruct} className="rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 text-xs font-semibold transition">Instruct</button>
           </div>
-        )}
+        </div>
 
         {/* Console */}
         <div className="mt-6 rounded-2xl border border-[--color-line] bg-[--color-panel] overflow-hidden shadow-xl">
