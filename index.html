@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termi — Your terminal, everywhere</title>
+  <meta name="description" content="Termi connects your terminal to your phone. Control, monitor, and stay in sync from anywhere." />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+</head>
+<body>
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="#top">
+        <span class="brand__mark">▟</span>
+        <span class="brand__name">Termi</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#live">Live status</a>
+      </nav>
+      <a class="btn btn--ghost nav__cta" href="#live">Open console</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <main id="top">
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <span class="pill">⚡ Real-time terminal bridge</span>
+        <h1 class="hero__title">Your terminal,<br /><span class="grad">everywhere you are.</span></h1>
+        <p class="hero__sub">
+          Termi links your desktop terminal to the mobile-connector app so you can
+          watch output, fire commands, and stay in the loop — live, from any device.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#live">See the live console ↓</a>
+          <a class="btn btn--ghost" href="#how">How it works</a>
+        </div>
+        <div class="hero__stats">
+          <div class="stat"><strong id="stat-msgs">0</strong><span>messages</span></div>
+          <div class="stat"><strong id="stat-latency">—</strong><span>last ping</span></div>
+          <div class="stat"><strong id="stat-state">offline</strong><span>connection</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section id="features" class="section">
+      <h2 class="section__title">Built for people who live in the shell</h2>
+      <div class="cards">
+        <article class="card">
+          <div class="card__icon">🔌</div>
+          <h3>Instant connection</h3>
+          <p>Pair with the mobile-connector app over WebSocket. No accounts, no cloud round-trips.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon">📡</div>
+          <h3>Live command feed</h3>
+          <p>Every command and message streams into your status panel the moment it arrives.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon">📱</div>
+          <h3>Mobile first</h3>
+          <p>Responsive down to the smallest phone. Send commands and read output on the go.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon">🔒</div>
+          <h3>Yours alone</h3>
+          <p>Point Termi at any endpoint you control — localhost, LAN, or your own tunnel.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="how" class="section section--alt">
+      <h2 class="section__title">How it works</h2>
+      <ol class="steps">
+        <li class="step"><span class="step__n">1</span><div><h3>Run the connector</h3><p>Start the mobile-connector app; it exposes a WebSocket endpoint.</p></div></li>
+        <li class="step"><span class="step__n">2</span><div><h3>Point Termi at it</h3><p>Enter <code>ws://localhost:PORT</code> in the console below and connect.</p></div></li>
+        <li class="step"><span class="step__n">3</span><div><h3>Stay in sync</h3><p>Messages and commands render live. Send input straight back down the wire.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- ============ LIVE CONSOLE ============ -->
+    <section id="live" class="section">
+      <h2 class="section__title">Live status console</h2>
+      <p class="section__lead">Connect to your mobile-connector app and watch traffic in real time.</p>
+
+      <div class="console">
+        <div class="console__bar">
+          <div class="console__conn">
+            <label class="sr-only" for="ws-url">WebSocket endpoint</label>
+            <input id="ws-url" class="console__url" type="text" spellcheck="false"
+                   value="ws://localhost:8080" placeholder="ws://localhost:PORT" />
+            <button id="btn-connect" class="btn btn--primary">Connect</button>
+            <button id="btn-disconnect" class="btn btn--ghost" disabled>Disconnect</button>
+          </div>
+          <div class="console__status">
+            <span id="dot" class="dot dot--off" aria-hidden="true"></span>
+            <span id="status-text">Disconnected</span>
+          </div>
+        </div>
+
+        <div id="panel" class="console__panel" role="log" aria-live="polite" aria-label="Live message feed">
+          <div class="msg msg--sys">
+            <span class="msg__time">--:--:--</span>
+            <span class="msg__body">Waiting for a connection. Enter an endpoint above and hit Connect.</span>
+          </div>
+        </div>
+
+        <form id="send-form" class="console__send" autocomplete="off">
+          <input id="send-input" class="console__input" type="text"
+                 placeholder="Type a command to send to the connector…" disabled />
+          <button id="btn-send" class="btn btn--primary" type="submit" disabled>Send</button>
+          <button id="btn-clear" class="btn btn--ghost" type="button">Clear</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <span>Termi · a terminal bridge for the mobile-connector app</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
