@@ -3,9 +3,68 @@
 @theme {
   --color-coral: #f07a52;
   --color-coral-600: #e5623a;
-  --color-ink: #0e0f12;
-  --color-panel: #16181d;
-  --color-line: #2a2d34;
+  --color-amber: #f5b544;
+  --color-ink: #0a0b0e;
+  --color-panel: #14161b;
+  --color-line: #24272f;
 }
 
-html, body { background: var(--color-ink); color: #e7e9ee; }
+html { scroll-behavior: smooth; }
+html, body { background: var(--color-ink); color: #e7e9ee; overflow-x: hidden; }
+
+/* ---- Scroll-reveal (toggled by IntersectionObserver via .in) ---- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-scale { opacity: 0; transform: scale(.94); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal-scale.in { opacity: 1; transform: none; }
+
+/* stagger children */
+.stagger > * { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+.stagger.in > * { opacity: 1; transform: none; }
+.stagger.in > *:nth-child(1) { transition-delay: .05s; }
+.stagger.in > *:nth-child(2) { transition-delay: .12s; }
+.stagger.in > *:nth-child(3) { transition-delay: .19s; }
+.stagger.in > *:nth-child(4) { transition-delay: .26s; }
+.stagger.in > *:nth-child(5) { transition-delay: .33s; }
+.stagger.in > *:nth-child(6) { transition-delay: .40s; }
+
+/* ---- Animated aurora / gradient blobs ---- */
+@keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-30px) scale(1.1); } }
+@keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,20px) scale(1.15); } }
+.blob1 { animation: float1 14s ease-in-out infinite; }
+.blob2 { animation: float2 18s ease-in-out infinite; }
+
+/* ---- Gradient text shimmer ---- */
+@keyframes shimmer { to { background-position: 200% center; } }
+.shimmer {
+  background: linear-gradient(90deg, #f07a52, #f5b544, #f07a52);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+/* ---- Marquee ---- */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { animation: marquee 22s linear infinite; }
+
+/* ---- Blink + type caret ---- */
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 1s step-end infinite; }
+
+/* ---- Slow spin for orbit rings ---- */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 40s linear infinite; }
+.spin-rev { animation: spin-slow 30s linear infinite reverse; }
+
+/* ---- Float bob for the app window ---- */
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.bob { animation: bob 6s ease-in-out infinite; }
+
+/* ---- Grid pulse ---- */
+@keyframes gridpulse { 0%,100% { opacity:.25 } 50% { opacity:.5 } }
+.gridpulse { animation: gridpulse 6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-scale, .stagger > * { opacity: 1 !important; transform: none !important; }
+  .blob1, .blob2, .marquee, .shimmer, .spin-slow, .spin-rev, .bob { animation: none !important; }
+}
