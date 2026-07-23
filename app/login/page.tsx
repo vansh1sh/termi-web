@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 
 export default function LoginPage() {
@@ -23,42 +24,54 @@ export default function LoginPage() {
   };
 
   return (
-    <main style={{ maxWidth: 420, margin: "80px auto", padding: 24, textAlign: "center" }}>
-      <h1 style={{ fontSize: 22 }}>Sign in to Termi</h1>
-      <p style={{ color: "#9aa0aa", fontSize: 13 }}>
-        A magic link connects this browser to your terminal — no password.
-      </p>
+    <div className="min-h-screen grid place-items-center px-6 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[420px] w-[720px] rounded-full bg-[--color-coral]/15 blur-[120px]" />
+      <div className="relative w-full max-w-sm">
+        <Link href="/" className="flex items-center justify-center gap-2 font-bold text-lg mb-8">
+          <span className="grid place-items-center w-8 h-8 rounded-lg bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white">›_</span>
+          Termi
+        </Link>
 
-      {sent ? (
-        <div style={{ marginTop: 24, padding: 16, background: "#16181d", borderRadius: 10 }}>
-          ✉️ Check <b>{email}</b> for a login link, then come back here.
+        <div className="rounded-2xl border border-[--color-line] bg-[--color-panel] p-7 shadow-2xl">
+          {sent ? (
+            <div className="text-center">
+              <div className="text-3xl mb-3">✉️</div>
+              <h1 className="text-xl font-bold">Check your inbox</h1>
+              <p className="mt-2 text-sm text-neutral-400">
+                We sent a magic link to <b className="text-neutral-200">{email}</b>. Click it to sign in — it opens the dashboard here (and can sign in the Termi app too).
+              </p>
+              <button onClick={() => setSent(false)} className="mt-5 text-sm text-[--color-coral] hover:underline">Use a different email</button>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-xl font-bold text-center">Sign in to Termi</h1>
+              <p className="mt-2 text-sm text-neutral-400 text-center">A magic link — no password.</p>
+              <div className="mt-6 space-y-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && email.includes("@") && sendLink()}
+                  placeholder="you@example.com"
+                  className="w-full rounded-lg border border-[--color-line] bg-[--color-ink] px-4 py-3 outline-none focus:border-[--color-coral] transition"
+                />
+                <button
+                  onClick={sendLink}
+                  disabled={busy || !email.includes("@")}
+                  className="w-full rounded-lg bg-[--color-coral] hover:bg-[--color-coral-600] disabled:opacity-50 text-white py-3 font-semibold transition"
+                >
+                  {busy ? "Sending…" : "Send magic link"}
+                </button>
+                {error && <div className="text-sm text-red-400 text-center">{error}</div>}
+              </div>
+            </>
+          )}
         </div>
-      ) : (
-        <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendLink()}
-            placeholder="you@example.com"
-            style={{
-              padding: "12px 14px", borderRadius: 8, border: "1px solid #2a2d34",
-              background: "#0e0f12", color: "#e7e9ee", fontSize: 14,
-            }}
-          />
-          <button
-            onClick={sendLink}
-            disabled={busy || !email.includes("@")}
-            style={{
-              padding: "12px", borderRadius: 8, border: "none", background: "#f07a52",
-              color: "#fff", fontWeight: 600, opacity: busy || !email.includes("@") ? 0.5 : 1,
-            }}
-          >
-            {busy ? "Sending…" : "Send magic link"}
-          </button>
-          {error && <div style={{ color: "#f85149", fontSize: 12 }}>{error}</div>}
-        </div>
-      )}
-    </main>
+
+        <p className="mt-6 text-center text-xs text-neutral-600">
+          <Link href="/" className="hover:text-neutral-400">← Back to home</Link>
+        </p>
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-coral: #f07a52;
+  --color-coral-600: #e5623a;
+  --color-ink: #0e0f12;
+  --color-panel: #16181d;
+  --color-line: #2a2d34;
+}
+
+html, body { background: var(--color-ink); color: #e7e9ee; }
