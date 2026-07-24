@@ -64,7 +64,7 @@ const appJsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
-      <body className="antialiased min-h-screen bg-[--color-ink] text-[#e7e9ee] font-sans">
+      <body className="antialiased min-h-screen text-[--color-fg] font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(appJsonLd) }}

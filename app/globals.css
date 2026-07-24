@@ -21,8 +21,10 @@
   --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-html { scroll-behavior: smooth; }
-html, body { background: var(--color-ink); color: var(--color-fg); overflow-x: hidden; }
+html { scroll-behavior: smooth; background: var(--color-ink); }
+/* body is transparent so the fixed neural-net canvas (-z-10) shows through;
+   the base color lives on <html>. */
+body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
 ::selection { background: #f0764a33; color: #fff; }
 
 /* ============================================================
@@ -60,6 +62,34 @@ html, body { background: var(--color-ink); color: var(--color-fg); overflow-x: h
 /* Section rule with a centered mono tag. */
 .rule { display: flex; align-items: center; gap: 16px; color: var(--color-faint); }
 .rule::before, .rule::after { content: ""; height: 1px; background: var(--color-line); flex: 1; }
+
+/* ---- Glass panels (blur) floating over the neural field ---- */
+.glass {
+  background: color-mix(in srgb, var(--color-panel) 55%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in srgb, var(--color-line-2) 80%, transparent);
+}
+.glass-strong {
+  background: color-mix(in srgb, var(--color-panel) 78%, transparent);
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  border: 1px solid var(--color-line-2);
+}
+
+/* ---- 3D tilt-on-hover for glass cards ---- */
+.card3d { transform-style: preserve-3d; transition: transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s; }
+.card3d:hover { transform: perspective(900px) translateZ(0) rotateX(3deg) rotateY(-3deg); border-color: color-mix(in srgb, var(--color-coral) 45%, transparent); }
+
+/* ---- Depth float: layered parallax bob at different speeds ---- */
+@keyframes depthbob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+.depth-1 { animation: depthbob 7s ease-in-out infinite; }
+.depth-2 { animation: depthbob 9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-1, .depth-2 { animation: none; }
+  .card3d:hover { transform: none; }
+}
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element
    (mouse clicks don't trigger :focus-visible, so it stays clean). ---- */
