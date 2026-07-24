@@ -66,7 +66,7 @@ export default function Hero() {
 
         {/* Right: the four parallel terminals; run brings them to life */}
         <Reveal variant="reveal-scale">
-          <div className={`ticks glass-strong rounded-2xl p-4 aspect-square w-full max-w-[520px] mx-auto transition-transform duration-500 ${running ? "scale-[1.01]" : ""}`}>
+          <div className={`ticks glass-strong rounded-2xl p-4 h-[360px] sm:h-auto sm:aspect-square w-full max-w-[520px] mx-auto transition-transform duration-500 ${running ? "scale-[1.01]" : ""}`}>
             <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
             <div className="flex items-center justify-between mb-3 px-1">
               <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
