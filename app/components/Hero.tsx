@@ -30,23 +30,23 @@ export default function Hero() {
         <div className="min-w-0 max-w-xl">
           <Reveal>
             <div className="inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.16em] uppercase text-[--color-coral]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> 100× developer productivity
+              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> multi-agent orchestration
             </div>
           </Reveal>
 
           <Reveal>
             <h1 className="mt-6 text-[2.5rem] sm:text-[4.4rem] font-semibold tracking-[-0.035em] leading-[0.96]">
-              One prompt.
+              Ship at
               <br />
-              <span className="text-[--color-muted]">Ten</span> <span className="text-[--color-coral]">prototypes.</span>
+              <span className="text-[--color-coral]">100× velocity.</span>
             </h1>
           </Reveal>
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-              Termi&apos;s brain fans one goal across many terminals — building rival prototypes,
-              testing every strategy in parallel, and shipping the one that wins. Stop
-              working one idea at a time.
+              Termi orchestrates a fleet of AI agents across parallel terminals — decomposing
+              your goal, racing rival implementations, and benchmarking each until the winner
+              ships. One engineer, the throughput of a team.
             </p>
           </Reveal>
 

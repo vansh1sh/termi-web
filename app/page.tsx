@@ -8,11 +8,9 @@ import NavLinks from "./components/NavLinks";
 import NeuralNet from "./components/NeuralNet";
 import Parallax from "./components/Parallax";
 import CursorGlow from "./components/CursorGlow";
-import Reveal3D from "./components/Reveal3D";
 import AppShowcase from "./components/AppShowcase";
 import TiltStage from "./components/TiltStage";
 import Hero from "./components/Hero";
-import Journey from "./components/Journey";
 import { Logo, LogoMark } from "./components/Logo";
 
 export default function Landing() {
@@ -26,7 +24,6 @@ export default function Landing() {
       <Nav />
       <main id="content">
         <Hero />
-        <Journey />
         <Showcase />
         <Orchestra />
         <Console />
@@ -75,11 +72,11 @@ function Nav() {
 function Showcase() {
   return (
     <section className="mx-auto max-w-5xl px-6 -mt-4 pb-16">
-      <Reveal3D>
+      <Reveal>
         <TiltStage>
           <AppShowcase />
         </TiltStage>
-      </Reveal3D>
+      </Reveal>
       <Reveal className="mt-6 text-center">
         <span className="font-mono text-xs text-[--color-faint]">the native macOS app · 2×2 terminal grid supervised by the brain</span>
       </Reveal>
@@ -91,14 +88,14 @@ function Showcase() {
 function Orchestra() {
   return (
     <section className="relative mx-auto max-w-6xl px-6 py-20 grid lg:grid-cols-2 gap-14 items-center">
-      <Reveal3D className="order-2 lg:order-1">
+      <Reveal className="order-2 lg:order-1">
         <Parallax speed={4} className="ticks">
           <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
           <div className="glass-strong rounded-2xl overflow-hidden"><TypingTerminal /></div>
         </Parallax>
-      </Reveal3D>
+      </Reveal>
       <div className="order-1 lg:order-2">
-        <Reveal3D>
+        <Reveal>
           <Kicker n="01">parallel by default</Kicker>
           <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
             Don&apos;t pick a strategy. Run them all.
@@ -108,15 +105,15 @@ function Orchestra() {
             competing implementations at once, benchmark them against real tests, and
             keep only the one that wins.
           </p>
-        </Reveal3D>
-        <Reveal3D delay={120} className="mt-8 grid gap-3">
+        </Reveal>
+        <Reveal className="mt-8 grid gap-3">
           {["Fans one goal into many rival prototypes", "Benchmarks each against real tests, not vibes", "Promotes the winner, drops the rest"].map((t, i) => (
             <div key={t} className="glass rounded-xl p-4 flex items-center gap-3 card3d">
               <span className="font-mono text-sm text-[--color-coral]">{String(i + 1).padStart(2, "0")}</span>
               <span className="text-[15px] text-[--color-fg]">{t}</span>
             </div>
           ))}
-        </Reveal3D>
+        </Reveal>
       </div>
     </section>
   );
@@ -126,18 +123,18 @@ function Orchestra() {
 function Console() {
   return (
     <section id="brain-activity" className="scroll-mt-20 mx-auto max-w-5xl px-6 py-20">
-      <Reveal3D className="text-center">
+      <Reveal className="text-center">
         <div className="flex justify-center"><Kicker n="02">web console</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Every experiment, live in the browser.</h2>
         <p className="mt-4 text-lg text-[--color-muted] max-w-xl mx-auto leading-relaxed">
           Watch each prototype build, see which strategy is winning, and redirect the
           brain mid-run — from your phone or laptop.
         </p>
-      </Reveal3D>
-      <Reveal3D delay={120} className="mt-10 ticks">
+      </Reveal>
+      <Reveal className="mt-10 ticks">
         <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
         <div className="glass-strong rounded-2xl overflow-hidden"><ConsolePreview /></div>
-      </Reveal3D>
+      </Reveal>
       <Reveal className="mt-6 text-center">
         <Link href="/login" className="font-mono text-sm text-[--color-coral] hover:underline">→ open the web console</Link>
       </Reveal>
@@ -149,10 +146,10 @@ function Console() {
 function Features() {
   return (
     <section id="features" className="mx-auto max-w-6xl px-6 py-20">
-      <Reveal3D>
+      <Reveal>
         <div className="flex justify-center"><Kicker n="03">capabilities</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight text-center">Built for exploring at scale.</h2>
-      </Reveal3D>
+      </Reveal>
       <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {FEATURES.map((f, i) => (
           <div key={f.title} className="glass rounded-xl p-6 card3d">
