@@ -5,58 +5,74 @@ import DownloadButton from "./components/DownloadButton";
 import OrchestraHero from "./components/OrchestraHero";
 import AgentAvatars from "./components/AgentAvatars";
 import CountUp from "./components/CountUp";
-import TiltCard from "./components/TiltCard";
-import ScrollProgress from "./components/ScrollProgress";
 import ConsolePreview from "./components/ConsolePreview";
 import FAQ from "./components/FAQ";
 import NavLinks from "./components/NavLinks";
+import InteractiveBackdrop from "./components/InteractiveBackdrop";
+import Parallax from "./components/Parallax";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen relative grain">
-      {/* Background: aurora blobs + grid */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="blob1 absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-[--color-coral]/20 blur-[130px]" />
-        <div className="blob2 absolute top-1/3 -right-40 h-[560px] w-[560px] rounded-full bg-[--color-amber]/15 blur-[130px]" />
-        <div className="absolute inset-0 gridpulse [background-image:linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-      </div>
+    <div className="min-h-screen relative">
+      {/* Pointer-reactive + scroll-parallax backdrop (dotted grid + coral glow). */}
+      <InteractiveBackdrop />
 
       <a href="#content" className="skip-link">Skip to content</a>
-      <ScrollProgress />
       <Nav />
       <main id="content">
         <Hero />
-        <Marquee />
+        <LogoRow />
         <Orchestra />
         <Stats />
         <Features />
         <Console />
         <Agents />
         <HowItWorks />
-        <BigStat />
         <FAQ />
+        <DownloadCTA />
       </main>
-      <DownloadCTA />
       <Footer />
     </div>
+  );
+}
+
+/* Shared: mono section eyebrow with an index. */
+function Kicker({ n, children }: { n: string; children: React.ReactNode }) {
+  return (
+    <div className="kicker flex items-center gap-2">
+      <span className="text-[--color-faint]">{n}</span>
+      <span className="h-px w-6 bg-[--color-line-2]" />
+      {children}
+    </div>
+  );
+}
+
+function Brand({ size = 8 }: { size?: number }) {
+  return (
+    <span
+      className="grid place-items-center rounded-md bg-[--color-coral] text-white"
+      style={{ width: size * 4, height: size * 4 }}
+    >
+      <svg width={size * 1.9} height={size * 1.9} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 17l6-6-6-6" /><path d="M12 19h8" />
+      </svg>
+    </span>
   );
 }
 
 /* ---------------- Nav ---------------- */
 function Nav() {
   return (
-    <header className="sticky top-0 z-30 backdrop-blur-xl bg-[--color-ink]/60 border-b border-white/5">
+    <header className="sticky top-0 z-30 backdrop-blur-xl bg-[--color-ink]/70 border-b border-[--color-line]">
       <nav className="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
-        <div className="flex items-center gap-2 font-bold text-lg">
-          <span className="grid place-items-center w-8 h-8 rounded-xl bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white shadow-lg shadow-[--color-coral]/30">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
-          </span>
-          Termi
-        </div>
-        <div className="flex items-center gap-5 sm:gap-6 text-sm text-neutral-400">
+        <Link href="/" className="flex items-center gap-2.5 font-semibold tracking-tight">
+          <Brand size={7} />
+          <span>Termi</span>
+          <span className="hidden sm:inline font-mono text-[11px] text-[--color-faint] border border-[--color-line] rounded px-1.5 py-0.5 ml-1">v1.0</span>
+        </Link>
+        <div className="flex items-center gap-5 sm:gap-7 text-sm text-[--color-muted]">
           <NavLinks />
-          <Link href="/login" className="hover:text-white transition">Sign in</Link>
-          {/* Full CTA only where it fits; the hero has its own on mobile. */}
+          <Link href="/login" className="hover:text-[--color-fg] transition">Sign in</Link>
           <div className="hidden sm:block"><DownloadButton /></div>
         </div>
       </nav>
@@ -67,125 +83,86 @@ function Nav() {
 /* ---------------- Hero ---------------- */
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 pt-24 pb-20 grid lg:grid-cols-2 gap-14 items-center">
+    <section className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-center">
       <div>
         <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 caret" /> The terminal for 100X builders
-          </div>
+          <Kicker n="//">terminal workstation</Kicker>
         </Reveal>
         <Reveal>
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02] text-glow">
-            Your terminal,
+          <h1 className="mt-6 text-5xl sm:text-[3.7rem] font-semibold tracking-[-0.02em] leading-[1.04]">
+            The terminal that
             <br />
-            <span className="shimmer">now at 100X.</span>
+            runs itself — <span className="text-[--color-coral]">you supervise.</span>
           </h1>
         </Reveal>
         <Reveal>
-          <p className="mt-6 text-lg text-neutral-400 max-w-xl">
-            Termi is a native Mac terminal where an AI brain runs your work autonomously —
-            verifying with real tests, across many terminals at once — and you can watch and
-            steer it from any browser.
+          <p className="mt-6 text-lg text-[--color-muted] max-w-xl leading-relaxed">
+            Termi is a native Mac terminal with an AI brain that plans, executes, and
+            verifies your work across many terminals at once — and lets you watch and
+            steer every one of them from any browser.
           </p>
         </Reveal>
         <Reveal>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <div className="rounded-2xl glow-pulse"><DownloadButton large /></div>
-            <a href="#how" className="rounded-2xl border border-white/10 hover:border-white/25 px-6 py-4 font-semibold transition">
-              See how it works →
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <DownloadButton large />
+            <a href="#how" className="rounded-lg border border-[--color-line-2] hover:border-[--color-muted] px-6 py-4 font-medium transition text-[--color-fg]">
+              How it works
             </a>
           </div>
-          <p className="mt-3 text-xs text-neutral-600">Free · macOS 14+ · Apple Silicon</p>
+          <p className="mt-4 font-mono text-xs text-[--color-faint]">$ free · macOS 14+ · apple silicon</p>
         </Reveal>
       </div>
 
       <Reveal variant="reveal-scale">
-        <div className="relative">
-          {/* orbit rings behind the terminal */}
-          <div className="pointer-events-none absolute inset-0 grid place-items-center">
-            <div className="spin-slow h-[420px] w-[420px] rounded-full border border-white/5" />
-            <div className="spin-rev absolute h-[300px] w-[300px] rounded-full border border-white/5" />
-          </div>
+        <Parallax speed={4} className="ticks">
+          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
           <TypingTerminal />
-        </div>
+        </Parallax>
       </Reveal>
     </section>
   );
 }
 
-/* ---------------- Marquee of agents ---------------- */
-function Marquee() {
-  const items = ["Claude Code", "Codex", "Gemini", "AFK Autopilot", "Multi-terminal", "Web Connector", "Cling", "iOS + Android", "Supabase Realtime"];
-  const row = [...items, ...items];
+/* ---------------- Logo / trust row ---------------- */
+function LogoRow() {
+  const items = ["Claude Code", "Codex", "Gemini", "Aider", "Cursor CLI", "your shell"];
   return (
-    <div aria-hidden className="marquee-wrap relative border-y border-white/5 py-5 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
-      <div className="marquee flex gap-10 w-max whitespace-nowrap text-sm text-neutral-500">
-        {row.map((t, i) => (
-          <span key={i} className="flex items-center gap-10">
-            {t}<span className="text-[--color-coral]">✦</span>
-          </span>
+    <div className="border-y border-[--color-line]">
+      <div className="mx-auto max-w-6xl px-6 py-5 flex flex-wrap items-center gap-x-8 gap-y-2 justify-center">
+        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[--color-faint]">drives</span>
+        {items.map((t) => (
+          <span key={t} className="font-mono text-sm text-[--color-muted]">{t}</span>
         ))}
       </div>
     </div>
   );
 }
 
-/* ---------------- Console preview ---------------- */
-function Console() {
-  return (
-    <section className="mx-auto max-w-5xl px-6 py-24">
-      <Reveal>
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> Watch from any browser
-          </div>
-          <h2 className="text-4xl font-bold tracking-tight">Your build, live on the web</h2>
-          <p className="mt-3 text-neutral-400 max-w-2xl mx-auto">
-            Sign in at termi-web and see the brain&apos;s activity, every terminal&apos;s progress, and the
-            live traffic — then type an instruction and steer it, from your phone or laptop.
-          </p>
-        </div>
-      </Reveal>
-      <Reveal variant="reveal-scale" className="mt-12">
-        <ConsolePreview />
-      </Reveal>
-      <Reveal className="mt-6 text-center">
-        <Link href="/login" className="text-sm text-[--color-coral] hover:underline">Open the web console →</Link>
-      </Reveal>
-    </section>
-  );
-}
-
 /* ---------------- Orchestra (animated centerpiece) ---------------- */
 function Orchestra() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-28 grid lg:grid-cols-2 gap-16 items-center">
-      <Reveal variant="reveal-scale">
-        <OrchestraHero />
+    <section className="relative mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
+      <Reveal variant="reveal-scale" className="order-2 lg:order-1">
+        <Parallax speed={5}><OrchestraHero /></Parallax>
       </Reveal>
-      <div>
+      <div className="order-1 lg:order-2">
+        <Reveal><Kicker n="01">orchestration</Kicker></Reveal>
         <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> One brain · many terminals
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
-            It doesn&apos;t just run commands.
-            <br />
-            <span className="shimmer">It orchestrates.</span>
+          <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
+            One brain. Many terminals. In parallel.
           </h2>
         </Reveal>
         <Reveal>
-          <p className="mt-6 text-lg text-neutral-400 max-w-xl">
-            Assign a job to each terminal in plain English — <em>&ldquo;term-1 builds, term-2 tests,
-            term-3 runs the sim, term-4 ships&rdquo;</em> — and Termi&apos;s brain dispatches, watches, and
-            course-corrects every one in parallel until the goal is actually met.
+          <p className="mt-5 text-lg text-[--color-muted] max-w-xl leading-relaxed">
+            Assign a job to each terminal in plain English — <span className="font-mono text-[--color-fg] text-base">term-1 builds, term-2 tests, term-3 runs the sim</span> —
+            and the brain dispatches, watches, and course-corrects every one until the goal is met.
           </p>
         </Reveal>
         <Reveal variant="stagger" className="mt-8 space-y-3">
           {["Understands per-terminal intent", "Verifies with real tests before ‘done’", "Streams a live summary you can steer"].map((t) => (
-            <div key={t} className="flex items-center gap-3 text-neutral-300">
-              <span className="grid place-items-center h-6 w-6 rounded-full bg-[--color-coral]/15 text-[--color-coral] text-sm">✓</span>
-              {t}
+            <div key={t} className="flex items-center gap-3 text-[--color-fg]">
+              <span className="font-mono text-[--color-coral] text-sm">✓</span>
+              <span className="text-[15px]">{t}</span>
             </div>
           ))}
         </Reveal>
@@ -194,17 +171,47 @@ function Orchestra() {
   );
 }
 
-/* ---------------- Stats (count-up band) ---------------- */
+/* ---------------- Stats band ---------------- */
 function Stats() {
   return (
-    <section className="border-y border-white/5 bg-white/[0.015]">
-      <Reveal variant="stagger" className="mx-auto max-w-5xl px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div className="border-y border-[--color-line] bg-[--color-panel]/40">
+      <Reveal variant="stagger" className="mx-auto max-w-6xl px-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-[--color-line]">
         {STATS.map((s) => (
-          <div key={s.label}>
-            <div className="text-4xl sm:text-5xl font-bold shimmer">
+          <div key={s.label} className="px-6 py-12 text-center">
+            <div className="text-4xl sm:text-5xl font-semibold tracking-tight text-[--color-fg]">
               <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals ?? 0} />
             </div>
-            <div className="mt-2 text-sm text-neutral-400">{s.label}</div>
+            <div className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-[--color-faint]">{s.label}</div>
+          </div>
+        ))}
+      </Reveal>
+    </div>
+  );
+}
+
+/* ---------------- Features (spec-sheet grid) ---------------- */
+function Features() {
+  return (
+    <section id="features" className="mx-auto max-w-6xl px-6 py-24">
+      <Reveal>
+        <Kicker n="02">capabilities</Kicker>
+        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight max-w-2xl">
+          Everything a serious builder needs — in one native app.
+        </h2>
+      </Reveal>
+      <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-[--color-line]">
+        {FEATURES.map((f, i) => (
+          <div
+            key={f.title}
+            className="group relative border-r border-b border-[--color-line] p-7 hover:bg-[--color-panel]/50 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-lg text-[--color-coral]">{f.glyph}</span>
+              <span className="font-mono text-xs text-[--color-faint]">{String(i + 1).padStart(2, "0")}</span>
+            </div>
+            <h3 className="mt-5 font-semibold text-[17px] tracking-tight">{f.title}</h3>
+            <p className="mt-2 text-sm text-[--color-muted] leading-relaxed">{f.body}</p>
+            <span className="absolute left-0 bottom-[-1px] h-px w-0 bg-[--color-coral] group-hover:w-full transition-all duration-500" />
           </div>
         ))}
       </Reveal>
@@ -212,35 +219,41 @@ function Stats() {
   );
 }
 
-/* ---------------- Features ---------------- */
-function Features() {
+/* ---------------- Console preview ---------------- */
+function Console() {
   return (
-    <section id="features" className="mx-auto max-w-6xl px-6 py-24">
-      <Reveal>
-        <h2 className="text-4xl font-bold text-center tracking-tight">Everything a fast builder needs</h2>
-        <p className="mt-3 text-center text-neutral-400 max-w-2xl mx-auto">One native app. A real terminal, an autonomous brain, and remote control.</p>
-      </Reveal>
-      <Reveal variant="stagger" className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {FEATURES.map((f) => (
-          <TiltCard key={f.title} className="group relative rounded-2xl border border-white/8 bg-white/[0.02] p-6 hover:border-[--color-coral]/40 transition overflow-hidden">
-            <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[--color-coral]/10 blur-2xl opacity-0 group-hover:opacity-100 transition" />
-            <div className="relative text-2xl">{f.icon}</div>
-            <h3 className="relative mt-4 font-semibold text-lg">{f.title}</h3>
-            <p className="relative mt-1.5 text-sm text-neutral-400">{f.body}</p>
-          </TiltCard>
-        ))}
-      </Reveal>
+    <section className="border-y border-[--color-line] bg-[--color-panel]/30">
+      <div className="mx-auto max-w-5xl px-6 py-24">
+        <Reveal>
+          <Kicker n="03">web console</Kicker>
+          <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight max-w-2xl">
+            Your build, live in the browser.
+          </h2>
+          <p className="mt-4 text-lg text-[--color-muted] max-w-2xl leading-relaxed">
+            Sign in at termi-web to watch the brain&apos;s activity, every terminal&apos;s progress, and
+            the live traffic — then type an instruction and steer it, from your phone or laptop.
+          </p>
+        </Reveal>
+        <Reveal variant="reveal-scale" className="mt-12 ticks">
+          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+          <ConsolePreview />
+        </Reveal>
+        <Reveal className="mt-6">
+          <Link href="/login" className="font-mono text-sm text-[--color-coral] hover:underline">→ open the web console</Link>
+        </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ---------------- Agents (avatar cluster) ---------------- */
+/* ---------------- Agents ---------------- */
 function Agents() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20 text-center">
+    <section className="mx-auto max-w-5xl px-6 py-24 text-center">
       <Reveal>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Bring your own agent</h2>
-        <p className="mt-3 text-neutral-400 max-w-xl mx-auto">Termi drives whatever CLI you already love — or just your plain shell.</p>
+        <div className="flex justify-center"><Kicker n="04">compatibility</Kicker></div>
+        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Bring your own agent</h2>
+        <p className="mt-4 text-lg text-[--color-muted] max-w-xl mx-auto leading-relaxed">Termi drives whatever CLI you already use — or just your plain shell.</p>
       </Reveal>
       <Reveal variant="reveal" className="mt-12">
         <AgentAvatars />
@@ -252,35 +265,22 @@ function Agents() {
 /* ---------------- How it works ---------------- */
 function HowItWorks() {
   return (
-    <section id="how" className="mx-auto max-w-5xl px-6 py-24">
-      <Reveal><h2 className="text-4xl font-bold text-center tracking-tight">Set a goal. Walk away.</h2></Reveal>
-      <Reveal variant="stagger" className="mt-14 grid sm:grid-cols-3 gap-6">
-        {STEPS.map((s, i) => (
-          <div key={s.title} className="relative rounded-2xl border border-white/8 bg-white/[0.02] p-6">
-            <div className="grid place-items-center w-10 h-10 rounded-xl bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white font-bold shadow-lg shadow-[--color-coral]/30">{i + 1}</div>
-            <h3 className="mt-4 font-semibold">{s.title}</h3>
-            <p className="mt-1.5 text-sm text-neutral-400">{s.body}</p>
-          </div>
-        ))}
-      </Reveal>
-    </section>
-  );
-}
-
-/* ---------------- Big stat ---------------- */
-function BigStat() {
-  return (
-    <section className="mx-auto max-w-5xl px-6 py-20 text-center">
-      <Reveal variant="reveal-scale">
-        <div className="rounded-3xl border border-white/8 bg-gradient-to-b from-white/[0.03] to-transparent p-14">
-          <div className="text-7xl font-bold shimmer">100X</div>
-          <p className="mt-4 text-neutral-400 max-w-lg mx-auto">
-            Stop babysitting your terminal. Termi's brain plans, builds, and verifies —
-            while you review from anywhere.
-          </p>
-          <div className="mt-8 flex justify-center"><DownloadButton large /></div>
-        </div>
-      </Reveal>
+    <section id="how" className="border-t border-[--color-line]">
+      <div className="mx-auto max-w-6xl px-6 py-24">
+        <Reveal>
+          <Kicker n="05">workflow</Kicker>
+          <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Set a goal. Walk away.</h2>
+        </Reveal>
+        <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-3 gap-px bg-[--color-line] border border-[--color-line]">
+          {STEPS.map((s, i) => (
+            <div key={s.title} className="bg-[--color-ink] p-8">
+              <div className="font-mono text-sm text-[--color-coral]">{String(i + 1).padStart(2, "0")}</div>
+              <h3 className="mt-4 font-semibold text-[17px] tracking-tight">{s.title}</h3>
+              <p className="mt-2 text-sm text-[--color-muted] leading-relaxed">{s.body}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
     </section>
   );
 }
@@ -288,16 +288,20 @@ function BigStat() {
 /* ---------------- Download CTA ---------------- */
 function DownloadCTA() {
   return (
-    <section id="download" className="mx-auto max-w-4xl px-6 py-20">
+    <section id="download" className="mx-auto max-w-6xl px-6 py-28">
       <Reveal variant="reveal-scale">
-        <div className="relative rounded-3xl overflow-hidden border border-[--color-coral]/30 bg-[--color-panel] p-12 text-center">
-          <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-72 w-[560px] rounded-full bg-[--color-coral]/25 blur-[100px]" />
+        <div className="ticks relative border border-[--color-line-2] bg-[--color-panel]/60 px-8 py-16 sm:px-16 text-center overflow-hidden">
+          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+          <div className="absolute inset-0 dotgrid opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
           <div className="relative">
-            <h2 className="text-4xl font-bold tracking-tight">Download Termi</h2>
-            <p className="mt-3 text-neutral-400">Native macOS app. Free. Bring your own AI CLI.</p>
-            <div className="mt-8 flex flex-col items-center gap-3">
+            <div className="flex justify-center mb-6"><Brand size={12} /></div>
+            <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight">Download Termi</h2>
+            <p className="mt-4 text-[--color-muted]">Native macOS app. Free. Bring your own AI CLI.</p>
+            <div className="mt-9 flex flex-col items-center gap-3">
               <DownloadButton large />
-              <span className="text-xs text-neutral-600">Requires macOS 14+ · already have it? <Link href="/login" className="text-[--color-coral] hover:underline">Sign in to the web console →</Link></span>
+              <span className="font-mono text-xs text-[--color-faint]">
+                requires macOS 14+ · <Link href="/login" className="text-[--color-coral] hover:underline">sign in to the web console →</Link>
+              </span>
             </div>
           </div>
         </div>
@@ -308,59 +312,62 @@ function DownloadCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 pt-14 pb-10">
-      <div className="mx-auto max-w-6xl px-6 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-[--color-line]">
+      <div className="mx-auto max-w-6xl px-6 pt-14 pb-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2 font-bold text-neutral-200">
-            <span className="grid place-items-center w-7 h-7 rounded-lg bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white text-xs">›_</span>
-            Termi
+          <div className="flex items-center gap-2.5 font-semibold">
+            <Brand size={7} /> Termi
           </div>
-          <p className="mt-3 text-sm text-neutral-500 max-w-xs">Your terminal, everywhere. An autonomous brain across many terminals — steer it from anywhere.</p>
+          <p className="mt-4 text-sm text-[--color-muted] max-w-xs leading-relaxed">
+            The terminal that runs itself. An autonomous brain across many terminals — supervised from anywhere.
+          </p>
         </div>
         {FOOTER_COLS.map((col) => (
           <div key={col.title}>
-            <div className="text-sm font-semibold text-neutral-300">{col.title}</div>
-            <ul className="mt-3 space-y-2 text-sm text-neutral-500">
+            <div className="font-mono text-xs uppercase tracking-[0.16em] text-[--color-faint]">{col.title}</div>
+            <ul className="mt-4 space-y-2.5 text-sm text-[--color-muted]">
               {col.links.map((l) => (
-                <li key={l.label}><Link href={l.href} className="hover:text-white transition">{l.label}</Link></li>
+                <li key={l.label}><Link href={l.href} className="hover:text-[--color-fg] transition">{l.label}</Link></li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <div className="hairline mx-auto max-w-6xl my-8" />
-      <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-600">
-        <span>© {2026} Termi · Built for 100X builders.</span>
-        <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> all systems live</span>
+      <div className="border-t border-[--color-line]">
+        <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-[--color-faint]">
+          <span>© 2026 Termi — built for builders who ship.</span>
+          <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> all systems operational</span>
+        </div>
       </div>
     </footer>
   );
 }
 
 const FOOTER_COLS = [
-  { title: "Product", links: [{ label: "Features", href: "#features" }, { label: "How it works", href: "#how" }, { label: "Web console", href: "/login" }, { label: "Download", href: "#download" }] },
+  { title: "Product", links: [{ label: "Capabilities", href: "#features" }, { label: "How it works", href: "#how" }, { label: "Web console", href: "/login" }, { label: "Download", href: "#download" }] },
   { title: "Agents", links: [{ label: "Claude Code", href: "#" }, { label: "Codex", href: "#" }, { label: "Gemini", href: "#" }, { label: "Your shell", href: "#" }] },
   { title: "More", links: [{ label: "FAQ", href: "#faq" }, { label: "Sign in", href: "/login" }] },
 ];
 
+// Mono glyph markers instead of emoji — reads like a technical spec sheet.
 const FEATURES = [
-  { icon: "🤖", title: "AFK Autopilot", body: "Set a goal and walk away. The brain drives your terminal and verifies with real tests before calling it done." },
-  { icon: "⚡", title: "Multi-terminal", body: "Fan work across terminals — “terminal 1 does X, terminal 2 does Y” — orchestrated in parallel." },
-  { icon: "🧪", title: "Verifies, not guesses", body: "Builds, runs the test suite, serves + curls web apps, boots the simulator — done means truly done." },
-  { icon: "🌎", title: "Web Connector", body: "Sign in on the web and run commands, watch live output, and steer the brain from any browser." },
-  { icon: "🍎", title: "Native Mac terminal", body: "A real PTY terminal with splits, tabs, and an Arc-style UI — not a wrapper." },
-  { icon: "👁️", title: "Cling coach", body: "A floating coach that reads any app via accessibility and can click through steps for you." },
+  { glyph: "◇", title: "AFK Autopilot", body: "Set a goal and walk away. The brain drives your terminal and verifies with real tests before calling it done." },
+  { glyph: "⊞", title: "Multi-terminal", body: "Fan work across terminals — term-1 does X, term-2 does Y — orchestrated in parallel by one brain." },
+  { glyph: "✓", title: "Verifies, not guesses", body: "Builds, runs the suite, serves + curls web apps, boots the simulator — ‘done’ means actually done." },
+  { glyph: "◉", title: "Web console", body: "Sign in on the web to run commands, watch live output, and steer the brain from any browser." },
+  { glyph: "›_", title: "Native Mac terminal", body: "A real PTY terminal with splits, tabs, and a focused UI — not an Electron wrapper." },
+  { glyph: "◎", title: "Cling coach", body: "A floating coach that reads any app via accessibility and can click through steps for you." },
 ];
 
 const STEPS = [
-  { title: "Download & open", body: "Grab the Mac app, pick your AI CLI (Claude, Codex, Gemini)." },
+  { title: "Download & open", body: "Grab the Mac app and pick your AI CLI — Claude Code, Codex, or Gemini." },
   { title: "Set a goal", body: "Tell AFK mode what to build and for how long. Complex? Assign a task per terminal." },
   { title: "Watch from anywhere", body: "Sign in on the web to see live progress, test checks, and steer the brain." },
 ];
 
 const STATS: { value: number; label: string; prefix?: string; suffix?: string; decimals?: number }[] = [
-  { value: 100, suffix: "X", label: "builder throughput" },
-  { value: 12, suffix: "+", label: "terminals in parallel" },
+  { value: 100, suffix: "X", label: "throughput" },
+  { value: 12, suffix: "+", label: "parallel terminals" },
   { value: 0, label: "context switches" },
-  { value: 24, suffix: "/7", label: "autonomous AFK runs" },
+  { value: 24, suffix: "/7", label: "autonomous runs" },
 ];

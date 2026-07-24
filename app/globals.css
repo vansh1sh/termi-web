@@ -1,12 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-coral: #f07a52;
-  --color-coral-600: #e5623a;
-  --color-amber: #f5b544;
-  --color-ink: #0a0b0e;
-  --color-panel: #14161b;
-  --color-line: #24272f;
+  --color-coral: #f0764a;
+  --color-coral-600: #db5c30;
+  --color-amber: #e6a23c;
+  /* Warm near-black "terminal" palette — a touch of brown/green in the ink
+     instead of flat blue-black, so it reads intentional rather than default. */
+  --color-ink: #0b0c0b;
+  --color-panel: #121412;
+  --color-panel-2: #171a17;
+  --color-line: #232823;
+  --color-line-2: #2f352e;
+  --color-fg: #e8e6df;      /* warm off-white text */
+  --color-muted: #8b8f86;   /* warm grey */
+  --color-faint: #565a53;
 
   /* next/font injects --font-sans-src / --font-mono-src; compose them with system
      fallbacks so text never breaks if the webfont fails (offline/restricted build). */
@@ -15,8 +22,44 @@
 }
 
 html { scroll-behavior: smooth; }
-html, body { background: var(--color-ink); color: #e7e9ee; overflow-x: hidden; }
-::selection { background: #f07a5240; color: #fff; }
+html, body { background: var(--color-ink); color: var(--color-fg); overflow-x: hidden; }
+::selection { background: #f0764a33; color: #fff; }
+
+/* ============================================================
+   "Terminal workstation" theme utilities
+   ============================================================ */
+
+/* Dotted-grid backdrop — calm, technical, drafting-paper feel. */
+.dotgrid {
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+}
+
+/* Mono kicker label: "// 01 — features" style section eyebrows. */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--color-coral);
+}
+
+/* Framed panel with hairline border + coral corner ticks. */
+.framed { position: relative; border: 1px solid var(--color-line); background: color-mix(in srgb, var(--color-panel) 60%, transparent); }
+.framed::before, .framed::after,
+.tick-tl::before, .tick-tr::after { }
+/* Corner ticks (applied to .ticks) — 4 short coral L-marks at the corners. */
+.ticks { position: relative; }
+.ticks > .t { position: absolute; width: 10px; height: 10px; border-color: var(--color-coral); opacity: .9; }
+.ticks > .t.tl { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+.ticks > .t.tr { top: -1px; right: -1px; border-top: 1px solid; border-right: 1px solid; }
+.ticks > .t.bl { bottom: -1px; left: -1px; border-bottom: 1px solid; border-left: 1px solid; }
+.ticks > .t.br { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+
+/* Section rule with a centered mono tag. */
+.rule { display: flex; align-items: center; gap: 16px; color: var(--color-faint); }
+.rule::before, .rule::after { content: ""; height: 1px; background: var(--color-line); flex: 1; }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element
    (mouse clicks don't trigger :focus-visible, so it stays clean). ---- */
