@@ -81,6 +81,14 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
 .card3d { transform-style: preserve-3d; transition: transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s; }
 .card3d:hover { transform: perspective(900px) translateZ(0) rotateX(3deg) rotateY(-3deg); border-color: color-mix(in srgb, var(--color-coral) 45%, transparent); }
 
+/* ---- Slow glass sheen sweeping across a surface ---- */
+@keyframes sheen { 0% { transform: translateX(-120%) rotate(8deg); } 100% { transform: translateX(320%) rotate(8deg); } }
+.sheen::after {
+  content: ""; position: absolute; inset: -40% -20%; pointer-events: none; z-index: 5;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  width: 40%; animation: sheen 7s ease-in-out infinite; animation-delay: 2s;
+}
+
 /* ---- Depth float: layered parallax bob at different speeds ---- */
 @keyframes depthbob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
 .depth-1 { animation: depthbob 7s ease-in-out infinite; }
@@ -106,6 +114,7 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
   .card3d:hover { transform: none; }
   .r3d { opacity: 1 !important; transform: none !important; }
   .cursor-glow { display: none; }
+  .sheen::after { animation: none; display: none; }
 }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element

@@ -23,7 +23,7 @@ const PANES = [
 
 export default function AppShowcase() {
   return (
-    <div className="relative rounded-2xl border border-[--color-line-2] bg-[--color-panel] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8),0_0_60px_-10px_rgba(240,118,74,0.15)] overflow-hidden">
+    <div className="sheen relative rounded-2xl border border-[--color-line-2] bg-[--color-panel] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8),0_0_60px_-10px_rgba(240,118,74,0.15)] overflow-hidden">
       {/* title bar */}
       <div className="flex items-center gap-2 h-10 px-4 border-b border-[--color-line] bg-[--color-panel-2]">
         <span className="w-3 h-3 rounded-full bg-red-500/80" />

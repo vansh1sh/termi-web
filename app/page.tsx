@@ -11,6 +11,7 @@ import GlowBrain from "./components/GlowBrain";
 import CursorGlow from "./components/CursorGlow";
 import Reveal3D from "./components/Reveal3D";
 import AppShowcase from "./components/AppShowcase";
+import TiltStage from "./components/TiltStage";
 
 export default function Landing() {
   return (
@@ -114,11 +115,11 @@ function Showcase() {
   return (
     <section className="mx-auto max-w-5xl px-6 -mt-4 pb-16">
       <Reveal3D>
-        <Parallax speed={3}>
+        <TiltStage>
           <AppShowcase />
-        </Parallax>
+        </TiltStage>
       </Reveal3D>
-      <Reveal className="mt-4 text-center">
+      <Reveal className="mt-6 text-center">
         <span className="font-mono text-xs text-[--color-faint]">the native macOS app · 2×2 terminal grid supervised by the brain</span>
       </Reveal>
     </section>
