@@ -5,6 +5,7 @@ import Reveal from "./Reveal";
 import GoalPrompt from "./GoalPrompt";
 import RunTerminals from "./RunTerminals";
 import DownloadButton from "./DownloadButton";
+import GlowBrain from "./GlowBrain";
 
 export default function Hero() {
   const [running, setRunning] = useState(false);
@@ -64,19 +65,29 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        {/* Right: the four parallel terminals; run brings them to life */}
+        {/* Right: the glowing core flips to the four terminals on run */}
         <Reveal variant="reveal-scale">
-          <div className={`ticks glass-strong rounded-2xl p-4 h-[360px] sm:h-auto sm:aspect-square w-full max-w-[520px] mx-auto transition-transform duration-500 ${running ? "scale-[1.01]" : ""}`}>
-            <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
-            <div className="flex items-center justify-between mb-3 px-1">
-              <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
-              <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
-                <span className={`w-1.5 h-1.5 rounded-full ${running ? "bg-green-500 pip" : "bg-[--color-faint]"}`} />
-                {running ? "live" : "idle"}
-              </span>
-            </div>
-            <div className="h-[calc(100%-2rem)]">
-              <RunTerminals active={running} />
+          <div className={`flip h-[360px] sm:h-auto sm:aspect-square w-full max-w-[520px] mx-auto ${running ? "flipped" : ""}`}>
+            <div className="flip-inner">
+              {/* front — the light / neural core */}
+              <div className="flip-face">
+                <GlowBrain />
+              </div>
+              {/* back — four parallel terminals */}
+              <div className="flip-face flip-back">
+                <div className="ticks glass-strong rounded-2xl p-4 h-full">
+                  <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+                  <div className="flex items-center justify-between mb-3 px-1">
+                    <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
+                    <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> live
+                    </span>
+                  </div>
+                  <div className="h-[calc(100%-2rem)]">
+                    <RunTerminals active={running} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </Reveal>

@@ -11,7 +11,7 @@ import CursorGlow from "./components/CursorGlow";
 import AppShowcase from "./components/AppShowcase";
 import TiltStage from "./components/TiltStage";
 import Hero from "./components/Hero";
-import { Logo, LogoMark } from "./components/Logo";
+import { Logo } from "./components/Logo";
 
 export default function Landing() {
   return (
@@ -29,7 +29,6 @@ export default function Landing() {
         <Console />
         <Features />
         <FAQ />
-        <DownloadCTA />
       </main>
       <Footer />
     </div>
@@ -57,7 +56,7 @@ function Nav() {
         <div className="flex items-center gap-5 sm:gap-7 text-sm text-[--color-muted]">
           <NavLinks />
           <Link href="/login" className="hover:text-[--color-fg] transition">Sign in</Link>
-          <a href="#download" className="hidden sm:inline-flex items-center gap-1.5 text-[--color-fg] hover:text-[--color-coral] transition font-medium">
+          <a href="#content" className="hidden sm:inline-flex items-center gap-1.5 text-[--color-fg] hover:text-[--color-coral] transition font-medium">
             Download
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V3M7 10l5 5 5-5M4 21h16"/></svg>
           </a>
@@ -166,27 +165,6 @@ function Features() {
   );
 }
 
-/* ---------------- Download CTA ---------------- */
-function DownloadCTA() {
-  return (
-    <section id="download" className="mx-auto max-w-4xl px-6 py-24">
-      <Reveal variant="reveal-scale">
-        <div className="ticks glass-strong rounded-2xl px-8 py-16 text-center">
-          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
-          <div className="flex justify-center mb-6"><LogoMark size={52} /></div>
-          <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight">Ship like a team of ten.</h2>
-          <p className="mt-4 text-[--color-muted]">Native macOS app. Free. Bring your own AI CLI.</p>
-          <div className="mt-9 flex flex-col items-center gap-3">
-            <DownloadButton large />
-            <span className="font-mono text-xs text-[--color-faint]">
-              macOS 14+ · <Link href="/login" className="text-[--color-coral] hover:underline">open the web console →</Link>
-            </span>
-          </div>
-        </div>
-      </Reveal>
-    </section>
-  );
-}
 
 function Footer() {
   return (
