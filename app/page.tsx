@@ -79,50 +79,50 @@ function Nav() {
 /* ---------------- Hero ---------------- */
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-4xl px-6 pt-20 pb-24 text-center flex flex-col items-center">
-      {/* light beam falling from the core onto the headline */}
-      <div className="pointer-events-none absolute top-[150px] left-1/2 -translate-x-1/2 -z-10 h-[520px] w-[560px]
-        bg-[radial-gradient(closed,_ellipse)] [background:radial-gradient(50%_60%_at_50%_0%,rgba(240,118,74,0.14),transparent_70%)]" />
+    <section className="relative overflow-hidden">
+      {/* large neural cluster as an ambient presence, bleeding off the right edge */}
+      <div className="pointer-events-none absolute -right-[18%] -top-[6%] w-[85vw] max-w-[880px] aspect-square opacity-90 lg:opacity-100">
+        <Parallax speed={2}><GlowBrain /></Parallax>
+      </div>
+      {/* left-edge readability wash */}
+      <div className="pointer-events-none absolute inset-0 -z-0 [background:linear-gradient(100deg,var(--color-ink)_38%,transparent_75%)]" />
 
-      {/* the beacon: glowing neural core up top */}
-      <Reveal variant="reveal-scale">
-        <div className="w-[300px] sm:w-[360px]"><GlowBrain /></div>
-      </Reveal>
+      <div className="relative mx-auto max-w-6xl px-6 pt-28 pb-28">
+        <div className="max-w-2xl">
+          <Reveal>
+            <div className="inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.16em] uppercase text-[--color-coral]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> Autonomous terminal
+            </div>
+          </Reveal>
 
-      <Reveal>
-        <div className="-mt-8 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-[--color-muted]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" />
-          the terminal with a mind of its own
+          <Reveal>
+            <h1 className="mt-7 text-[3.2rem] sm:text-[5.2rem] font-semibold tracking-[-0.035em] leading-[0.92]">
+              Give it a goal.
+              <br />
+              <span className="text-[--color-muted]">It does</span> <span className="text-[--color-coral]">the rest.</span>
+            </h1>
+          </Reveal>
+
+          <Reveal>
+            <p className="mt-7 text-lg sm:text-xl text-[--color-muted] max-w-xl leading-relaxed">
+              Termi is a native Mac terminal with an AI brain that plans, runs, and
+              verifies your work across many terminals — supervised from any browser.
+            </p>
+          </Reveal>
+
+          <Reveal className="mt-9 max-w-xl">
+            <GoalPrompt />
+          </Reveal>
+
+          <Reveal>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <DownloadButton large />
+              <a href="#how" className="rounded-lg glass hover:border-[--color-muted] px-6 py-4 font-medium transition">How it works</a>
+            </div>
+            <p className="mt-4 font-mono text-xs text-[--color-faint]">$ free · macOS 14+ · apple silicon</p>
+          </Reveal>
         </div>
-      </Reveal>
-
-      <Reveal>
-        <h1 className="mt-6 text-[2.9rem] sm:text-6xl font-semibold tracking-[-0.03em] leading-[0.98]">
-          Stop typing commands.
-          <br />
-          <span className="text-[--color-coral]">Start giving goals.</span>
-        </h1>
-      </Reveal>
-
-      <Reveal>
-        <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-          Termi is a native Mac terminal with an AI brain that plans, runs, and verifies
-          your work across many terminals — steer it from any browser.
-        </p>
-      </Reveal>
-
-      {/* signature interaction: the goal bar */}
-      <Reveal className="w-full max-w-xl mt-9">
-        <GoalPrompt />
-      </Reveal>
-
-      <Reveal>
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-          <DownloadButton large />
-          <a href="#how" className="rounded-lg glass hover:border-[--color-muted] px-6 py-4 font-medium transition">How it works</a>
-        </div>
-        <p className="mt-4 font-mono text-xs text-[--color-faint]">$ free · macOS 14+ · apple silicon</p>
-      </Reveal>
+      </div>
     </section>
   );
 }

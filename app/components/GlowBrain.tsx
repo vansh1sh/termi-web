@@ -88,72 +88,68 @@ export default function GlowBrain() {
   }, []);
 
   return (
-    <div ref={wrapRef} className="relative aspect-square w-full max-w-[460px] mx-auto will-change-transform">
-      {/* radiant halo */}
+    <div ref={wrapRef} className="relative aspect-square w-full will-change-transform">
+      {/* soft ambient bloom (no hard ring) */}
       <div className="absolute inset-0 grid place-items-center">
-        <div className="h-[70%] w-[70%] rounded-full bg-[--color-coral]/25 blur-[70px] breathe" />
+        <div className="h-[60%] w-[60%] rounded-full bg-[--color-coral]/20 blur-[90px] breathe" />
       </div>
       {/* spark canvas */}
       <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />
-      {/* orbit rings */}
-      <div className="absolute inset-0 grid place-items-center">
-        <div className="spin-slow h-[78%] w-[78%] rounded-full border border-[--color-coral]/20" />
-        <div className="spin-rev absolute h-[56%] w-[56%] rounded-full border border-[--color-amber]/20" />
-      </div>
-      {/* the neural core — a glass orb with an internal node/synapse constellation */}
-      <div className="absolute inset-0 grid place-items-center">
-        <div className="breathe relative grid place-items-center h-40 w-40 rounded-full">
-          {/* glass sphere with radial sheen */}
-          <div
-            className="absolute inset-0 rounded-full border border-[--color-coral]/30"
-            style={{
-              background:
-                "radial-gradient(circle at 34% 30%, rgba(255,255,255,0.16), rgba(240,118,74,0.10) 42%, rgba(11,12,11,0.55) 78%)",
-              boxShadow:
-                "inset 0 0 40px rgba(240,118,74,0.25), 0 0 70px 12px rgba(240,118,74,0.28)",
-              backdropFilter: "blur(2px)",
-            }}
-          />
-          {/* internal constellation */}
-          <svg viewBox="0 0 100 100" className="relative h-full w-full">
-            <defs>
-              <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#ffd9a8" />
-                <stop offset="45%" stopColor="#f0764a" />
-                <stop offset="100%" stopColor="#db5c30" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-            {/* synapse links */}
-            <g stroke="#f0764a" strokeWidth="0.5" opacity="0.55">
-              {CORE_LINKS.map(([a, b], i) => (
-                <line key={i} x1={CORE_NODES[a][0]} y1={CORE_NODES[a][1]} x2={CORE_NODES[b][0]} y2={CORE_NODES[b][1]} />
-              ))}
-            </g>
-            {/* satellite nodes */}
-            <g fill="#f6b25a">
-              {CORE_NODES.slice(1).map(([x, y], i) => (
-                <circle key={i} cx={x} cy={y} r={1.5}>
-                  <animate attributeName="opacity" values="0.4;1;0.4" dur={`${2 + (i % 4) * 0.6}s`} repeatCount="indefinite" />
-                </circle>
-              ))}
-            </g>
-            {/* bright pulsing core */}
-            <circle cx="50" cy="50" r="9" fill="url(#coreGlow)">
-              <animate attributeName="r" values="8;11;8" dur="3.2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="50" cy="50" r="3.4" fill="#fff" opacity="0.95" />
-          </svg>
-        </div>
-      </div>
+
+      {/* organic neural cluster — dendrite branches + firing nodes, no orbit rings */}
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full overflow-visible">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fff2df" />
+            <stop offset="40%" stopColor="#f0764a" />
+            <stop offset="100%" stopColor="#db5c30" stopOpacity="0" />
+          </radialGradient>
+          <filter id="soft"><feGaussianBlur stdDeviation="0.4" /></filter>
+        </defs>
+
+        {/* dendrites */}
+        <g stroke="#f0764a" strokeWidth="0.4" fill="none" filter="url(#soft)">
+          {NEURON_LINKS.map(([a, b], i) => (
+            <line key={i} x1={NEURONS[a][0]} y1={NEURONS[a][1]} x2={NEURONS[b][0]} y2={NEURONS[b][1]} strokeOpacity={0.15 + (i % 4) * 0.12} />
+          ))}
+        </g>
+
+        {/* firing nodes at branch tips */}
+        {NEURONS.slice(1).map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={0.9 + (i % 3) * 0.5} fill="#f6b25a">
+            <animate attributeName="opacity" values="0.25;1;0.25" dur={`${2.4 + (i % 5) * 0.5}s`} repeatCount="indefinite" begin={`${(i % 6) * 0.3}s`} />
+          </circle>
+        ))}
+
+        {/* traveling pulse along one dendrite */}
+        <circle r="1.1" fill="#fff">
+          <animateMotion dur="2.6s" repeatCount="indefinite" path="M50,50 L26,22" />
+          <animate attributeName="opacity" values="1;0" dur="2.6s" repeatCount="indefinite" />
+        </circle>
+        <circle r="1.1" fill="#fff">
+          <animateMotion dur="3.1s" repeatCount="indefinite" path="M50,50 L82,64" />
+          <animate attributeName="opacity" values="1;0" dur="3.1s" repeatCount="indefinite" />
+        </circle>
+
+        {/* luminous core */}
+        <circle cx="50" cy="50" r="12" fill="url(#coreGlow)">
+          <animate attributeName="r" values="10;14;10" dur="3.4s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="50" cy="50" r="3.6" fill="#fff" opacity="0.96" />
+      </svg>
     </div>
   );
 }
 
-// A compact, deliberate node layout (not random) so the core reads as designed.
-const CORE_NODES: [number, number][] = [
-  [50, 50], // 0 = center
-  [30, 32], [70, 30], [76, 58], [58, 74], [28, 64], [22, 46], [64, 46], [44, 28],
+// An organic, asymmetric neuron layout radiating from the core (index 0).
+const NEURONS: [number, number][] = [
+  [50, 50],
+  [26, 22], [38, 14], [16, 40], [22, 62], [12, 54],
+  [72, 20], [84, 34], [82, 64], [68, 78], [54, 86],
+  [34, 78], [62, 40], [40, 34], [60, 62], [30, 44],
 ];
-const CORE_LINKS: [number, number][] = [
-  [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [1, 8], [8, 2], [2, 7], [7, 3], [3, 4], [4, 5], [5, 6], [6, 1],
+const NEURON_LINKS: [number, number][] = [
+  [0, 1], [1, 2], [1, 3], [0, 3], [3, 4], [4, 5], [0, 4],
+  [0, 6], [6, 7], [0, 12], [12, 7], [0, 8], [8, 9], [9, 10],
+  [0, 11], [11, 4], [0, 13], [13, 2], [0, 14], [14, 8], [0, 15], [15, 5],
 ];
