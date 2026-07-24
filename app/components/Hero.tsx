@@ -17,22 +17,23 @@ export default function Hero() {
         <div className="max-w-xl">
           <Reveal>
             <div className="inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.16em] uppercase text-[--color-coral]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> Autonomous terminal
+              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> 100× developer productivity
             </div>
           </Reveal>
 
           <Reveal>
             <h1 className="mt-6 text-[3rem] sm:text-[4.4rem] font-semibold tracking-[-0.035em] leading-[0.94]">
-              Give it a goal.
+              One prompt.
               <br />
-              <span className="text-[--color-muted]">It does</span> <span className="text-[--color-coral]">the rest.</span>
+              <span className="text-[--color-muted]">Ten</span> <span className="text-[--color-coral]">prototypes.</span>
             </h1>
           </Reveal>
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-              A native Mac terminal with an AI brain that plans, runs, and verifies your
-              work across many terminals — supervised from any browser.
+              Termi&apos;s brain fans one goal across many terminals — building rival prototypes,
+              testing every strategy in parallel, and shipping the one that wins. Stop
+              working one idea at a time.
             </p>
           </Reveal>
 
@@ -40,7 +41,7 @@ export default function Hero() {
           <Reveal className="mt-8 max-w-lg">
             <GoalPrompt onRun={() => setRunning((v) => !v)} running={running} />
             <p className="mt-2.5 font-mono text-xs text-[--color-faint]">
-              {running ? "› four terminals, one brain — building in parallel" : "› hit run to watch the brain fan out"}
+              {running ? "› 4 strategies building in parallel — best one wins" : "› hit run — watch one goal split into four bets"}
             </p>
           </Reveal>
 
@@ -61,7 +62,7 @@ export default function Hero() {
                 <div className="ticks glass-strong rounded-2xl h-full p-4">
                   <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
                   <div className="flex items-center justify-between mb-3 px-1">
-                    <span className="font-mono text-[11px] text-[--color-coral]">brain · 4 terminals</span>
+                    <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
                     <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> live
                     </span>

@@ -97,17 +97,18 @@ function Orchestra() {
       </Reveal3D>
       <div className="order-1 lg:order-2">
         <Reveal3D>
-          <Kicker n="01">one brain · many neurons</Kicker>
+          <Kicker n="01">parallel by default</Kicker>
           <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
-            Every terminal is a neuron. One brain fires them all.
+            Don&apos;t pick a strategy. Run them all.
           </h2>
           <p className="mt-4 text-lg text-[--color-muted] max-w-xl leading-relaxed">
-            Assign a job to each in plain English — <span className="font-mono text-[--color-fg] text-base">term-1 builds, term-2 tests, term-3 ships</span> —
-            and Termi dispatches, watches, and verifies every one in parallel.
+            Best engineers explore. Termi lets you explore at machine scale — spin up
+            competing implementations at once, benchmark them against real tests, and
+            keep only the one that wins.
           </p>
         </Reveal3D>
         <Reveal3D delay={120} className="mt-8 grid gap-3">
-          {["Understands per-terminal intent", "Verifies with real tests", "Live summary you can steer"].map((t, i) => (
+          {["Fans one goal into many rival prototypes", "Benchmarks each against real tests, not vibes", "Promotes the winner, drops the rest"].map((t, i) => (
             <div key={t} className="glass rounded-xl p-4 flex items-center gap-3 card3d">
               <span className="font-mono text-sm text-[--color-coral]">{String(i + 1).padStart(2, "0")}</span>
               <span className="text-[15px] text-[--color-fg]">{t}</span>
@@ -125,9 +126,10 @@ function Console() {
     <section className="mx-auto max-w-5xl px-6 py-20">
       <Reveal3D className="text-center">
         <div className="flex justify-center"><Kicker n="02">web console</Kicker></div>
-        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Your build, live in the browser.</h2>
+        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Every experiment, live in the browser.</h2>
         <p className="mt-4 text-lg text-[--color-muted] max-w-xl mx-auto leading-relaxed">
-          Watch the brain, every terminal&apos;s progress, and the live traffic — then steer it from your phone.
+          Watch each prototype build, see which strategy is winning, and redirect the
+          brain mid-run — from your phone or laptop.
         </p>
       </Reveal3D>
       <Reveal3D delay={120} className="mt-10 ticks">
@@ -147,7 +149,7 @@ function Features() {
     <section id="features" className="mx-auto max-w-6xl px-6 py-20">
       <Reveal3D>
         <div className="flex justify-center"><Kicker n="03">capabilities</Kicker></div>
-        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight text-center">One app. Everything you ship with.</h2>
+        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight text-center">Built for exploring at scale.</h2>
       </Reveal3D>
       <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {FEATURES.map((f, i) => (
@@ -173,7 +175,7 @@ function DownloadCTA() {
         <div className="ticks glass-strong rounded-2xl px-8 py-16 text-center">
           <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
           <div className="flex justify-center mb-6"><LogoMark size={52} /></div>
-          <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight">Give your terminal a brain.</h2>
+          <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight">Ship like a team of ten.</h2>
           <p className="mt-4 text-[--color-muted]">Native macOS app. Free. Bring your own AI CLI.</p>
           <div className="mt-9 flex flex-col items-center gap-3">
             <DownloadButton large />
@@ -204,11 +206,11 @@ function Footer() {
 }
 
 const FEATURES = [
-  { glyph: "◇", title: "AFK Autopilot", body: "Set a goal and walk away. The brain drives and verifies before it calls done." },
-  { glyph: "⊞", title: "Multi-terminal", body: "Fan work across terminals, orchestrated in parallel by one brain." },
-  { glyph: "✓", title: "Verifies, not guesses", body: "Builds, tests, curls, boots the sim — done means actually done." },
-  { glyph: "◉", title: "Web console", body: "Run, watch, and steer the brain from any browser." },
-  { glyph: "›_", title: "Native Mac terminal", body: "A real PTY with splits and tabs — not an Electron wrapper." },
-  { glyph: "◎", title: "Cling coach", body: "A floating coach that reads any app and clicks through steps for you." },
+  { glyph: "⊞", title: "Parallel prototypes", body: "Turn one goal into many rival builds — running side by side, not one after another." },
+  { glyph: "◇", title: "Strategy tournaments", body: "Pit approaches against each other, benchmark on real metrics, promote the winner." },
+  { glyph: "✓", title: "Verified, not vibes", body: "Every branch is built, tested, and load-checked — ‘done’ means it actually passed." },
+  { glyph: "◎", title: "AFK autopilot", body: "Set the goal, close the lid. The brain explores, decides, and reports back." },
+  { glyph: "◉", title: "Web console", body: "Watch every experiment live and redirect the brain from any browser." },
+  { glyph: "›_", title: "Native Mac terminal", body: "A real PTY with splits and tabs — bring Claude Code, Codex, or Gemini." },
 ];
 
