@@ -10,6 +10,7 @@ import Parallax from "./components/Parallax";
 import GlowBrain from "./components/GlowBrain";
 import CursorGlow from "./components/CursorGlow";
 import Reveal3D from "./components/Reveal3D";
+import AppShowcase from "./components/AppShowcase";
 
 export default function Landing() {
   return (
@@ -22,6 +23,7 @@ export default function Landing() {
       <Nav />
       <main id="content">
         <Hero />
+        <Showcase />
         <Orchestra />
         <Console />
         <Features />
@@ -102,6 +104,22 @@ function Hero() {
 
       <Reveal variant="reveal-scale">
         <Parallax speed={3}><GlowBrain /></Parallax>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------------- Showcase (framed app screenshot) ---------------- */
+function Showcase() {
+  return (
+    <section className="mx-auto max-w-5xl px-6 -mt-4 pb-16">
+      <Reveal3D>
+        <Parallax speed={3}>
+          <AppShowcase />
+        </Parallax>
+      </Reveal3D>
+      <Reveal className="mt-4 text-center">
+        <span className="font-mono text-xs text-[--color-faint]">the native macOS app · 2×2 terminal grid supervised by the brain</span>
       </Reveal>
     </section>
   );
