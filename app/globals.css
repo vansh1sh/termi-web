@@ -21,10 +21,10 @@
   --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-html { scroll-behavior: smooth; background: var(--color-ink); }
+html { scroll-behavior: smooth; background: var(--color-ink); overflow-x: hidden; }
 /* body is transparent so the fixed neural-net canvas (-z-10) shows through;
    the base color lives on <html>. */
-body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
+body { background: transparent; color: var(--color-fg); overflow-x: hidden; width: 100%; max-width: 100%; }
 ::selection { background: #f0764a33; color: #fff; }
 
 /* ============================================================

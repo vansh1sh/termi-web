@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Reveal from "./Reveal";
-import GlowBrain from "./GlowBrain";
 import GoalPrompt from "./GoalPrompt";
 import RunTerminals from "./RunTerminals";
 import DownloadButton from "./DownloadButton";
@@ -25,10 +24,10 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="relative mx-auto max-w-6xl px-6 pt-24 pb-24 grid lg:grid-cols-2 gap-12 items-center">
+    <section className="relative overflow-x-hidden">
+      <div className="relative mx-auto max-w-6xl px-6 pt-20 sm:pt-24 pb-20 sm:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
         {/* Left: pitch */}
-        <div className="max-w-xl">
+        <div className="min-w-0 max-w-xl">
           <Reveal>
             <div className="inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.16em] uppercase text-[--color-coral]">
               <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> 100× developer productivity
@@ -36,7 +35,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal>
-            <h1 className="mt-6 text-[3rem] sm:text-[4.4rem] font-semibold tracking-[-0.035em] leading-[0.94]">
+            <h1 className="mt-6 text-[2.5rem] sm:text-[4.4rem] font-semibold tracking-[-0.035em] leading-[0.96]">
               One prompt.
               <br />
               <span className="text-[--color-muted]">Ten</span> <span className="text-[--color-coral]">prototypes.</span>
@@ -51,11 +50,11 @@ export default function Hero() {
             </p>
           </Reveal>
 
-          {/* the goal bar — its run button zooms into the 4 terminals */}
-          <Reveal className="mt-8 max-w-lg">
+          {/* the goal bar — its run button starts the four terminals */}
+          <Reveal className="mt-8 w-full max-w-lg">
             <GoalPrompt onRun={run} running={running} />
-            <p className="mt-2.5 font-mono text-xs text-[--color-faint]">
-              {running ? "› 4 strategies live — scrolling to brain activity…" : "› hit run — zoom into four parallel terminals"}
+            <p className="mt-2.5 font-mono text-[11px] sm:text-xs text-[--color-faint] break-words">
+              {running ? "› 4 strategies live — scrolling to brain activity…" : "› hit run — split one goal into four bets"}
             </p>
           </Reveal>
 
@@ -65,27 +64,19 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        {/* Right: run zooms from the brain INTO the four terminals */}
+        {/* Right: the four parallel terminals; run brings them to life */}
         <Reveal variant="reveal-scale">
-          <div className="relative aspect-square w-full max-w-[520px] mx-auto" style={{ perspective: "1200px" }}>
-            {/* brain — zooms out + blurs away on run */}
-            <div className={`zoom-layer absolute inset-0 ${running ? "zoom-hidden zoom-brain-out" : ""}`}>
-              <GlowBrain />
+          <div className={`ticks glass-strong rounded-2xl p-4 aspect-square w-full max-w-[520px] mx-auto transition-transform duration-500 ${running ? "scale-[1.01]" : ""}`}>
+            <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
+              <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full ${running ? "bg-green-500 pip" : "bg-[--color-faint]"}`} />
+                {running ? "live" : "idle"}
+              </span>
             </div>
-            {/* terminals — zoom in from behind on run */}
-            <div className={`zoom-layer absolute inset-0 ${running ? "zoom-terms-in" : "zoom-hidden zoom-terms-start"}`}>
-              <div className="ticks glass-strong rounded-2xl h-full p-4">
-                <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
-                  <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> live
-                  </span>
-                </div>
-                <div className="h-[calc(100%-2rem)]">
-                  <RunTerminals active={running} />
-                </div>
-              </div>
+            <div className="h-[calc(100%-2rem)]">
+              <RunTerminals active={running} />
             </div>
           </div>
         </Reveal>

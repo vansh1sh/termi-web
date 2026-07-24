@@ -3,82 +3,68 @@
 import { useScrollProgress } from "./useScrollProgress";
 
 /**
- * A scroll-driven 3D journey through a Termi run. The section is tall; a sticky
- * stage stays pinned while you scroll, and scroll progress (0..1) flies the
- * camera through five stages — each panel recedes/advances in Z-depth as it
- * enters and leaves focus. A signal beam fills on the left to mark progress.
+ * Scroll-driven journey through a Termi run. The section is tall; a sticky
+ * stage stays pinned while you scroll. Scroll progress advances an "active"
+ * stage — the current card is centered and crisp, neighbors fade + slide with
+ * a gentle 3D tilt. Kept deliberately simple so it always reads cleanly.
  */
 const STAGES = [
-  { tag: "01 · goal", title: "You give one goal", body: "“Prototype this checkout four ways and ship the fastest.” Plain English — no scripts.", glyph: "›_" },
-  { tag: "02 · plan", title: "The brain plans", body: "It decomposes the goal into rival strategies and a test to judge them by.", glyph: "◇" },
-  { tag: "03 · fan-out", title: "Four terminals fire", body: "Competing prototypes build in parallel — SSR, edge, static, SPA — all at once.", glyph: "⊞" },
-  { tag: "04 · benchmark", title: "Real tests decide", body: "Each branch is built, load-tested, and scored. No vibes — measured results.", glyph: "✓" },
-  { tag: "05 · ship", title: "The winner ships", body: "The fastest branch is promoted and deployed. The rest are dropped. Done.", glyph: "★" },
+  { tag: "01 · goal", title: "You give one goal", body: "“Prototype this checkout four ways and ship the fastest.” Plain English — no scripts." },
+  { tag: "02 · plan", title: "The brain plans", body: "It splits the goal into rival strategies and picks the test that will judge them." },
+  { tag: "03 · fan-out", title: "Terminals fire in parallel", body: "Competing prototypes build at once — SSR, edge, static, SPA — not one after another." },
+  { tag: "04 · benchmark", title: "Real tests decide", body: "Each branch is built, load-tested, and scored. Measured results, not guesses." },
+  { tag: "05 · ship", title: "The winner ships", body: "The fastest branch is promoted and deployed. The rest are dropped. Done." },
 ];
 
 export default function Journey() {
   const { ref, p } = useScrollProgress<HTMLDivElement>();
   const n = STAGES.length;
-  // continuous position along the stages, e.g. 2.4 = between stage 2 and 3
-  const pos = p * (n - 1);
+  // active stage index with a little easing headroom at the ends
+  const pos = Math.min(n - 1, Math.max(0, p * n - 0.5));
 
   return (
-    <section ref={ref} className="relative" style={{ height: `${n * 90}vh` }}>
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        {/* progress beam */}
-        <div className="absolute left-6 sm:left-12 top-1/2 -translate-y-1/2 h-[46vh] w-px bg-[--color-line]">
-          <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-[--color-coral] to-[--color-amber] rounded-full" style={{ height: `${p * 100}%` }} />
-          {STAGES.map((_, i) => {
-            const active = pos >= i - 0.5;
-            return (
+    <section ref={ref} className="relative" style={{ height: `${n * 80}vh` }}>
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
+        <div className="mx-auto w-full max-w-3xl px-6">
+          {/* header */}
+          <div className="text-center">
+            <div className="kicker">the journey</div>
+            <h2 className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight">One goal, end to end</h2>
+          </div>
+
+          {/* progress rail */}
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {STAGES.map((_, i) => (
               <span
                 key={i}
-                className="absolute -left-[3px] w-[7px] h-[7px] rounded-full transition-colors"
-                style={{ top: `${(i / (n - 1)) * 100}%`, background: active ? "var(--color-coral)" : "var(--color-line-2)" }}
+                className="h-1 rounded-full transition-all duration-300"
+                style={{
+                  width: Math.round(pos) === i ? 32 : 12,
+                  background: i <= pos ? "var(--color-coral)" : "var(--color-line-2)",
+                }}
               />
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* section label */}
-        <div className="absolute top-[16vh] left-1/2 -translate-x-1/2 text-center">
-          <div className="kicker">the journey</div>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight">One goal, end to end</h2>
-        </div>
-
-        {/* 3D stage */}
-        <div className="mx-auto w-full max-w-xl px-6" style={{ perspective: "1200px" }}>
-          <div className="relative h-[300px]" style={{ transformStyle: "preserve-3d" }}>
+          {/* stage stage */}
+          <div className="relative mt-10 h-[240px]" style={{ perspective: "1000px" }}>
             {STAGES.map((s, i) => {
-              const d = i - pos;                 // distance from focus (0 = centered)
+              const d = i - pos;             // 0 = active
               const abs = Math.abs(d);
-              const z = -abs * 320;              // recede in Z
-              const y = d * 60;                  // stack vertically
-              const rotX = d * -14;              // tilt away from camera
-              const opacity = abs > 1.6 ? 0 : 1 - abs * 0.5;
-              const scale = 1 - abs * 0.08;
-              const focused = abs < 0.5;
+              const visible = abs < 1;       // only active + immediate neighbors animate in
               return (
                 <div
                   key={s.tag}
-                  className="absolute inset-x-0 top-0"
+                  className="absolute inset-0 flex flex-col items-center justify-center text-center transition-all duration-500 ease-out"
                   style={{
-                    transform: `translateY(${y}px) translateZ(${z}px) rotateX(${rotX}deg) scale(${scale})`,
-                    opacity,
-                    zIndex: 100 - Math.round(abs * 10),
-                    transition: "opacity .2s linear",
-                    pointerEvents: focused ? "auto" : "none",
+                    opacity: visible ? 1 - abs : 0,
+                    transform: `translateY(${d * 40}px) rotateX(${d * -8}deg) scale(${1 - abs * 0.06})`,
+                    pointerEvents: abs < 0.5 ? "auto" : "none",
                   }}
                 >
-                  <div className={`ticks glass-strong rounded-2xl p-7 ${focused ? "shadow-[0_30px_80px_-20px_rgba(240,118,74,0.35)]" : ""}`}>
-                    {focused && <><span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" /></>}
-                    <div className="flex items-center gap-3">
-                      <span className="grid place-items-center h-11 w-11 rounded-xl bg-[--color-coral]/15 text-[--color-coral] font-mono text-lg">{s.glyph}</span>
-                      <span className="font-mono text-xs uppercase tracking-[0.16em] text-[--color-faint]">{s.tag}</span>
-                    </div>
-                    <h3 className="mt-5 text-2xl font-semibold tracking-tight">{s.title}</h3>
-                    <p className="mt-2.5 text-[--color-muted] leading-relaxed">{s.body}</p>
-                  </div>
+                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-[--color-coral]">{s.tag}</span>
+                  <h3 className="mt-4 text-3xl sm:text-[2.6rem] font-semibold tracking-tight leading-tight">{s.title}</h3>
+                  <p className="mt-4 text-lg text-[--color-muted] max-w-xl leading-relaxed">{s.body}</p>
                 </div>
               );
             })}

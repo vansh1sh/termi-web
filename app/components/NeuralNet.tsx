@@ -14,6 +14,7 @@ type Node = { x: number; y: number; vx: number; vy: number; z: number; r: number
 type Pulse = { a: number; b: number; t: number; speed: number };
 
 const CORAL = [240, 118, 74];
+const MESH = [150, 160, 172]; // cool neutral grey for a professional network look
 
 export default function NeuralNet() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -80,16 +81,18 @@ export default function NeuralNet() {
           const dx = ax - bx, dy = ay - by;
           const d = Math.hypot(dx, dy);
           if (d < LINK) {
-            const o = (1 - d / LINK) * 0.22 * (0.4 + (a.z + b.z) / 2);
-            ctx.strokeStyle = `rgba(${CORAL[0]},${CORAL[1]},${CORAL[2]},${o})`;
-            ctx.lineWidth = 0.6;
+            const o = (1 - d / LINK) * 0.10 * (0.4 + (a.z + b.z) / 2);
+            ctx.strokeStyle = `rgba(${MESH[0]},${MESH[1]},${MESH[2]},${o})`;
+            ctx.lineWidth = 0.5;
             ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
-            if (!reduce && Math.random() < 0.0006) pulses.push({ a: i, b: j, t: 0, speed: rand(0.02, 0.05) });
+            if (!reduce && Math.random() < 0.0004) pulses.push({ a: i, b: j, t: 0, speed: rand(0.015, 0.035) });
           }
         }
-        // node
-        const g = 0.35 + a.z * 0.5;
-        ctx.fillStyle = `rgba(${CORAL[0]},${CORAL[1]},${CORAL[2]},${g})`;
+        // node — mostly neutral, an occasional coral accent
+        const accent = i % 7 === 0;
+        const c = accent ? CORAL : MESH;
+        const g = (accent ? 0.5 : 0.28) + a.z * 0.35;
+        ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${g})`;
         ctx.beginPath(); ctx.arc(ax, ay, a.r, 0, Math.PI * 2); ctx.fill();
       }
 
@@ -102,11 +105,11 @@ export default function NeuralNet() {
         const ax = a.x + px * (0.3 + a.z) * 40, ay = a.y + py * (0.3 + a.z) * 40;
         const bx = b.x + px * (0.3 + b.z) * 40, by = b.y + py * (0.3 + b.z) * 40;
         const x = ax + (bx - ax) * p.t, y = ay + (by - ay) * p.t;
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, 6);
-        glow.addColorStop(0, `rgba(${CORAL[0]},${CORAL[1]},${CORAL[2]},0.9)`);
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 5);
+        glow.addColorStop(0, `rgba(${CORAL[0]},${CORAL[1]},${CORAL[2]},0.5)`);
         glow.addColorStop(1, `rgba(${CORAL[0]},${CORAL[1]},${CORAL[2]},0)`);
         ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
         return true;
       });
 

@@ -41,7 +41,7 @@ export default function GoalPrompt({ onRun, running }: { onRun?: () => void; run
   return (
     <div className="glass-strong rounded-2xl p-2 pl-4 flex items-center gap-3 shadow-[0_20px_60px_-25px_rgba(0,0,0,0.9)]">
       <span className="font-mono text-sm text-[--color-coral] select-none">termi&nbsp;›</span>
-      <div className="flex-1 text-left font-mono text-sm sm:text-[15px] text-[--color-fg] truncate">
+      <div className="flex-1 min-w-0 text-left font-mono text-sm sm:text-[15px] text-[--color-fg] truncate">
         {text}
         <span className="caret text-[--color-coral]">▮</span>
       </div>
