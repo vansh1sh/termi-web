@@ -12,6 +12,7 @@ import Reveal3D from "./components/Reveal3D";
 import AppShowcase from "./components/AppShowcase";
 import TiltStage from "./components/TiltStage";
 import Hero from "./components/Hero";
+import Journey from "./components/Journey";
 import { Logo, LogoMark } from "./components/Logo";
 
 export default function Landing() {
@@ -25,6 +26,7 @@ export default function Landing() {
       <Nav />
       <main id="content">
         <Hero />
+        <Journey />
         <Showcase />
         <Orchestra />
         <Console />
@@ -123,7 +125,7 @@ function Orchestra() {
 /* ---------------- Console ---------------- */
 function Console() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20">
+    <section id="brain-activity" className="scroll-mt-20 mx-auto max-w-5xl px-6 py-20">
       <Reveal3D className="text-center">
         <div className="flex justify-center"><Kicker n="02">web console</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Every experiment, live in the browser.</h2>

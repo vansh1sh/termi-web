@@ -81,6 +81,13 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
 .card3d { transform-style: preserve-3d; transition: transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s; }
 .card3d:hover { transform: perspective(900px) translateZ(0) rotateX(3deg) rotateY(-3deg); border-color: color-mix(in srgb, var(--color-coral) 45%, transparent); }
 
+/* ---- Zoom crossfade (brain → terminals) ---- */
+.zoom-layer { transition: opacity .55s ease, transform .7s cubic-bezier(.2,.8,.2,1), filter .55s ease; }
+.zoom-hidden { opacity: 0; pointer-events: none; }
+.zoom-brain-out { transform: scale(1.6); filter: blur(6px); }
+.zoom-terms-in { transform: scale(1); }
+.zoom-terms-start { transform: scale(.82); }
+
 /* ---- 3D flip card (front = brain, back = terminals) ---- */
 .flip { perspective: 1600px; }
 .flip-inner { position: relative; width: 100%; height: 100%; transition: transform .9s cubic-bezier(.4,.15,.2,1); transform-style: preserve-3d; }
@@ -133,6 +140,8 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
   .sheen::after { animation: none; display: none; }
   .flip-inner { transition: none; }
   .btn-download::after { animation: none; display: none; }
+  .zoom-layer { transition: opacity .2s ease; }
+  .zoom-brain-out { transform: none; filter: none; }
 }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element
