@@ -12,6 +12,7 @@ import CursorGlow from "./components/CursorGlow";
 import Reveal3D from "./components/Reveal3D";
 import AppShowcase from "./components/AppShowcase";
 import TiltStage from "./components/TiltStage";
+import GoalPrompt from "./components/GoalPrompt";
 
 export default function Landing() {
   return (
@@ -78,33 +79,49 @@ function Nav() {
 /* ---------------- Hero ---------------- */
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 pt-24 pb-20 grid lg:grid-cols-[1fr_1fr] gap-14 items-center">
-      <div>
-        <Reveal><Kicker n="//">a second brain for your terminal</Kicker></Reveal>
-        <Reveal>
-          <h1 className="mt-6 text-5xl sm:text-[3.7rem] font-semibold tracking-[-0.02em] leading-[1.05]">
-            Think it.
-            <br />
-            <span className="text-[--color-coral]">Termi builds it.</span>
-          </h1>
-        </Reveal>
-        <Reveal>
-          <p className="mt-6 text-lg text-[--color-muted] max-w-md leading-relaxed">
-            A native Mac terminal with an AI brain that runs your work across many
-            terminals — and lets you steer it from any browser.
-          </p>
-        </Reveal>
-        <Reveal>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <DownloadButton large />
-            <a href="#how" className="rounded-lg glass hover:border-[--color-muted] px-6 py-4 font-medium transition">How it works</a>
-          </div>
-          <p className="mt-4 font-mono text-xs text-[--color-faint]">$ free · macOS 14+ · apple silicon</p>
-        </Reveal>
-      </div>
+    <section className="relative mx-auto max-w-4xl px-6 pt-20 pb-24 text-center flex flex-col items-center">
+      {/* light beam falling from the core onto the headline */}
+      <div className="pointer-events-none absolute top-[150px] left-1/2 -translate-x-1/2 -z-10 h-[520px] w-[560px]
+        bg-[radial-gradient(closed,_ellipse)] [background:radial-gradient(50%_60%_at_50%_0%,rgba(240,118,74,0.14),transparent_70%)]" />
 
+      {/* the beacon: glowing neural core up top */}
       <Reveal variant="reveal-scale">
-        <Parallax speed={3}><GlowBrain /></Parallax>
+        <div className="w-[300px] sm:w-[360px]"><GlowBrain /></div>
+      </Reveal>
+
+      <Reveal>
+        <div className="-mt-8 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-[--color-muted]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" />
+          the terminal with a mind of its own
+        </div>
+      </Reveal>
+
+      <Reveal>
+        <h1 className="mt-6 text-[2.9rem] sm:text-6xl font-semibold tracking-[-0.03em] leading-[0.98]">
+          Stop typing commands.
+          <br />
+          <span className="text-[--color-coral]">Start giving goals.</span>
+        </h1>
+      </Reveal>
+
+      <Reveal>
+        <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
+          Termi is a native Mac terminal with an AI brain that plans, runs, and verifies
+          your work across many terminals — steer it from any browser.
+        </p>
+      </Reveal>
+
+      {/* signature interaction: the goal bar */}
+      <Reveal className="w-full max-w-xl mt-9">
+        <GoalPrompt />
+      </Reveal>
+
+      <Reveal>
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <DownloadButton large />
+          <a href="#how" className="rounded-lg glass hover:border-[--color-muted] px-6 py-4 font-medium transition">How it works</a>
+        </div>
+        <p className="mt-4 font-mono text-xs text-[--color-faint]">$ free · macOS 14+ · apple silicon</p>
       </Reveal>
     </section>
   );
