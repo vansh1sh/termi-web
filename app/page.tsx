@@ -2,10 +2,18 @@ import Link from "next/link";
 import Reveal from "./components/Reveal";
 import TypingTerminal from "./components/TypingTerminal";
 import DownloadButton from "./components/DownloadButton";
+import OrchestraHero from "./components/OrchestraHero";
+import AgentAvatars from "./components/AgentAvatars";
+import CountUp from "./components/CountUp";
+import TiltCard from "./components/TiltCard";
+import ScrollProgress from "./components/ScrollProgress";
+import ConsolePreview from "./components/ConsolePreview";
+import FAQ from "./components/FAQ";
+import NavLinks from "./components/NavLinks";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative grain">
       {/* Background: aurora blobs + grid */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="blob1 absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-[--color-coral]/20 blur-[130px]" />
@@ -13,12 +21,21 @@ export default function Landing() {
         <div className="absolute inset-0 gridpulse [background-image:linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
       </div>
 
+      <a href="#content" className="skip-link">Skip to content</a>
+      <ScrollProgress />
       <Nav />
-      <Hero />
-      <Marquee />
-      <Features />
-      <HowItWorks />
-      <BigStat />
+      <main id="content">
+        <Hero />
+        <Marquee />
+        <Orchestra />
+        <Stats />
+        <Features />
+        <Console />
+        <Agents />
+        <HowItWorks />
+        <BigStat />
+        <FAQ />
+      </main>
       <DownloadCTA />
       <Footer />
     </div>
@@ -36,11 +53,11 @@ function Nav() {
           </span>
           Termi
         </div>
-        <div className="flex items-center gap-6 text-sm text-neutral-400">
-          <a href="#features" className="hover:text-white transition hidden sm:block">Features</a>
-          <a href="#how" className="hover:text-white transition hidden sm:block">How it works</a>
+        <div className="flex items-center gap-5 sm:gap-6 text-sm text-neutral-400">
+          <NavLinks />
           <Link href="/login" className="hover:text-white transition">Sign in</Link>
-          <DownloadButton />
+          {/* Full CTA only where it fits; the hero has its own on mobile. */}
+          <div className="hidden sm:block"><DownloadButton /></div>
         </div>
       </nav>
     </header>
@@ -58,7 +75,7 @@ function Hero() {
           </div>
         </Reveal>
         <Reveal>
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02]">
+          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.02] text-glow">
             Your terminal,
             <br />
             <span className="shimmer">now at 100X.</span>
@@ -73,7 +90,7 @@ function Hero() {
         </Reveal>
         <Reveal>
           <div className="mt-9 flex flex-wrap items-center gap-4">
-            <DownloadButton large />
+            <div className="rounded-2xl glow-pulse"><DownloadButton large /></div>
             <a href="#how" className="rounded-2xl border border-white/10 hover:border-white/25 px-6 py-4 font-semibold transition">
               See how it works →
             </a>
@@ -101,7 +118,7 @@ function Marquee() {
   const items = ["Claude Code", "Codex", "Gemini", "AFK Autopilot", "Multi-terminal", "Web Connector", "Cling", "iOS + Android", "Supabase Realtime"];
   const row = [...items, ...items];
   return (
-    <div className="relative border-y border-white/5 py-5 overflow-hidden">
+    <div aria-hidden className="marquee-wrap relative border-y border-white/5 py-5 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
       <div className="marquee flex gap-10 w-max whitespace-nowrap text-sm text-neutral-500">
         {row.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
@@ -110,6 +127,88 @@ function Marquee() {
         ))}
       </div>
     </div>
+  );
+}
+
+/* ---------------- Console preview ---------------- */
+function Console() {
+  return (
+    <section className="mx-auto max-w-5xl px-6 py-24">
+      <Reveal>
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> Watch from any browser
+          </div>
+          <h2 className="text-4xl font-bold tracking-tight">Your build, live on the web</h2>
+          <p className="mt-3 text-neutral-400 max-w-2xl mx-auto">
+            Sign in at termi-web and see the brain&apos;s activity, every terminal&apos;s progress, and the
+            live traffic — then type an instruction and steer it, from your phone or laptop.
+          </p>
+        </div>
+      </Reveal>
+      <Reveal variant="reveal-scale" className="mt-12">
+        <ConsolePreview />
+      </Reveal>
+      <Reveal className="mt-6 text-center">
+        <Link href="/login" className="text-sm text-[--color-coral] hover:underline">Open the web console →</Link>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------------- Orchestra (animated centerpiece) ---------------- */
+function Orchestra() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 py-28 grid lg:grid-cols-2 gap-16 items-center">
+      <Reveal variant="reveal-scale">
+        <OrchestraHero />
+      </Reveal>
+      <div>
+        <Reveal>
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> One brain · many terminals
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
+            It doesn&apos;t just run commands.
+            <br />
+            <span className="shimmer">It orchestrates.</span>
+          </h2>
+        </Reveal>
+        <Reveal>
+          <p className="mt-6 text-lg text-neutral-400 max-w-xl">
+            Assign a job to each terminal in plain English — <em>&ldquo;term-1 builds, term-2 tests,
+            term-3 runs the sim, term-4 ships&rdquo;</em> — and Termi&apos;s brain dispatches, watches, and
+            course-corrects every one in parallel until the goal is actually met.
+          </p>
+        </Reveal>
+        <Reveal variant="stagger" className="mt-8 space-y-3">
+          {["Understands per-terminal intent", "Verifies with real tests before ‘done’", "Streams a live summary you can steer"].map((t) => (
+            <div key={t} className="flex items-center gap-3 text-neutral-300">
+              <span className="grid place-items-center h-6 w-6 rounded-full bg-[--color-coral]/15 text-[--color-coral] text-sm">✓</span>
+              {t}
+            </div>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Stats (count-up band) ---------------- */
+function Stats() {
+  return (
+    <section className="border-y border-white/5 bg-white/[0.015]">
+      <Reveal variant="stagger" className="mx-auto max-w-5xl px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        {STATS.map((s) => (
+          <div key={s.label}>
+            <div className="text-4xl sm:text-5xl font-bold shimmer">
+              <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals ?? 0} />
+            </div>
+            <div className="mt-2 text-sm text-neutral-400">{s.label}</div>
+          </div>
+        ))}
+      </Reveal>
+    </section>
   );
 }
 
@@ -123,13 +222,28 @@ function Features() {
       </Reveal>
       <Reveal variant="stagger" className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {FEATURES.map((f) => (
-          <div key={f.title} className="group relative rounded-2xl border border-white/8 bg-white/[0.02] p-6 hover:border-[--color-coral]/40 transition overflow-hidden">
-            <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[--color-coral]/10 blur-2xl opacity-0 group-hover:opacity-100 transition" />
-            <div className="text-2xl">{f.icon}</div>
-            <h3 className="mt-4 font-semibold text-lg">{f.title}</h3>
-            <p className="mt-1.5 text-sm text-neutral-400">{f.body}</p>
-          </div>
+          <TiltCard key={f.title} className="group relative rounded-2xl border border-white/8 bg-white/[0.02] p-6 hover:border-[--color-coral]/40 transition overflow-hidden">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[--color-coral]/10 blur-2xl opacity-0 group-hover:opacity-100 transition" />
+            <div className="relative text-2xl">{f.icon}</div>
+            <h3 className="relative mt-4 font-semibold text-lg">{f.title}</h3>
+            <p className="relative mt-1.5 text-sm text-neutral-400">{f.body}</p>
+          </TiltCard>
         ))}
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------------- Agents (avatar cluster) ---------------- */
+function Agents() {
+  return (
+    <section className="mx-auto max-w-5xl px-6 py-20 text-center">
+      <Reveal>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Bring your own agent</h2>
+        <p className="mt-3 text-neutral-400 max-w-xl mx-auto">Termi drives whatever CLI you already love — or just your plain shell.</p>
+      </Reveal>
+      <Reveal variant="reveal" className="mt-12">
+        <AgentAvatars />
       </Reveal>
     </section>
   );
@@ -194,15 +308,40 @@ function DownloadCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-10 text-center text-sm text-neutral-600">
-      <div className="flex items-center justify-center gap-2 font-bold text-neutral-400 mb-2">
-        <span className="grid place-items-center w-6 h-6 rounded-lg bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white text-xs">›_</span>
-        Termi
+    <footer className="border-t border-white/5 pt-14 pb-10">
+      <div className="mx-auto max-w-6xl px-6 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-2 font-bold text-neutral-200">
+            <span className="grid place-items-center w-7 h-7 rounded-lg bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] text-white text-xs">›_</span>
+            Termi
+          </div>
+          <p className="mt-3 text-sm text-neutral-500 max-w-xs">Your terminal, everywhere. An autonomous brain across many terminals — steer it from anywhere.</p>
+        </div>
+        {FOOTER_COLS.map((col) => (
+          <div key={col.title}>
+            <div className="text-sm font-semibold text-neutral-300">{col.title}</div>
+            <ul className="mt-3 space-y-2 text-sm text-neutral-500">
+              {col.links.map((l) => (
+                <li key={l.label}><Link href={l.href} className="hover:text-white transition">{l.label}</Link></li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      Your terminal, everywhere. · Built for 100X builders.
+      <div className="hairline mx-auto max-w-6xl my-8" />
+      <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-600">
+        <span>© {2026} Termi · Built for 100X builders.</span>
+        <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> all systems live</span>
+      </div>
     </footer>
   );
 }
+
+const FOOTER_COLS = [
+  { title: "Product", links: [{ label: "Features", href: "#features" }, { label: "How it works", href: "#how" }, { label: "Web console", href: "/login" }, { label: "Download", href: "#download" }] },
+  { title: "Agents", links: [{ label: "Claude Code", href: "#" }, { label: "Codex", href: "#" }, { label: "Gemini", href: "#" }, { label: "Your shell", href: "#" }] },
+  { title: "More", links: [{ label: "FAQ", href: "#faq" }, { label: "Sign in", href: "/login" }] },
+];
 
 const FEATURES = [
   { icon: "🤖", title: "AFK Autopilot", body: "Set a goal and walk away. The brain drives your terminal and verifies with real tests before calling it done." },
@@ -217,4 +356,11 @@ const STEPS = [
   { title: "Download & open", body: "Grab the Mac app, pick your AI CLI (Claude, Codex, Gemini)." },
   { title: "Set a goal", body: "Tell AFK mode what to build and for how long. Complex? Assign a task per terminal." },
   { title: "Watch from anywhere", body: "Sign in on the web to see live progress, test checks, and steer the brain." },
+];
+
+const STATS: { value: number; label: string; prefix?: string; suffix?: string; decimals?: number }[] = [
+  { value: 100, suffix: "X", label: "builder throughput" },
+  { value: 12, suffix: "+", label: "terminals in parallel" },
+  { value: 0, label: "context switches" },
+  { value: 24, suffix: "/7", label: "autonomous AFK runs" },
 ];

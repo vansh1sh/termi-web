@@ -10,7 +10,11 @@ export const createClient = (request: NextRequest) => {
     request: { headers: request.headers },
   });
 
-  const supabase = createServerClient(supabaseUrl!, supabaseKey!, {
+  // Without config there's no auth to refresh — pass the request through untouched
+  // instead of throwing, so the marketing site still serves even if env is unset.
+  if (!supabaseUrl || !supabaseKey) return supabaseResponse;
+
+  const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();

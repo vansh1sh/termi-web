@@ -4,6 +4,9 @@ import { cookies } from "next/headers";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
+/** True only when both public env vars are present. */
+export const isConfigured = Boolean(supabaseUrl && supabaseKey);
+
 export const createClient = (cookieStore: Awaited<ReturnType<typeof cookies>>) => {
   return createServerClient(supabaseUrl!, supabaseKey!, {
     cookies: {

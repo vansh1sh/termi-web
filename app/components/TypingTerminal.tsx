@@ -19,9 +19,23 @@ export default function TypingTerminal() {
   const [rows, setRows] = useState<Row[]>([]);
   const [typing, setTyping] = useState("");
   const [ri, setRi] = useState(0);
+  const [reduced, setReduced] = useState(false);
+
+  // Respect reduced-motion: show the finished session statically, no timers.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReduced(mq.matches);
+    apply();
+    mq.addEventListener?.("change", apply);
+    return () => mq.removeEventListener?.("change", apply);
+  }, []);
 
   useEffect(() => {
+    if (reduced) { setRows(SCRIPT.slice(-6)); setTyping(""); return; }
     let cancelled = false;
+    // Pause the loop while the tab is hidden; resume when visible.
+    if (typeof document !== "undefined" && document.hidden) return;
     const row = SCRIPT[ri % SCRIPT.length];
     if (row.kind === "in") {
       // type char-by-char
@@ -48,13 +62,20 @@ export default function TypingTerminal() {
         return next;
       });
     }
-  }, [ri]);
+  }, [ri, reduced]);
+
+  // When the tab returns to the foreground, nudge the loop back to life.
+  useEffect(() => {
+    const onVis = () => { if (!document.hidden) setRi((n) => n + 1); };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   const color = (k: Row["kind"]) =>
     k === "in" ? "text-neutral-200" : k === "ok" ? "text-green-400" : k === "run" ? "text-amber-300" : "text-neutral-400";
 
   return (
-    <div className="rounded-2xl border border-[--color-line] bg-black/40 backdrop-blur shadow-2xl overflow-hidden bob">
+    <div aria-hidden className="rounded-2xl border border-[--color-line] bg-black/40 backdrop-blur shadow-2xl overflow-hidden bob">
       <div className="flex items-center gap-2 px-4 h-10 border-b border-[--color-line] bg-white/[0.02]">
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
