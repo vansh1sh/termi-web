@@ -86,9 +86,26 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
 .depth-1 { animation: depthbob 7s ease-in-out infinite; }
 .depth-2 { animation: depthbob 9s ease-in-out infinite; }
 
+/* ---- Global cursor spotlight: a blurred coral glow that follows the pointer
+   across the WHOLE page (driven by --gx/--gy set on <body> in JS). ---- */
+.cursor-glow {
+  position: fixed; inset: 0; z-index: -5; pointer-events: none;
+  background: radial-gradient(360px circle at var(--gx, 50%) var(--gy, 40%),
+    color-mix(in srgb, var(--color-coral) 13%, transparent), transparent 62%);
+  transition: background .12s linear;
+}
+
+/* ---- 3D scroll reveal: elements rise + rotate in Z as they enter view.
+   Toggled by IntersectionObserver adding .in (see Reveal3D). ---- */
+.r3d { opacity: 0; transform: perspective(1000px) translateY(60px) rotateX(12deg) scale(.96); transform-origin: center top;
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.r3d.in { opacity: 1; transform: perspective(1000px) translateY(0) rotateX(0) scale(1); }
+
 @media (prefers-reduced-motion: reduce) {
   .depth-1, .depth-2 { animation: none; }
   .card3d:hover { transform: none; }
+  .r3d { opacity: 1 !important; transform: none !important; }
+  .cursor-glow { display: none; }
 }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element

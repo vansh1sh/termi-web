@@ -7,12 +7,16 @@ import FAQ from "./components/FAQ";
 import NavLinks from "./components/NavLinks";
 import NeuralNet from "./components/NeuralNet";
 import Parallax from "./components/Parallax";
+import GlowBrain from "./components/GlowBrain";
+import CursorGlow from "./components/CursorGlow";
+import Reveal3D from "./components/Reveal3D";
 
 export default function Landing() {
   return (
     <div className="min-h-screen relative">
-      {/* "Second Brain" — living neural field behind everything, glass floats over it. */}
+      {/* "Second Brain" — living neural field + page-wide pointer glow behind everything. */}
       <NeuralNet />
+      <CursorGlow />
 
       <a href="#content" className="skip-link">Skip to content</a>
       <Nav />
@@ -97,10 +101,7 @@ function Hero() {
       </div>
 
       <Reveal variant="reveal-scale">
-        <Parallax speed={4} className="depth-1 ticks">
-          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
-          <TypingTerminal />
-        </Parallax>
+        <Parallax speed={3}><GlowBrain /></Parallax>
       </Reveal>
     </section>
   );
@@ -109,27 +110,33 @@ function Hero() {
 /* ---------------- Orchestra ---------------- */
 function Orchestra() {
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-20 text-center">
-      <Reveal>
-        <div className="flex justify-center"><Kicker n="01">one brain · many neurons</Kicker></div>
-        <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">
-          Every terminal is a neuron. One brain fires them all.
-        </h2>
-        <p className="mt-4 text-lg text-[--color-muted] max-w-2xl mx-auto leading-relaxed">
-          Assign a job to each in plain English — <span className="font-mono text-[--color-fg] text-base">term-1 builds, term-2 tests, term-3 ships</span> —
-          and Termi dispatches, watches, and verifies every one in parallel.
-        </p>
-      </Reveal>
-      <Reveal variant="stagger" className="mt-10 grid sm:grid-cols-3 gap-4">
-        {["Understands per-terminal intent", "Verifies with real tests", "Live summary you can steer"].map((t, i) => (
-          <Parallax key={t} speed={i === 1 ? 5 : 3} className={i === 1 ? "depth-2" : "depth-1"}>
-            <div className="glass rounded-xl p-5 text-left card3d h-full">
-              <div className="font-mono text-sm text-[--color-coral]">{String(i + 1).padStart(2, "0")}</div>
-              <p className="mt-3 text-[15px] text-[--color-fg]">{t}</p>
+    <section className="relative mx-auto max-w-6xl px-6 py-20 grid lg:grid-cols-2 gap-14 items-center">
+      <Reveal3D className="order-2 lg:order-1">
+        <Parallax speed={4} className="ticks">
+          <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+          <div className="glass-strong rounded-2xl overflow-hidden"><TypingTerminal /></div>
+        </Parallax>
+      </Reveal3D>
+      <div className="order-1 lg:order-2">
+        <Reveal3D>
+          <Kicker n="01">one brain · many neurons</Kicker>
+          <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
+            Every terminal is a neuron. One brain fires them all.
+          </h2>
+          <p className="mt-4 text-lg text-[--color-muted] max-w-xl leading-relaxed">
+            Assign a job to each in plain English — <span className="font-mono text-[--color-fg] text-base">term-1 builds, term-2 tests, term-3 ships</span> —
+            and Termi dispatches, watches, and verifies every one in parallel.
+          </p>
+        </Reveal3D>
+        <Reveal3D delay={120} className="mt-8 grid gap-3">
+          {["Understands per-terminal intent", "Verifies with real tests", "Live summary you can steer"].map((t, i) => (
+            <div key={t} className="glass rounded-xl p-4 flex items-center gap-3 card3d">
+              <span className="font-mono text-sm text-[--color-coral]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-[15px] text-[--color-fg]">{t}</span>
             </div>
-          </Parallax>
-        ))}
-      </Reveal>
+          ))}
+        </Reveal3D>
+      </div>
     </section>
   );
 }
@@ -138,17 +145,17 @@ function Orchestra() {
 function Console() {
   return (
     <section className="mx-auto max-w-5xl px-6 py-20">
-      <Reveal className="text-center">
+      <Reveal3D className="text-center">
         <div className="flex justify-center"><Kicker n="02">web console</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Your build, live in the browser.</h2>
         <p className="mt-4 text-lg text-[--color-muted] max-w-xl mx-auto leading-relaxed">
           Watch the brain, every terminal&apos;s progress, and the live traffic — then steer it from your phone.
         </p>
-      </Reveal>
-      <Reveal variant="reveal-scale" className="mt-10 ticks">
+      </Reveal3D>
+      <Reveal3D delay={120} className="mt-10 ticks">
         <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
         <div className="glass-strong rounded-2xl overflow-hidden"><ConsolePreview /></div>
-      </Reveal>
+      </Reveal3D>
       <Reveal className="mt-6 text-center">
         <Link href="/login" className="font-mono text-sm text-[--color-coral] hover:underline">→ open the web console</Link>
       </Reveal>
@@ -160,10 +167,10 @@ function Console() {
 function Features() {
   return (
     <section id="features" className="mx-auto max-w-6xl px-6 py-20">
-      <Reveal>
+      <Reveal3D>
         <div className="flex justify-center"><Kicker n="03">capabilities</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight text-center">One app. Everything you ship with.</h2>
-      </Reveal>
+      </Reveal3D>
       <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {FEATURES.map((f, i) => (
           <div key={f.title} className="glass rounded-xl p-6 card3d">
@@ -184,10 +191,10 @@ function Features() {
 function HowItWorks() {
   return (
     <section id="how" className="mx-auto max-w-5xl px-6 py-20">
-      <Reveal>
+      <Reveal3D>
         <div className="flex justify-center"><Kicker n="04">workflow</Kicker></div>
         <h2 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight text-center">Set a goal. Walk away.</h2>
-      </Reveal>
+      </Reveal3D>
       <Reveal variant="stagger" className="mt-12 grid sm:grid-cols-3 gap-4">
         {STEPS.map((s, i) => (
           <div key={s.title} className="glass rounded-xl p-6">
