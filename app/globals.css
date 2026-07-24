@@ -81,6 +81,22 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
 .card3d { transform-style: preserve-3d; transition: transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s; }
 .card3d:hover { transform: perspective(900px) translateZ(0) rotateX(3deg) rotateY(-3deg); border-color: color-mix(in srgb, var(--color-coral) 45%, transparent); }
 
+/* ---- 3D flip card (front = brain, back = terminals) ---- */
+.flip { perspective: 1600px; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform .9s cubic-bezier(.4,.15,.2,1); transform-style: preserve-3d; }
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+/* ---- Fancy download button: gradient, shine sweep, glow ---- */
+@keyframes dl-shine { 0% { transform: translateX(-150%); } 60%,100% { transform: translateX(250%); } }
+.btn-download { position: relative; overflow: hidden; }
+.btn-download::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: translateX(-150%); animation: dl-shine 4.5s ease-in-out infinite;
+}
+
 /* ---- Slow glass sheen sweeping across a surface ---- */
 @keyframes sheen { 0% { transform: translateX(-120%) rotate(8deg); } 100% { transform: translateX(320%) rotate(8deg); } }
 .sheen::after {
@@ -115,6 +131,8 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; }
   .r3d { opacity: 1 !important; transform: none !important; }
   .cursor-glow { display: none; }
   .sheen::after { animation: none; display: none; }
+  .flip-inner { transition: none; }
+  .btn-download::after { animation: none; display: none; }
 }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element

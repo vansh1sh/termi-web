@@ -14,7 +14,7 @@ const GOALS = [
   "migrate the API to v2 across all services",
 ];
 
-export default function GoalPrompt() {
+export default function GoalPrompt({ onRun, running }: { onRun?: () => void; running?: boolean }) {
   const [text, setText] = useState("");
   const [gi, setGi] = useState(0);
   const [phase, setPhase] = useState<"typing" | "hold" | "deleting">("typing");
@@ -45,10 +45,15 @@ export default function GoalPrompt() {
         {text}
         <span className="caret text-[--color-coral]">▮</span>
       </div>
-      <span className="hidden sm:flex items-center gap-1.5 rounded-xl bg-[--color-coral] text-white font-medium text-sm px-4 py-2.5 shrink-0">
+      <button
+        type="button"
+        onClick={onRun}
+        aria-pressed={running}
+        className="flex items-center gap-1.5 rounded-xl bg-[--color-coral] hover:bg-[--color-coral-600] active:scale-95 text-white font-medium text-sm px-4 py-2.5 shrink-0 transition"
+      >
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-        run
-      </span>
+        {running ? "running" : "run"}
+      </button>
     </div>
   );
 }

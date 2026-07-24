@@ -4,14 +4,14 @@ import { safeDownloadUrl } from "./safeDownloadUrl";
 
 const DMG_URL = safeDownloadUrl(process.env.NEXT_PUBLIC_DMG_URL);
 
-export default function DownloadButton({ large = false }: { large?: boolean }) {
+export default function DownloadButton({ large = false, fancy = false }: { large?: boolean; fancy?: boolean }) {
   return (
     <a
       href={DMG_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Download Termi for Mac (Apple Silicon, .dmg)"
-      className={`group relative inline-flex items-center gap-3 rounded-2xl bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] font-semibold text-white overflow-hidden transition-transform hover:scale-[1.03] active:scale-95 shadow-xl shadow-[--color-coral]/30 ${large ? "px-8 py-4 text-lg" : "px-6 py-3"}`}
+      className={`group relative inline-flex items-center gap-3 rounded-2xl bg-gradient-to-br from-[--color-coral] to-[--color-coral-600] font-semibold text-white overflow-hidden transition-transform hover:scale-[1.03] active:scale-95 shadow-xl shadow-[--color-coral]/30 ${fancy ? "btn-download shadow-[0_18px_50px_-12px_rgba(240,118,74,0.6)]" : ""} ${large ? "px-8 py-4 text-lg" : "px-6 py-3"}`}
     >
       {/* shine sweep on hover */}
       <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
