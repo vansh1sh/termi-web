@@ -31,31 +31,32 @@ export default function Hero() {
         <div className="min-w-0 max-w-xl">
           <Reveal>
             <div className="inline-flex items-center gap-2 font-mono text-[12px] tracking-[0.16em] uppercase text-[--color-coral]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> multi-agent orchestration
+              <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> the brain for agentic development
             </div>
           </Reveal>
 
           <Reveal>
-            <h1 className="mt-6 text-[2.5rem] sm:text-[4.4rem] font-semibold tracking-[-0.035em] leading-[0.96]">
-              Ship at
+            <h1 className="mt-6 text-[2.5rem] sm:text-[4.2rem] font-semibold tracking-[-0.035em] leading-[0.98]">
+              From zero to one.
               <br />
-              <span className="text-[--color-coral]">100× velocity.</span>
+              <span className="text-[--color-coral]">On the correct path.</span>
             </h1>
           </Reveal>
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-              Termi orchestrates a fleet of AI agents across parallel terminals — decomposing
-              your goal, racing rival implementations, and benchmarking each until the winner
-              ships. One engineer, the throughput of a team.
+              Agents are fast but directionless. Termi is the AI brain above them — it
+              defines the right path from your goal, drives your agents (Claude, Codex,
+              Gemini) down it, and course-corrects the moment one strays. Idea in, working
+              product out.
             </p>
           </Reveal>
 
-          {/* the goal bar — its run button starts the four terminals */}
+          {/* the goal bar — its run button starts the supervised demo */}
           <Reveal className="mt-8 w-full max-w-lg">
             <GoalPrompt onRun={run} running={running} />
             <p className="mt-2.5 font-mono text-[11px] sm:text-xs text-[--color-faint] break-words">
-              {running ? "› 4 strategies live — scrolling to brain activity…" : "› hit run — split one goal into four bets"}
+              {running ? "› brain driving — agents on the path, checked every step…" : "› hit run — watch the brain take it 0 → 1"}
             </p>
           </Reveal>
 
