@@ -52,17 +52,11 @@ function Nav() {
 /* ---------------- Demo: the real thing, fast-forwarded ---------------- */
 function Demo() {
   return (
-    <section id="demo" className="py-16 space-y-16">
+    <section id="demo" className="py-16">
       <Reveal>
         <DemoVideo
           src="/demo/coffee-3d.mp4"
-          caption="real recording, fast-forwarded — “build a 3D coffee app with cart & checkout.” the brain asks what it needs, splits the work across Claude, Codex & Opus, and drives all four to a working build. no cuts."
-        />
-      </Reveal>
-      <Reveal>
-        <DemoVideo
-          src="/demo/zero-to-one.mp4"
-          caption="another run — one goal in, a working verified site out."
+          caption="real recording, fast-forwarded — 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, and drives all four to a working build. no cuts."
         />
       </Reveal>
     </section>
