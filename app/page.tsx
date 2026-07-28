@@ -67,8 +67,7 @@ function Demo() {
             One sentence in. A working app out.
           </h2>
           <p className="mt-3 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base">
-            A real, uncut recording: the brain planning, driving four agents in
-            parallel, and verifying the result.
+            Watch the brain plan, drive four agents in parallel, and verify the result.
           </p>
         </div>
       </Reveal>
