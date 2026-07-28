@@ -23,13 +23,13 @@ const faqJsonLd = {
 
 export default function FAQ() {
   return (
-    <section id="faq" className="mx-auto max-w-3xl px-6 py-24">
+    <section id="faq" className="scroll-mt-20 mx-auto max-w-3xl px-5 sm:px-6 py-16 sm:py-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }}
       />
       <Reveal>
-        <h2 className="text-4xl font-bold text-center tracking-tight">Questions</h2>
+        <h2 className="text-3xl sm:text-4xl font-semibold text-center tracking-tight">Questions</h2>
       </Reveal>
       <Reveal variant="stagger" className="mt-12 space-y-3">
         {QA.map((item) => (
