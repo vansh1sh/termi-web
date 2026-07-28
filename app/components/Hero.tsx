@@ -50,7 +50,7 @@ export default function Hero() {
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-              Agents are fast but directionless. Termi is the AI brain above them. It
+              Agents are super helpful but they still need your supervision. Termi is the AI brain above them. It
               defines the right path from your goal, drives your agents (Claude, Codex,
               Gemini) down it, and course-corrects the moment one strays. Idea in, working
               product out.
