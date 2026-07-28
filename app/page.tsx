@@ -6,6 +6,7 @@ import NeuralNet from "./components/NeuralNet";
 import CursorGlow from "./components/CursorGlow";
 import Hero from "./components/Hero";
 import TabbedDemo from "./components/TabbedDemo";
+import ConsolePreview from "./components/ConsolePreview";
 import { Logo } from "./components/Logo";
 
 export default function Landing() {
@@ -20,6 +21,7 @@ export default function Landing() {
       <main id="content">
         <Hero />
         <Demo />
+        <Console />
         <How />
         <FAQ />
       </main>
@@ -67,6 +69,29 @@ function Demo() {
       </Reveal>
       <Reveal>
         <TabbedDemo />
+      </Reveal>
+    </section>
+  );
+}
+
+/* ---------------- Console: watch + steer the brain from any browser ---------------- */
+function Console() {
+  return (
+    <section id="brain-activity" className="scroll-mt-20 mx-auto max-w-5xl px-6 py-20">
+      <Reveal className="text-center">
+        <p className="kicker mb-3">// web console</p>
+        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Every run, live in the browser.</h2>
+        <p className="mt-4 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+          Watch each terminal work, see what the brain is doing, and redirect it
+          mid-run — from your phone or laptop.
+        </p>
+      </Reveal>
+      <Reveal className="mt-10 ticks">
+        <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+        <div className="glass-strong rounded-2xl overflow-hidden"><ConsolePreview /></div>
+      </Reveal>
+      <Reveal className="mt-6 text-center">
+        <Link href="/login" className="font-mono text-sm text-[--color-coral] hover:underline">→ open the web console</Link>
       </Reveal>
     </section>
   );
