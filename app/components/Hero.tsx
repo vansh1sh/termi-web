@@ -15,10 +15,15 @@ export default function Hero() {
     const next = !running;
     setRunning(next);
     // After the four terminals finish, glide down to the demo video.
+    // Respect reduced-motion: jump instantly instead of smooth-scrolling.
     if (next && !scrolledRef.current) {
       scrolledRef.current = true;
+      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
       window.setTimeout(() => {
-        document.getElementById("demo")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById("demo")?.scrollIntoView({
+          behavior: reduce ? "auto" : "smooth",
+          block: "start",
+        });
       }, 3200);
     }
     if (!next) scrolledRef.current = false;
