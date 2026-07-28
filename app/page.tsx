@@ -52,22 +52,11 @@ function Nav() {
 /* ---------------- Demo: the real thing, fast-forwarded ---------------- */
 function Demo() {
   return (
-    <section id="demo" className="py-16 space-y-14">
+    <section id="demo" className="py-16">
       <Reveal>
         <DemoVideo
-          src="/demo/coffee-3d.mp4"
-          caption="real recording, fast-forwarded — 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, and drives all four to a working build. no cuts."
-        />
-      </Reveal>
-      <Reveal>
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="font-mono text-xs text-[--color-coral] tracking-widest uppercase mb-3">the result</p>
-          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-2">What the agents built</h2>
-          <p className="text-sm text-[--color-muted] mb-6 max-w-lg mx-auto">The finished 3D coffee app running in Termi — WebGL scroll animation, menu, cart, checkout. Built entirely by AI agents, supervised by the brain.</p>
-        </div>
-        <DemoVideo
-          src="/demo/kafene-result.mp4"
-          caption="the finished app running in Termi's browser — built from one sentence, no human code."
+          src="/demo/full-demo.mp4"
+          caption="real recording, fast-forwarded — 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, drives all four to a working build, then the finished app runs in Termi's browser. one sentence in, no cuts, no human code."
         />
       </Reveal>
     </section>

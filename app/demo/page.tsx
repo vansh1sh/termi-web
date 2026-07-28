@@ -32,26 +32,10 @@ export default function DemoPage() {
           </p>
 
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold">The build</h2>
+            <h2 className="text-lg font-semibold">Goal to running app</h2>
             <DemoVideo
-              src="/demo/coffee-3d.mp4"
-              caption="fast-forwarded — the brain orchestrating 4 agents from goal to working app."
-            />
-          </div>
-        </section>
-
-        {/* The finished result */}
-        <section>
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold">The result</h2>
-            <p className="text-sm text-[--color-muted] max-w-xl">
-              The finished 3D coffee app running inside Termi — WebGL scroll animation, a browsable
-              menu, product detail, cart, and mock checkout. Built entirely by AI agents, supervised
-              by the brain. No human touched the code.
-            </p>
-            <DemoVideo
-              src="/demo/kafene-result.mp4"
-              caption="the finished Kafene Coffee app — running in Termi's built-in browser."
+              src="/demo/full-demo.mp4"
+              caption="fast-forwarded — the brain orchestrating 4 agents from goal to working app, then the finished Kafene Coffee app running in Termi's built-in browser. No human touched the code."
             />
           </div>
         </section>
