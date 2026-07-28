@@ -10,7 +10,7 @@ const SCRIPT: Row[] = [
   { text: "⏺ planning · 4 milestones", kind: "run" },
   { text: "⏺ writing app/page.tsx …", kind: "run" },
   { text: "⏺ npm run build", kind: "run" },
-  { text: "✓ compiled — 0 errors", kind: "ok" },
+  { text: "✓ compiled, 0 errors", kind: "ok" },
   { text: "⏺ verifying: curl localhost:3000 → 200 OK", kind: "run" },
   { text: "✓ shipped. preview is live.", kind: "ok" },
 ];
@@ -80,7 +80,7 @@ export default function TypingTerminal() {
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
         <span className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-2 text-xs text-neutral-500">termi — autopilot</span>
+        <span className="ml-2 text-xs text-neutral-500">termi · autopilot</span>
         <span className="ml-auto text-[10px] text-green-400/80 flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 caret" /> live
         </span>

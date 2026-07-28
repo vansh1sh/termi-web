@@ -14,7 +14,7 @@ const TERMS: Term[] = [
   { title: "proto A", tag: "SSR", hue: "#f0764a", lines: ["$ build --ssr", "▸ bench: 240ms", "▸ lighthouse 91", "✓ passing"] },
   { title: "proto B", tag: "edge", hue: "#6aa9ff", lines: ["$ build --edge", "▸ bench: 88ms", "▸ lighthouse 98", "★ winner"], win: true },
   { title: "proto C", tag: "static", hue: "#5ed6a4", lines: ["$ build --static", "▸ bench: 140ms", "▸ lighthouse 95", "✓ passing"] },
-  { title: "proto D", tag: "spa", hue: "#e6a23c", lines: ["$ build --spa", "▸ bench: 310ms", "✗ cls too high", "— dropped"] },
+  { title: "proto D", tag: "spa", hue: "#e6a23c", lines: ["$ build --spa", "▸ bench: 310ms", "✗ cls too high", "× dropped"] },
 ];
 
 export default function RunTerminals({ active }: { active: boolean }) {

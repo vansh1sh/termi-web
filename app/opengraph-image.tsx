@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // Social-share card generated at build time (no external assets needed).
 export const runtime = "nodejs";
-export const alt = "Termi — Your terminal, now at 100X";
+export const alt = "Termi: your terminal, now at 100X";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -80,7 +80,7 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ color: "#9aa0ad", fontSize: 30, marginTop: 40, maxWidth: 900 }}>
-          A native Mac terminal with an AI brain that runs your work across many terminals — and you steer it from anywhere.
+          A native Mac terminal with an AI brain that runs your work across many terminals, steered from anywhere.
         </div>
       </div>
     ),

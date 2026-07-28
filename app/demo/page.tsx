@@ -3,7 +3,7 @@ import TabbedDemo from "../components/TabbedDemo";
 import { Logo } from "../components/Logo";
 
 export const metadata = {
-  title: "Demo — Termi",
+  title: "Demo · Termi",
   description: "Watch the AI brain build a 3D coffee app from one sentence, then explore the finished result.",
 };
 
@@ -21,7 +21,7 @@ export default function DemoPage() {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-12 space-y-16">
+      <main className="mx-auto max-w-5xl px-5 sm:px-6 py-10 sm:py-12 space-y-12 sm:space-y-16">
         {/* The build process */}
         <section>
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">Demo</h1>
@@ -38,7 +38,7 @@ export default function DemoPage() {
         <section>
           <h2 className="text-lg font-semibold mb-3">The code</h2>
           <p className="text-sm text-[--color-muted] max-w-xl mb-4">
-            The full source the agents produced — a Vite + React + Three.js app with a Zustand
+            The full source the agents produced: a Vite + React + Three.js app with a Zustand
             cart store and mock checkout. Every file was written by the agents; the brain only
             supervised.
           </p>

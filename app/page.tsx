@@ -54,15 +54,15 @@ function Nav() {
 /* ---------------- Demo: the real thing, fast-forwarded ---------------- */
 function Demo() {
   return (
-    <section id="demo" className="py-20">
+    <section id="demo" className="py-14 sm:py-20">
       <Reveal>
-        <div className="mx-auto max-w-5xl px-6 text-center mb-10">
+        <div className="mx-auto max-w-5xl px-5 sm:px-6 text-center mb-8 sm:mb-10">
           <p className="kicker mb-3">// watch it work</p>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
             One sentence in. A working app out.
           </h2>
           <p className="mt-3 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base">
-            A real, uncut recording — the brain planning, driving four agents in
+            A real, uncut recording: the brain planning, driving four agents in
             parallel, and verifying the result.
           </p>
         </div>
@@ -77,13 +77,13 @@ function Demo() {
 /* ---------------- Console: watch + steer the brain from any browser ---------------- */
 function Console() {
   return (
-    <section id="brain-activity" className="scroll-mt-20 mx-auto max-w-5xl px-6 py-20">
+    <section id="brain-activity" className="scroll-mt-20 mx-auto max-w-5xl px-5 sm:px-6 py-14 sm:py-20">
       <Reveal className="text-center">
         <p className="kicker mb-3">// web console</p>
         <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Every run, live in the browser.</h2>
         <p className="mt-4 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
           Watch each terminal work, see what the brain is doing, and redirect it
-          mid-run — from your phone or laptop.
+          mid-run, from your phone or laptop.
         </p>
       </Reveal>
       <Reveal className="mt-10 ticks">
@@ -101,11 +101,11 @@ function Console() {
 function How() {
   const steps = [
     { n: "01", title: "State the goal", body: "One sentence. The brain turns it into a plan, acceptance checks, and workstreams." },
-    { n: "02", title: "Agents execute", body: "It runs Claude, Codex, or Gemini — routing each stream to the agent best at it, in parallel." },
+    { n: "02", title: "Agents execute", body: "It runs Claude, Codex, or Gemini, routing each stream to the agent best at it, in parallel." },
     { n: "03", title: "The brain keeps the path", body: "Every pass it checks real output against the plan, corrects drift, and only accepts what actually works." },
   ];
   return (
-    <section id="features" className="mx-auto max-w-5xl px-6 py-20">
+    <section id="features" className="mx-auto max-w-5xl px-5 sm:px-6 py-14 sm:py-20">
       <Reveal>
         <div className="text-center mb-10">
           <p className="kicker mb-3">// how it works</p>

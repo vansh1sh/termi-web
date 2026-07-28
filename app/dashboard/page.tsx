@@ -169,7 +169,7 @@ export default function Dashboard() {
   const send = () => {
     const text = input.trim().slice(0, MAX_CMD);
     if (!text || !channelRef.current) return;
-    if (status !== "on") { log("not connected — command not sent", "sys"); return; }
+    if (status !== "on") { log("not connected. command not sent", "sys"); return; }
     try {
       channelRef.current.send({ type: "broadcast", event: "msg", payload: { type: "command", command: text, t: Date.now() } });
       log(`command: ${text}`, "out");
@@ -194,7 +194,7 @@ export default function Dashboard() {
   const sendInstruct = () => {
     const text = instruct.trim().slice(0, MAX_CMD);
     if (!text || !channelRef.current) return;
-    if (status !== "on") { log("not connected — instruction not sent", "sys"); return; }
+    if (status !== "on") { log("not connected. instruction not sent", "sys"); return; }
     try {
       channelRef.current.send({ type: "broadcast", event: "msg", payload: { type: "command", command: `instruct:${text}`, t: Date.now() } });
       log(`instruct brain: ${text}`, "out");
@@ -301,7 +301,7 @@ export default function Dashboard() {
           {!brainRunning ? (
             <p className="text-sm text-neutral-500">
               No AFK session running. Start AFK mode in Termi (with a goal) and live progress, per-terminal
-              summaries, and test checks will stream here — and you can steer the brain below.
+              summaries, and test checks will stream here, and you can steer the brain below.
             </p>
           ) : (
           <>
@@ -362,7 +362,7 @@ export default function Dashboard() {
             </button>
           </div>
           <div ref={feedRef} role="log" aria-live="polite" aria-label="Live console output" className="h-[380px] overflow-auto p-4 font-mono text-[13px] leading-relaxed space-y-0.5">
-            {lines.length === 0 && <div className="text-neutral-600">No traffic yet — type a command below.</div>}
+            {lines.length === 0 && <div className="text-neutral-600">No traffic yet. Type a command below.</div>}
             {lines.map((l) => (
               <div key={l.id} className={l.kind === "out" ? "text-green-400" : l.kind === "sys" ? "text-neutral-500" : "text-neutral-200"}>
                 <span className="select-none text-neutral-700 mr-2 tabular-nums">{clockStamp(l.at)}</span>

@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
  * example goals with a blinking caret and a coral run button. Decorative.
  */
 const GOALS = [
-  "prototype this UI 4 ways — ship the fastest",
-  "try 3 caching strategies, benchmark, keep the winner",
+  "build a 3D coffee app with cart & checkout",
+  "prototype this UI 4 ways, ship the fastest",
+  "try 3 caching strategies, keep the winner",
   "build web, iOS & Android in parallel",
-  "A/B two API designs and load-test both",
 ];
 
 export default function GoalPrompt({ onRun, running }: { onRun?: () => void; running?: boolean }) {

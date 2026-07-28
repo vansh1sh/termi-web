@@ -14,11 +14,11 @@ export default function Hero() {
   const run = () => {
     const next = !running;
     setRunning(next);
-    // After the four terminals finish, glide down to the live brain activity.
+    // After the four terminals finish, glide down to the demo video.
     if (next && !scrolledRef.current) {
       scrolledRef.current = true;
       window.setTimeout(() => {
-        document.getElementById("brain-activity")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById("demo")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 3200);
     }
     if (!next) scrolledRef.current = false;
@@ -26,7 +26,7 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-x-hidden">
-      <div className="relative mx-auto max-w-6xl px-6 pt-20 sm:pt-24 pb-20 sm:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-6 pt-12 sm:pt-24 pb-16 sm:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
         {/* Left: pitch */}
         <div className="min-w-0 max-w-xl">
           <Reveal>
@@ -36,7 +36,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal>
-            <h1 className="mt-6 text-[2.5rem] sm:text-[4.2rem] font-semibold tracking-[-0.035em] leading-[0.98]">
+            <h1 className="mt-5 sm:mt-6 text-[2.25rem] sm:text-[4.2rem] font-semibold tracking-[-0.03em] sm:tracking-[-0.035em] leading-[1.05] sm:leading-[0.98]">
               From zero to one.
               <br />
               <span className="text-[--color-coral]">On the correct path.</span>
@@ -45,7 +45,7 @@ export default function Hero() {
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
-              Agents are fast but directionless. Termi is the AI brain above them — it
+              Agents are fast but directionless. Termi is the AI brain above them. It
               defines the right path from your goal, drives your agents (Claude, Codex,
               Gemini) down it, and course-corrects the moment one strays. Idea in, working
               product out.
@@ -56,7 +56,7 @@ export default function Hero() {
           <Reveal className="mt-8 w-full max-w-lg">
             <GoalPrompt onRun={run} running={running} />
             <p className="mt-2.5 font-mono text-[11px] sm:text-xs text-[--color-faint] break-words">
-              {running ? "› brain driving — agents on the path, checked every step…" : "› hit run — watch the brain take it 0 → 1"}
+              {running ? "› brain driving. agents on the path, checked every step…" : "› hit run, watch the brain take it 0 → 1"}
             </p>
           </Reveal>
 

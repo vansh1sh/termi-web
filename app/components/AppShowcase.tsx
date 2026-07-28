@@ -29,7 +29,7 @@ export default function AppShowcase() {
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
         <span className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-3 font-mono text-xs text-[--color-muted]">Termi — supervising · AFK 12:40 left</span>
+        <span className="ml-3 font-mono text-xs text-[--color-muted]">Termi · supervising · AFK 12:40 left</span>
         <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] text-[--color-coral]">
           <span className="w-1.5 h-1.5 rounded-full bg-[--color-coral] pip" /> brain active
         </span>

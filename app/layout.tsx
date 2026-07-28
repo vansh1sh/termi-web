@@ -9,9 +9,9 @@ import "./globals.css";
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans-src", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-src", display: "swap" });
 
-const title = "Termi — Your terminal, now at 100X";
+const title = "Termi: your terminal, now at 100X";
 const description =
-  "A native Mac terminal where an AI brain runs your work autonomously — verifying with real tests, across many terminals at once — and you can watch and steer it from any browser.";
+  "A native Mac terminal where an AI brain runs your work autonomously, verifying with real tests across many terminals at once. Watch and steer it from any browser.";
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL_OBJECT,

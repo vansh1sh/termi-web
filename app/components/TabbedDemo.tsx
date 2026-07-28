@@ -13,14 +13,14 @@ const TABS = [
     label: "Prompt",
     src: "/demo/coffee-3d.mp4",
     caption:
-      "real recording, fast-forwarded — 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, and drives all four to a working build. no cuts.",
+      "real recording, fast-forwarded: 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, and drives all four to a working build. no cuts.",
   },
   {
     id: "output",
     label: "Output",
     src: "/demo/kafene-result.mp4",
     caption:
-      "the finished app running in Termi's browser — built from one sentence, no human code.",
+      "the finished app running in Termi's browser, built from one sentence, no human code.",
   },
 ] as const;
 
@@ -49,7 +49,7 @@ export default function TabbedDemo() {
   if (failed) return null; // video missing → section disappears rather than showing a broken box
 
   return (
-    <figure className="mx-auto max-w-5xl px-6">
+    <figure className="mx-auto max-w-5xl px-5 sm:px-6">
       {/* Tab strip */}
       <div
         role="tablist"
@@ -103,7 +103,7 @@ export default function TabbedDemo() {
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
         <p className="mt-2 font-mono text-[11px] text-[--color-faint]">
-          the actual coffee app the agents built — live, not a mock
+          the actual coffee app the agents built, live, not a mock
         </p>
       </div>
     </figure>

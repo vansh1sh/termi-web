@@ -36,7 +36,7 @@ export default function LoginPage() {
       });
       if (error) setError(error.message); else setSent(true);
     } catch {
-      setError("Network error — please check your connection and try again.");
+      setError("Network error. Please check your connection and try again.");
     } finally {
       setBusy(false);
     }
@@ -62,7 +62,7 @@ export default function LoginPage() {
         if (error) setError(error.message); else router.replace("/dashboard");
       }
     } catch {
-      setError("Network error — please check your connection and try again.");
+      setError("Network error. Please check your connection and try again.");
     } finally {
       setBusy(false);
     }
