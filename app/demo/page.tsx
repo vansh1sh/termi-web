@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DemoVideo from "../components/DemoVideo";
+import TabbedDemo from "../components/TabbedDemo";
 import { Logo } from "../components/Logo";
 
 export const metadata = {
@@ -31,13 +31,7 @@ export default function DemoPage() {
             and drives all four terminals to a working build. Everything below is real and uncut.
           </p>
 
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Goal to running app</h2>
-            <DemoVideo
-              src="/demo/full-demo.mp4"
-              caption="fast-forwarded — the brain orchestrating 4 agents from goal to working app, then the finished Kafene Coffee app running in Termi's built-in browser. No human touched the code."
-            />
-          </div>
+          <TabbedDemo />
         </section>
 
         {/* Source code */}

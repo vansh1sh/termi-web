@@ -5,7 +5,7 @@ import NavLinks from "./components/NavLinks";
 import NeuralNet from "./components/NeuralNet";
 import CursorGlow from "./components/CursorGlow";
 import Hero from "./components/Hero";
-import DemoVideo from "./components/DemoVideo";
+import TabbedDemo from "./components/TabbedDemo";
 import { Logo } from "./components/Logo";
 
 export default function Landing() {
@@ -54,10 +54,7 @@ function Demo() {
   return (
     <section id="demo" className="py-16">
       <Reveal>
-        <DemoVideo
-          src="/demo/full-demo.mp4"
-          caption="real recording, fast-forwarded — 'build a 3D coffee app with cart & checkout.' the brain asks what it needs, splits the work across Claude, Codex & Opus, drives all four to a working build, then the finished app runs in Termi's browser. one sentence in, no cuts, no human code."
-        />
+        <TabbedDemo />
       </Reveal>
     </section>
   );
