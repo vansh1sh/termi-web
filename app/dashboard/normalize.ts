@@ -10,6 +10,7 @@ export type BrainTerminal = {
   complete?: boolean;
   blocker?: string;
   tests?: BrainTest[];
+  tokens?: number;
 };
 export type BrainStatus = {
   type: "brain_status";
@@ -17,6 +18,9 @@ export type BrainStatus = {
   isRunning: boolean;
   pass: number;
   terminals: BrainTerminal[];
+  tokens?: number;   // total live tokens across attached terminals
+  costUSD?: number;  // rough estimate derived from tokens (labeled ~ in the UI)
+  summary?: string;  // richer peek summary when the brain has one
 };
 export type Presence = {
   terminalCount: number;
@@ -67,8 +71,15 @@ function normalizeTerminal(v: unknown): BrainTerminal | null {
   if (v.complete != null) t.complete = bool(v.complete);
   const tests = normalizeTests(v.tests);
   if (tests) t.tests = tests;
+  if (v.tokens != null) t.tokens = Math.max(0, int(v.tokens));
   return t;
 }
+
+// A non-negative finite number, or undefined — for optional numeric fields.
+const num = (v: unknown): number | undefined => {
+  const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
+};
 
 /** Returns a safe BrainStatus, or null if the payload isn't usable. */
 export function normalizeBrainStatus(p: unknown): BrainStatus | null {
@@ -76,13 +87,19 @@ export function normalizeBrainStatus(p: unknown): BrainStatus | null {
   const terminals = Array.isArray(p.terminals)
     ? p.terminals.slice(0, MAX_TERMINALS).map(normalizeTerminal).filter((t): t is BrainTerminal => t !== null)
     : [];
-  return {
+  const b: BrainStatus = {
     type: "brain_status",
     status: clamp(str(p.status)),
     isRunning: bool(p.isRunning),
     pass: int(p.pass),
     terminals,
   };
+  const tokens = num(p.tokens);
+  if (tokens != null) b.tokens = Math.trunc(tokens);
+  const cost = num(p.costUSD);
+  if (cost != null) b.costUSD = cost;
+  if (p.summary != null && str(p.summary)) b.summary = clamp(str(p.summary));
+  return b;
 }
 
 /** Returns a safe Presence stamped with local receive time, or null. */

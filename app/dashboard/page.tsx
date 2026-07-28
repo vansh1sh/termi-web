@@ -224,6 +224,19 @@ export default function Dashboard() {
     } catch { log("failed to send instruction", "sys"); }
   };
 
+  // Ask the brain (on the Mac) to spin up a new supervised terminal. Sends
+  // spawn:<instruction>; SessionStore.onCommand handles it and caps at 4.
+  const spawnTerminal = () => {
+    if (!channelRef.current || status !== "on") { log("not connected. can't spawn a terminal", "sys"); return; }
+    const what = window.prompt("What should the new terminal work on?", "");
+    const instruction = (what ?? "").trim();
+    if (!instruction) return;
+    try {
+      channelRef.current.send({ type: "broadcast", event: "msg", payload: { type: "command", command: `spawn:${instruction}`, t: Date.now() } });
+      log(`spawn terminal: ${instruction}`, "out");
+    } catch { log("failed to request a new terminal", "sys"); }
+  };
+
   const signOut = async () => {
     if (isDemo) { try { sessionStorage.removeItem(DEMO_FLAG); } catch { /* ignore */ } router.replace("/login"); return; }
     // Always land on /login even if the network sign-out call fails.
@@ -299,12 +312,18 @@ export default function Dashboard() {
 
         {/* ---- Vitals ---- */}
         <p className="kicker mt-8 mb-3">// vitals</p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           <Vital label="terminals" value={livePresence?.terminalCount ?? "—"} />
           <Vital label="passes" value={brainRunning ? (brain?.pass ?? 0) : "—"} />
           <Vital label="done" value={brain?.terminals.filter(t => t.complete).length ?? 0} tint="text-green-400" />
           <Vital label="blocked" value={brain?.terminals.filter(t => t.blocker).length ?? 0} tint="text-red-400" />
-          <Vital label="latency" value={latency != null ? `${latency}ms` : "—"} />
+          <Vital label="tokens" value={brain?.tokens != null ? fmtTokens(brain.tokens) : "—"} />
+          <Vital label="cost (est)" value={brain?.costUSD != null && brain.costUSD > 0 ? `~$${brain.costUSD.toFixed(2)}` : "—"} />
+        </div>
+        <div className="mt-3 flex items-center gap-2 text-xs text-neutral-500">
+          <span className={`w-2 h-2 rounded-full ${statusMeta[0]}`} />
+          <span>{statusMeta[1]}</span>
+          <span className="ml-auto tabular-nums">{latency != null ? `${latency} ms` : "— ms"}</span>
         </div>
         <div className="mt-3 grid sm:grid-cols-2 gap-3">
           <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4">
@@ -321,9 +340,17 @@ export default function Dashboard() {
         {/* ---- Terminals ---- */}
         <div className="mt-8 flex items-center gap-3">
           <p className="kicker">// terminals</p>
-          <span className="text-xs text-neutral-500">
-            {brainRunning ? brain?.status : (brain?.isRunning && !termiOnline ? "Termi offline" : "brain idle")}
+          <span className="text-xs text-neutral-500 truncate max-w-[50%]">
+            {brainRunning ? (brain?.summary || brain?.status) : (brain?.isRunning && !termiOnline ? "Termi offline" : "brain idle")}
           </span>
+          <button
+            onClick={spawnTerminal}
+            disabled={status !== "on" || (brain?.terminals.length ?? 0) >= 4}
+            title={(brain?.terminals.length ?? 0) >= 4 ? "At the 4-terminal cap" : "Ask the brain to spin up a new supervised terminal"}
+            className="ml-auto rounded-lg border border-[--color-line-2] hover:border-[--color-coral] hover:text-[--color-coral] disabled:opacity-40 disabled:cursor-not-allowed px-3 py-1.5 text-xs font-medium text-[--color-fg] transition"
+          >
+            + Terminal
+          </button>
         </div>
 
         {(brain?.terminals?.length ?? 0) === 0 ? (
@@ -340,6 +367,9 @@ export default function Dashboard() {
                   <span className="font-semibold font-mono text-sm truncate">{t.title}</span>
                   {t.blocker && <span className="text-red-400 text-xs ml-auto">blocked</span>}
                   {t.complete && !t.blocker && <span className="text-green-400 text-xs ml-auto">done</span>}
+                  {!t.blocker && !t.complete && t.tokens != null && t.tokens > 0 && (
+                    <span className="text-neutral-500 text-xs ml-auto tabular-nums">{fmtTokens(t.tokens)} tok</span>
+                  )}
                 </div>
                 {t.instruction && <p className="text-xs text-neutral-500">{t.instruction}</p>}
                 <p className="text-xs text-neutral-300 leading-relaxed">{t.progress}</p>
@@ -442,6 +472,13 @@ export default function Dashboard() {
       </main>
     </div>
   );
+}
+
+/** Compact token count: 1234 → "1.2k", 2_500_000 → "2.5M". */
+function fmtTokens(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
+  return String(n);
 }
 
 /** One vitals stat tile. */

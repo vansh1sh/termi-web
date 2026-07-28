@@ -16,8 +16,11 @@ export const demoPresence: Presence = {
 export const demoBrain: BrainStatus = {
   type: "brain_status",
   status: "Driving 4 agents — building the 3D coffee app end to end.",
+  summary: "3D coffee app: storefront + cart done, scene + content wrapping up. 2/4 terminals complete.",
   isRunning: true,
   pass: 7,
+  tokens: 128_400,
+  costUSD: 1.93,
   terminals: [
     {
       title: "term-1 · web frontend",
@@ -25,6 +28,7 @@ export const demoBrain: BrainStatus = {
       instruction: "Build the storefront UI (menu, product, cart drawer).",
       complete: false,
       blocker: undefined,
+      tokens: 41_200,
       tests: [
         { name: "vite build", passed: true },
         { name: "renders menu", passed: true },
@@ -36,6 +40,7 @@ export const demoBrain: BrainStatus = {
       instruction: "Own cart/checkout state and mock checkout.",
       complete: true,
       blocker: undefined,
+      tokens: 28_900,
       tests: [
         { name: "cart.test.js", passed: true },
         { name: "store.test.js", passed: true },
@@ -47,6 +52,7 @@ export const demoBrain: BrainStatus = {
       instruction: "Own the WebGL scene (#scene) and scroll interaction.",
       complete: false,
       blocker: undefined,
+      tokens: 39_500,
       tests: [{ name: "scene mounts", passed: true }],
     },
     {
@@ -55,6 +61,7 @@ export const demoBrain: BrainStatus = {
       instruction: "Author all site data (no code).",
       complete: true,
       blocker: undefined,
+      tokens: 18_800,
       tests: [],
     },
   ],

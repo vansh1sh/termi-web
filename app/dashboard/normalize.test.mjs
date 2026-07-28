@@ -73,3 +73,22 @@ test("presence: coerces and clamps", () => {
   assert.equal(p.provider, "brain"); // null falls back
   assert.equal(p.at, 1000);
 });
+
+test("brain: parses tokens/cost/summary and per-terminal tokens", () => {
+  const b = normalizeBrainStatus({
+    status: "working", terminals: [{ title: "t1", progress: "p", tokens: "1200" }],
+    tokens: "5000", costUSD: 0.12, summary: "halfway there",
+  });
+  assert.equal(b.tokens, 5000);
+  assert.equal(b.costUSD, 0.12);
+  assert.equal(b.summary, "halfway there");
+  assert.equal(b.terminals[0].tokens, 1200);
+});
+
+test("brain: omits token/cost fields when absent or invalid", () => {
+  const b = normalizeBrainStatus({ status: "x", terminals: [{ title: "t", progress: "p" }], tokens: "nope", costUSD: -3 });
+  assert.equal(b.tokens, undefined);
+  assert.equal(b.costUSD, undefined); // negative rejected
+  assert.equal(b.summary, undefined);
+  assert.equal(b.terminals[0].tokens, undefined);
+});
