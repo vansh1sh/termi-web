@@ -19,5 +19,14 @@ const nextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  // The sample output (the Kafene coffee app Termi's agents built) is a static
+  // Vite build living in public/sample/. Redirect (not rewrite) the clean /sample
+  // URL to the real index.html so the app's relative fetch("./content.json")
+  // resolves inside /sample/ instead of the site root.
+  async redirects() {
+    return [
+      { source: "/sample", destination: "/sample/index.html", permanent: false },
+    ];
+  },
 };
 module.exports = nextConfig;

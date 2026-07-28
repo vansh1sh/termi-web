@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kafene</title>
+
+  <!-- T2 (storefront) fonts + styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /*
+     * The Three.js canvas is fixed to the viewport and sits UNDERNEATH
+     * everything (z-index: 0). T1 (this terminal) owns #scene.
+     */
+    #scene {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: 0;
+      /*
+       * pointer-events: auto so OrbitControls can drag-rotate on empty backdrop.
+       * OrbitControls runs with enableZoom=false / enablePan=false, so the mouse
+       * wheel is NOT captured and page scroll still works. #content sits above at
+       * z-index 1 and keeps its own clicks (product cards, etc.).
+       */
+      pointer-events: auto;
+    }
+
+    /*
+     * The scrollable content layer sits ABOVE the canvas (z-index: 1).
+     * T2 (storefront UI) renders product cards into #content.
+     * It is transparent so the WebGL scene shows through.
+     */
+    #content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100%;
+      /* transparent background so the canvas shows through */
+    }
+
+    /* Mount point for the storefront UI (T2). */
+    #storefront {
+      width: 100%;
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" crossorigin src="/sample/assets/index-BrMiAt6O.js"></script>
+  <link rel="stylesheet" crossorigin href="/sample/assets/index-BSNFcPN4.css">
+</head>
+<body>
+  <!-- T1 (this terminal): Three.js WebGLRenderer mounts here -->
+  <canvas id="scene"></canvas>
+
+  <!-- Scrollable content layer above the canvas -->
+  <div id="content">
+    <!-- T2 (storefront UI): product cards render here -->
+    <div id="storefront"></div>
+  </div>
+
+  <!-- Import map so sibling terminals can `import ... from "three"` (T1 owns this) -->
+
+
+  <!-- T1's Three.js scene -->
+
+  <!-- T2's storefront UI (mounts into #storefront) -->
+</body>
+</html>

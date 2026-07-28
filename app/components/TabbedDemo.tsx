@@ -90,6 +90,22 @@ export default function TabbedDemo() {
       <figcaption className="mt-4 text-center font-mono text-xs text-[--color-faint]">
         {tab.caption}
       </figcaption>
+
+      {/* The real thing: the Kafene app the agents built, served from /sample. */}
+      <div className="mt-6 text-center">
+        <a
+          href="/sample"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[--color-line-2] glass text-sm font-medium text-[--color-fg] hover:border-[--color-coral] hover:text-[--color-coral] transition"
+        >
+          See sample output
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+        <p className="mt-2 font-mono text-[11px] text-[--color-faint]">
+          the actual coffee app the agents built — live, not a mock
+        </p>
+      </div>
     </figure>
   );
 }
