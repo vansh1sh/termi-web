@@ -23,3 +23,11 @@ test("rejects unparseable values", () => {
   assert.equal(safeDownloadUrl("not a url"), DEFAULT_DMG_URL);
   assert.equal(safeDownloadUrl("://missing-scheme"), DEFAULT_DMG_URL);
 });
+
+test("accepts root-relative paths (same-origin assets)", () => {
+  assert.equal(safeDownloadUrl("/downloads/Termi.dmg"), "/downloads/Termi.dmg");
+});
+
+test("rejects protocol-relative URLs (external in disguise)", () => {
+  assert.equal(safeDownloadUrl("//evil.com/Termi.dmg"), DEFAULT_DMG_URL);
+});

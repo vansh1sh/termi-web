@@ -73,12 +73,13 @@ export default function DemoPage() {
         {/* CTA */}
         <section className="text-center py-8">
           <p className="text-[--color-muted] text-sm mb-4">One goal. The brain handles the rest.</p>
-          <Link
-            href="/#content"
+          <a
+            href="/downloads/Termi.dmg"
+            download="Termi.dmg"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[--color-coral] text-white font-medium text-sm hover:opacity-90 transition"
           >
             Download Termi
-          </Link>
+          </a>
         </section>
       </main>
     </div>

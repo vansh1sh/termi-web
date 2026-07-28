@@ -3,13 +3,17 @@
 import { safeDownloadUrl } from "./safeDownloadUrl";
 
 const DMG_URL = safeDownloadUrl(process.env.NEXT_PUBLIC_DMG_URL);
+// Same-origin file → use the download attribute so the browser saves it
+// directly. External URL (releases page / CDN) → open in a new tab instead.
+const IS_LOCAL_FILE = DMG_URL.startsWith("/");
 
 export default function DownloadButton({ large = false, fancy = false }: { large?: boolean; fancy?: boolean }) {
   return (
     <a
       href={DMG_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(IS_LOCAL_FILE
+        ? { download: "Termi.dmg" }
+        : { target: "_blank", rel: "noopener noreferrer" })}
       aria-label="Download Termi for Mac (Apple Silicon, .dmg)"
       className={`group relative inline-flex items-center justify-center gap-3 rounded-xl bg-[--color-coral] hover:bg-[--color-coral-600] font-semibold text-white overflow-hidden ring-1 ring-white/20 border border-[--color-coral-600] transition-transform hover:scale-[1.02] active:scale-95 ${fancy ? "btn-download shadow-[0_18px_48px_-12px_rgba(240,118,74,0.75)]" : ""} ${large ? "px-9 py-5 text-lg" : "px-5 py-2.5 text-sm"}`}
     >

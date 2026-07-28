@@ -41,7 +41,7 @@ function Nav() {
         <div className="flex items-center gap-5 sm:gap-7 text-sm text-[--color-muted]">
           <NavLinks />
           <Link href="/login" className="hover:text-[--color-fg] transition">Sign in</Link>
-          <a href="#content" className="hidden sm:inline-flex items-center gap-1.5 text-[--color-fg] hover:text-[--color-coral] transition font-medium">
+          <a href="/downloads/Termi.dmg" download="Termi.dmg" className="hidden sm:inline-flex items-center gap-1.5 text-[--color-fg] hover:text-[--color-coral] transition font-medium">
             Download
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V3M7 10l5 5 5-5M4 21h16"/></svg>
           </a>
