@@ -6,7 +6,7 @@ const QA = [
   { q: "Does it run my code anywhere but my Mac?", a: "No. Every terminal and the brain run locally on your machine. The web console only mirrors status and relays the instructions you send. Nothing executes in the cloud." },
   { q: "What can the brain actually do on its own?", a: "It plans a goal into steps, drives one or many terminals, and verifies with real checks (building, running your test suite, curling a dev server, or booting a simulator) before it calls the work done." },
   { q: "Can I take over mid-run?", a: "Anytime. Start typing in any terminal and the brain preemptively pauses that one until you're finished, then resumes from where you left it." },
-  { q: "What are the requirements?", a: "macOS 14 or later on Apple Silicon. Sign in once to enable the web console for remote monitoring." },
+  { q: "What do I need to get started?", a: "A Mac and an AI CLI you already use (Claude Code, Codex, or Gemini). Sign in once to enable the web console for remote monitoring." },
 ];
 
 // Structured data so search engines can surface the Q&A as rich results.

@@ -55,7 +55,7 @@ const appJsonLd = {
   "@type": "SoftwareApplication",
   name: "Termi",
   applicationCategory: "DeveloperApplication",
-  operatingSystem: "macOS 14+",
+  operatingSystem: "macOS",
   description,
   url: SITE_URL_OBJECT.href,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -14,7 +14,7 @@ export default function DownloadButton({ large = false, fancy = false }: { large
       {...(IS_LOCAL_FILE
         ? { download: "Termi.dmg" }
         : { target: "_blank", rel: "noopener noreferrer" })}
-      aria-label="Download Termi for Mac (Apple Silicon, .dmg)"
+      aria-label="Download Termi for Mac (.dmg)"
       className={`group relative inline-flex items-center justify-center gap-3 rounded-xl bg-[--color-coral] hover:bg-[--color-coral-600] font-semibold text-white overflow-hidden ring-1 ring-white/20 border border-[--color-coral-600] transition-transform hover:scale-[1.02] active:scale-95 ${fancy ? "btn-download shadow-[0_18px_48px_-12px_rgba(240,118,74,0.75)]" : ""} ${large ? "px-9 py-5 text-lg" : "px-5 py-2.5 text-sm"}`}
     >
       <svg width={large ? 22 : 16} height={large ? 22 : 16} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
