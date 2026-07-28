@@ -1,32 +1,70 @@
 /**
- * Termi logo mark: a rounded "synapse" tile — a terminal prompt chevron that
- * fires into a glowing node (the caret becomes a neuron). Fuses the two ideas
- * the product is about: a terminal + a brain.
+ * Termi logo mark: a white line-art brain on a dark rounded tile — the product
+ * IS the brain above your terminals. A faint coral synapse node glows in the
+ * center so the mark still carries the brand accent.
  */
-export function LogoMark({ size = 30 }: { size?: number }) {
+export function BrainGlyph({
+  size = 22,
+  stroke = "white",
+  strokeWidth = 1.9,
+}: {
+  size?: number;
+  stroke?: string;
+  strokeWidth?: number;
+}) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden>
-      <defs>
-        <linearGradient id="tm-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#f7935f" />
-          <stop offset="1" stopColor="#db5c30" />
-        </linearGradient>
-        <radialGradient id="tm-node" cx="50%" cy="50%" r="50%">
-          <stop offset="0" stopColor="#fff" />
-          <stop offset="1" stopColor="#ffd9b8" />
-        </radialGradient>
-      </defs>
-      {/* tile */}
-      <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#tm-bg)" />
-      <rect x="1" y="1" width="38" height="38" rx="11" fill="black" opacity="0.06" />
-      {/* prompt chevron */}
-      <path d="M12 13l7 7-7 7" stroke="white" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
-      {/* synapse line into the node */}
-      <path d="M22 27h3.5" stroke="white" strokeWidth="3.4" strokeLinecap="round" opacity="0.9" />
-      {/* firing node (neuron) */}
-      <circle cx="29.5" cy="27" r="3.1" fill="url(#tm-node)" />
-      <circle cx="29.5" cy="27" r="5.4" fill="#fff" opacity="0.18" />
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      {/* two hemispheres */}
+      <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+      <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+      {/* midline fold */}
+      <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+      {/* gyri details */}
+      <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+      <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+      <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+      <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+      <path d="M6 18a4 4 0 0 1-1.967-.516" />
+      <path d="M19.967 17.484A4 4 0 0 1 18 18" />
     </svg>
+  );
+}
+
+export function LogoMark({ size = 30 }: { size?: number }) {
+  const glyph = Math.round(size * 0.62);
+  return (
+    <span
+      className="inline-flex items-center justify-center rounded-[30%] relative"
+      style={{
+        width: size,
+        height: size,
+        background: "linear-gradient(135deg, #1a1d1a, #101210)",
+        border: "1px solid var(--color-line-2)",
+        boxShadow: "0 0 18px rgba(240,118,74,0.18), inset 0 1px 0 rgba(255,255,255,0.06)",
+      }}
+      aria-hidden
+    >
+      {/* soft coral synapse glow behind the brain */}
+      <span
+        className="absolute rounded-full"
+        style={{
+          width: size * 0.5,
+          height: size * 0.5,
+          background: "radial-gradient(circle, rgba(240,118,74,0.35), transparent 70%)",
+        }}
+      />
+      <BrainGlyph size={glyph} />
+    </span>
   );
 }
 

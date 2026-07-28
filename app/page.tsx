@@ -52,7 +52,19 @@ function Nav() {
 /* ---------------- Demo: the real thing, fast-forwarded ---------------- */
 function Demo() {
   return (
-    <section id="demo" className="py-16">
+    <section id="demo" className="py-20">
+      <Reveal>
+        <div className="mx-auto max-w-5xl px-6 text-center mb-10">
+          <p className="kicker mb-3">// watch it work</p>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+            One sentence in. A working app out.
+          </h2>
+          <p className="mt-3 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base">
+            A real, uncut recording — the brain planning, driving four agents in
+            parallel, and verifying the result.
+          </p>
+        </div>
+      </Reveal>
       <Reveal>
         <TabbedDemo />
       </Reveal>
@@ -68,10 +80,16 @@ function How() {
     { n: "03", title: "The brain keeps the path", body: "Every pass it checks real output against the plan, corrects drift, and only accepts what actually works." },
   ];
   return (
-    <section id="features" className="mx-auto max-w-5xl px-6 py-16">
-      <Reveal className="grid sm:grid-cols-3 gap-4">
+    <section id="features" className="mx-auto max-w-5xl px-6 py-20">
+      <Reveal>
+        <div className="text-center mb-10">
+          <p className="kicker mb-3">// how it works</p>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">Three moves. Zero babysitting.</h2>
+        </div>
+      </Reveal>
+      <Reveal variant="stagger" className="grid sm:grid-cols-3 gap-4">
         {steps.map((s) => (
-          <div key={s.n} className="glass rounded-xl p-6">
+          <div key={s.n} className="glass card3d rounded-xl p-6">
             <div className="font-mono text-sm text-[--color-coral]">{s.n}</div>
             <h3 className="mt-3 font-semibold text-[16px] tracking-tight">{s.title}</h3>
             <p className="mt-2 text-sm text-[--color-muted] leading-relaxed">{s.body}</p>

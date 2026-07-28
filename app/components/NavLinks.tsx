@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 // Section ids to track, in document order.
 const SECTIONS = [
+  { id: "demo", label: "Demo" },
   { id: "features", label: "Features" },
   { id: "faq", label: "FAQ" },
 ];
@@ -47,8 +48,8 @@ export default function NavLinks() {
           key={s.id}
           href={`#${s.id}`}
           aria-current={active === s.id ? "true" : undefined}
-          className={`hidden sm:block transition ${
-            active === s.id ? "text-white" : "text-neutral-400 hover:text-white"
+          className={`hidden sm:block navlink transition ${
+            active === s.id ? "text-white is-active" : "text-neutral-400 hover:text-white"
           }`}
         >
           {s.label}
