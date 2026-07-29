@@ -6,6 +6,7 @@ import AmbientBackdrop from "./components/AmbientBackdrop";
 import Hero from "./components/Hero";
 import TabbedDemo from "./components/TabbedDemo";
 import ConsolePreview from "./components/ConsolePreview";
+import TradeoffChart from "./components/TradeoffChart";
 import { Logo } from "./components/Logo";
 
 export default function Landing() {
@@ -19,6 +20,7 @@ export default function Landing() {
       <main id="content">
         <Hero />
         <Demo />
+        <TradeoffChart />
         <Console />
         <How />
         <FAQ />

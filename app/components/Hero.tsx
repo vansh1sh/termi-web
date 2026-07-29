@@ -64,16 +64,19 @@ export default function Hero() {
             <h1 className="mt-5 sm:mt-6 text-[2.25rem] sm:text-[4.2rem] font-semibold tracking-[-0.03em] sm:tracking-[-0.035em] leading-[1.05] sm:leading-[0.98]">
               From zero to one.
               <br />
-              <span className="text-[--color-coral]">On the correct path.</span>
+              {/* nowrap only from sm up: on desktop it keeps the two-line balance (it would
+                  otherwise break after "execution,"), but on a phone nowrap clips "optimized."
+                  off the right edge, so small screens are allowed to wrap. */}
+              <span className="text-[--color-coral] sm:whitespace-nowrap">AI execution, optimized.</span>
             </h1>
           </Reveal>
 
           <Reveal>
             <p className="mt-6 text-lg text-[--color-muted] max-w-lg leading-relaxed">
               Agents are super helpful but they still need your supervision. Termi is the AI brain above them. It
-              defines the right path from your goal, drives your agents (Claude, Codex,
-              Gemini) down it, and course-corrects the moment one strays. Idea in, working
-              product out.
+              turns your goal into a plan, routes each piece to the agent best suited to it
+              (Claude, Codex, Gemini), and course-corrects the moment one strays. Idea in,
+              working product out.
             </p>
           </Reveal>
 
