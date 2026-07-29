@@ -6,10 +6,13 @@ import GoalPrompt from "./GoalPrompt";
 import RunTerminals from "./RunTerminals";
 import DownloadButton from "./DownloadButton";
 import GlowBrain from "./GlowBrain";
+import { usePointerFineDesktop } from "./usePointerFineDesktop";
 
 export default function Hero() {
   const [running, setRunning] = useState(false);
   const scrolledRef = useRef(false);
+  // The glow orb is a desktop-only flourish (same gate as the ambient backdrop).
+  const showOrb = usePointerFineDesktop();
 
   const run = () => {
     const next = !running;
@@ -28,6 +31,23 @@ export default function Hero() {
     }
     if (!next) scrolledRef.current = false;
   };
+
+  // The four-terminal panel — shared by the desktop flip-card back and the mobile
+  // post-run view, so the two paths can't drift apart.
+  const terminalsPanel = (
+    <div className="ticks glass-strong rounded-2xl p-4 h-full">
+      <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
+      <div className="flex items-center justify-between mb-3 px-1">
+        <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
+        <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> live
+        </span>
+      </div>
+      <div className="h-[calc(100%-2rem)]">
+        <RunTerminals active={running} />
+      </div>
+    </div>
+  );
 
   return (
     <section className="relative overflow-x-hidden">
@@ -71,32 +91,34 @@ export default function Hero() {
           </Reveal>
         </div>
 
-        {/* Right: the glowing core flips to the four terminals on run */}
-        <Reveal variant="reveal-scale">
-          <div className={`flip h-[360px] sm:h-auto sm:aspect-square w-full max-w-[520px] mx-auto ${running ? "flipped" : ""}`}>
-            <div className="flip-inner">
-              {/* front — the light / neural core */}
-              <div className="flip-face">
-                <GlowBrain />
-              </div>
-              {/* back — four parallel terminals */}
-              <div className="flip-face flip-back">
-                <div className="ticks glass-strong rounded-2xl p-4 h-full">
-                  <span className="t tl" /><span className="t tr" /><span className="t bl" /><span className="t br" />
-                  <div className="flex items-center justify-between mb-3 px-1">
-                    <span className="font-mono text-[11px] text-[--color-coral]">4 prototypes · 1 goal</span>
-                    <span className="font-mono text-[10px] text-[--color-faint] flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 pip" /> live
-                    </span>
-                  </div>
-                  <div className="h-[calc(100%-2rem)]">
-                    <RunTerminals active={running} />
-                  </div>
+        {/* Right: the glowing core flips to the four terminals on run.
+            The glow orb is DESKTOP ONLY — on a phone it stacks under the copy as an
+            unexplained floating light ball, and its canvas + pointer-tilt animation
+            costs battery for decoration. Mobile keeps the useful half: hitting run
+            still reveals the terminals. */}
+        {showOrb ? (
+          <Reveal variant="reveal-scale">
+            <div className={`flip h-[360px] sm:h-auto sm:aspect-square w-full max-w-[520px] mx-auto ${running ? "flipped" : ""}`}>
+              <div className="flip-inner">
+                {/* front — the light / neural core */}
+                <div className="flip-face">
+                  <GlowBrain />
+                </div>
+                {/* back — four parallel terminals */}
+                <div className="flip-face flip-back">
+                  {terminalsPanel}
                 </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        ) : running ? (
+          // Mobile, after run: show the terminals directly (no flip, no orb).
+          <Reveal variant="reveal-scale">
+            <div className="h-[320px] w-full max-w-[520px] mx-auto">
+              {terminalsPanel}
+            </div>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

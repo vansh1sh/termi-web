@@ -19,13 +19,18 @@ const nextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
-  // The sample output (the Kafene coffee app Termi's agents built) is a static
-  // Vite build living in public/sample/. Redirect (not rewrite) the clean /sample
-  // URL to the real index.html so the app's relative fetch("./content.json")
-  // resolves inside /sample/ instead of the site root.
-  async redirects() {
+  // The sample output (the Kafene coffee app Termi's agents built) is a static Vite
+  // build in public/sample/, built with --base=/sample/.
+  //
+  // REWRITE (not redirect) so the browser URL stays exactly "/sample": the app's
+  // router matches its home route on "/" after stripping the /sample base, so a
+  // visible "/sample/index.html" used to render its 404 ("This cup is empty").
+  // A redirect to "/sample/" is not an option — Next's default trailingSlash:false
+  // immediately strips the slash back to "/sample", causing a redirect loop.
+  // Assets resolve fine because the build uses --base=/sample/ (absolute paths).
+  async rewrites() {
     return [
-      { source: "/sample", destination: "/sample/index.html", permanent: false },
+      { source: "/sample", destination: "/sample/index.html" },
     ];
   },
 };
