@@ -2,8 +2,7 @@ import Link from "next/link";
 import Reveal from "./components/Reveal";
 import FAQ from "./components/FAQ";
 import NavLinks from "./components/NavLinks";
-import NeuralNet from "./components/NeuralNet";
-import CursorGlow from "./components/CursorGlow";
+import AmbientBackdrop from "./components/AmbientBackdrop";
 import Hero from "./components/Hero";
 import TabbedDemo from "./components/TabbedDemo";
 import ConsolePreview from "./components/ConsolePreview";
@@ -12,9 +11,8 @@ import { Logo } from "./components/Logo";
 export default function Landing() {
   return (
     <div className="min-h-screen relative">
-      {/* Living neural field + pointer glow behind everything. */}
-      <NeuralNet />
-      <CursorGlow />
+      {/* Living neural field + pointer glow — desktop only (see AmbientBackdrop). */}
+      <AmbientBackdrop />
 
       <a href="#content" className="skip-link">Skip to content</a>
       <Nav />

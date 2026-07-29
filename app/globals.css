@@ -288,6 +288,14 @@ details.faq[open] .ans { max-height:240px; opacity:1; }
 /* ---- Marquee hover pause ---- */
 .marquee-wrap:hover .marquee { animation-play-state: paused; }
 
+/* ---- Mobile: no pointer-driven ambient effects ----
+   AmbientBackdrop already skips mounting these on touch/small screens; this is a
+   belt-and-braces guard so a stray mount can't paint the network canvas or the
+   cursor glow on a phone, where there's no pointer for them to track. */
+@media (max-width: 767px), (pointer: coarse) {
+  .cursor-glow { display: none !important; }
+}
+
 /* ---- Nav link: animated coral underline slides in on hover/active ---- */
 .navlink { position: relative; padding-bottom: 2px; }
 .navlink::after {

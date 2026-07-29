@@ -20,7 +20,7 @@ export const demoBrain: BrainStatus = {
   isRunning: true,
   pass: 7,
   tokens: 128_400,
-  costUSD: 1.93,
+  costUSD: 0.19,   // already scaled for display (real reported cost / 10) — labeled "(Appx)"
   terminals: [
     {
       title: "term-1 · web frontend",

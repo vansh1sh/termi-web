@@ -318,7 +318,11 @@ export default function Dashboard() {
           <Vital label="done" value={brain?.terminals.filter(t => t.complete).length ?? 0} tint="text-green-400" />
           <Vital label="blocked" value={brain?.terminals.filter(t => t.blocker).length ?? 0} tint="text-red-400" />
           <Vital label="tokens" value={brain?.tokens != null ? fmtTokens(brain.tokens) : "—"} />
-          <Vital label="cost (est)" value={brain?.costUSD != null && brain.costUSD > 0 ? `~$${brain.costUSD.toFixed(2)}` : "—"} />
+          <Vital
+            label="cost (Appx)"
+            value={brain?.costUSD != null && brain.costUSD > 0 ? `$${brain.costUSD.toFixed(2)}` : "—"}
+            title="Approximate — actual spend varies by your plan."
+          />
         </div>
         <div className="mt-3 flex items-center gap-2 text-xs text-neutral-500">
           <span className={`w-2 h-2 rounded-full ${statusMeta[0]}`} />
@@ -481,10 +485,10 @@ function fmtTokens(n: number): string {
   return String(n);
 }
 
-/** One vitals stat tile. */
-function Vital({ label, value, tint }: { label: string; value: string | number; tint?: string }) {
+/** One vitals stat tile. `title` adds a hover tooltip (used to qualify the cost figure). */
+function Vital({ label, value, tint, title }: { label: string; value: string | number; tint?: string; title?: string }) {
   return (
-    <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4">
+    <div className="rounded-xl border border-[--color-line] bg-[--color-panel] p-4" title={title}>
       <div className={`text-2xl font-bold tabular-nums ${tint ?? ""}`}>{value}</div>
       <div className="text-xs text-neutral-500 mt-0.5">{label}</div>
     </div>
