@@ -55,7 +55,7 @@ Only the **publishable** (anon) key belongs in the client — never the secret k
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase → Project Settings → API → `anon` / publishable key |
-| `NEXT_PUBLIC_DMG_URL` *(optional)* | Direct link to the `Termi.dmg` release asset (defaults to the GitHub releases page) |
+| `NEXT_PUBLIC_DMG_URL` *(optional)* | Direct link to the `Termi.dmg` release asset (defaults to `/downloads/Termi.dmg`) |
 
 If these are unset the site still builds and serves — auth just shows an
 "Auth not configured" state instead of crashing.

@@ -5,13 +5,14 @@
 export const DEFAULT_DMG_URL = "/downloads/Termi.dmg";
 
 // Only accept a configured URL if it's a valid http(s) link or a root-relative
-// path — a typo or an unsafe scheme (javascript:, data:, …) must never reach
+// path. A typo or an unsafe scheme (javascript:, data:, ...) must never reach
 // the rendered href.
 export function safeDownloadUrl(raw: string | undefined): string {
   if (!raw) return DEFAULT_DMG_URL;
-  // Root-relative path (same-origin asset). "//host/…" is protocol-relative —
-  // an external URL in disguise — so it must NOT match here.
+  // Root-relative path (same-origin asset). "//host/..." is protocol-relative,
+  // an external URL in disguise, so it must not match here.
   if (raw.startsWith("/") && !raw.startsWith("//")) return raw;
+
   try {
     const u = new URL(raw);
     return u.protocol === "http:" || u.protocol === "https:" ? u.href : DEFAULT_DMG_URL;
