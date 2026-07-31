@@ -21,10 +21,10 @@
   --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
-html { scroll-behavior: smooth; background: var(--color-ink); overflow-x: hidden; }
+html { scroll-behavior: smooth; background: var(--color-ink); overflow-x: clip; }
 /* body is transparent so the fixed neural-net canvas (-z-10) shows through;
    the base color lives on <html>. */
-body { background: transparent; color: var(--color-fg); overflow-x: hidden; width: 100%; max-width: 100%; }
+body { background: transparent; color: var(--color-fg); overflow-x: clip; width: 100%; max-width: 100%; }
 ::selection { background: #f0764a33; color: #fff; }
 
 /* ============================================================
@@ -75,6 +75,44 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; widt
   backdrop-filter: blur(22px) saturate(130%);
   -webkit-backdrop-filter: blur(22px) saturate(130%);
   border: 1px solid var(--color-line-2);
+}
+
+/* ---- Sticky header: full-width at rest, compact floating rail after scroll ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: 100%;
+  margin-inline: auto;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-panel) 55%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid transparent;
+  border-bottom-color: color-mix(in srgb, var(--color-line-2) 80%, transparent);
+  transition:
+    top .4s cubic-bezier(.2,.75,.2,1),
+    width .4s cubic-bezier(.2,.75,.2,1),
+    border-radius .4s cubic-bezier(.2,.75,.2,1),
+    border-color .3s ease,
+    background-color .3s ease,
+    box-shadow .4s ease;
+}
+.site-header--compact {
+  top: 10px;
+  width: min(calc(100% - 32px), 68rem);
+  border-radius: 12px;
+  border-color: color-mix(in srgb, var(--color-line-2) 88%, transparent);
+  background: color-mix(in srgb, var(--color-panel) 82%, transparent);
+  box-shadow: 0 12px 34px rgba(0,0,0,.28), 0 0 0 1px rgba(255,255,255,.025);
+}
+.site-nav {
+  height: 64px;
+  transition: height .4s cubic-bezier(.2,.75,.2,1), max-width .4s cubic-bezier(.2,.75,.2,1);
+}
+.site-header--compact .site-nav {
+  height: 52px;
+  max-width: 64rem;
 }
 
 /* ---- 3D tilt-on-hover for glass cards ---- */
@@ -142,6 +180,7 @@ body { background: transparent; color: var(--color-fg); overflow-x: hidden; widt
   .btn-download::after { animation: none; display: none; }
   .zoom-layer { transition: opacity .2s ease; }
   .zoom-brain-out { transform: none; filter: none; }
+  .site-header, .site-nav { transition-duration: .01ms; }
 }
 
 /* ---- Keyboard focus: a visible coral ring on any interactive element
@@ -294,6 +333,15 @@ details.faq[open] .ans { max-height:240px; opacity:1; }
    cursor glow on a phone, where there's no pointer for them to track. */
 @media (max-width: 767px), (pointer: coarse) {
   .cursor-glow { display: none !important; }
+}
+
+@media (max-width: 639px) {
+  .site-header--compact {
+    top: 6px;
+    width: calc(100% - 12px);
+    border-radius: 10px;
+  }
+  .site-header--compact .site-nav { height: 54px; }
 }
 
 /* ---- Nav link: animated coral underline slides in on hover/active ---- */

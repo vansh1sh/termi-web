@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Reveal from "./components/Reveal";
 import FAQ from "./components/FAQ";
-import NavLinks from "./components/NavLinks";
 import AmbientBackdrop from "./components/AmbientBackdrop";
 import Hero from "./components/Hero";
 import TabbedDemo from "./components/TabbedDemo";
 import ConsolePreview from "./components/ConsolePreview";
 import TradeoffChart from "./components/TradeoffChart";
 import { Logo } from "./components/Logo";
+import SiteHeader from "./components/SiteHeader";
 
 export default function Landing() {
   return (
@@ -16,7 +16,7 @@ export default function Landing() {
       <AmbientBackdrop />
 
       <a href="#content" className="skip-link">Skip to content</a>
-      <Nav />
+      <SiteHeader />
       <main id="content">
         <Hero />
         <Demo />
@@ -27,32 +27,6 @@ export default function Landing() {
       </main>
       <Footer />
     </div>
-  );
-}
-
-/* ---------------- Nav ---------------- */
-function Nav() {
-  return (
-    <header className="sticky top-0 z-30 glass border-x-0 border-t-0">
-      <nav className="mx-auto max-w-6xl flex items-center justify-between px-5 sm:px-6 h-16">
-        <Link href="/" aria-label="Termi home">
-          <Logo size={28} />
-        </Link>
-        <div className="flex items-center gap-4 sm:gap-7 text-sm text-[--color-muted]">
-          <NavLinks />
-          <Link href="/login" className="hover:text-[--color-fg] transition">Sign in</Link>
-          {/* Primary CTA — always visible; a compact coral pill on phones, text+icon on sm+ */}
-          <a
-            href="/downloads/Termi.dmg"
-            download="Termi.dmg"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[--color-coral] px-3 py-1.5 font-medium text-white transition hover:bg-[--color-coral-600] sm:rounded-none sm:bg-transparent sm:px-0 sm:py-0 sm:text-[--color-fg] sm:hover:bg-transparent sm:hover:text-[--color-coral]"
-          >
-            Download
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V3M7 10l5 5 5-5M4 21h16"/></svg>
-          </a>
-        </div>
-      </nav>
-    </header>
   );
 }
 
