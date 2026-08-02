@@ -76,7 +76,7 @@ export default function Hero() {
               Agents are super helpful but they still need your supervision. Termi is the AI brain above them. It
               turns your goal into a plan, routes each piece to the agent best suited to it
               (Claude, Codex, Gemini), and course-corrects the moment one strays. Idea in,
-              working product out.
+              completed task out.
             </p>
           </Reveal>
 

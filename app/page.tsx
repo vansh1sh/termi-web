@@ -38,7 +38,7 @@ function Demo() {
         <div className="mx-auto max-w-5xl px-5 sm:px-6 text-center mb-8 sm:mb-10">
           <p className="kicker mb-3">// watch it work</p>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-            One sentence in. A working app out.
+            One sentence in. A completed task out.
           </h2>
           <p className="mt-3 text-[--color-muted] max-w-xl mx-auto text-sm sm:text-base">
             Watch the brain plan, drive four agents in parallel, and verify the result.
