@@ -4,13 +4,22 @@
 
 export type BrainTest = { name: string; passed: boolean };
 export type BrainTerminal = {
+  id?: string;
   title: string;
   progress: string;
   instruction?: string;
+  model?: string;
+  supervising?: boolean;
   complete?: boolean;
   blocker?: string;
   tests?: BrainTest[];
   tokens?: number;
+};
+export type BrainActivity = {
+  feature: string;
+  headline: string;
+  state: "running" | "ok" | "failed";
+  startedAt: number;
 };
 export type BrainStatus = {
   type: "brain_status";
@@ -21,6 +30,9 @@ export type BrainStatus = {
   tokens?: number;   // total live tokens across attached terminals
   costUSD?: number;  // rough estimate derived from tokens (labeled ~ in the UI)
   summary?: string;  // richer peek summary when the brain has one
+  invokes?: number;
+  runningCalls: number;
+  activity: BrainActivity[];
 };
 export type Presence = {
   terminalCount: number;
@@ -28,7 +40,14 @@ export type Presence = {
   cwd: string;
   afkRunning: boolean;
   provider: string;
+  taskPhase: "idle" | "preparing" | "running";
   at: number;
+};
+export type ControlResult = {
+  requestId: string;
+  action: string;
+  ok: boolean;
+  message: string;
 };
 
 const isObj = (v: unknown): v is Record<string, unknown> =>
@@ -66,7 +85,10 @@ function normalizeTerminal(v: unknown): BrainTerminal | null {
     title: clamp(str(v.title, "terminal")),
     progress: clamp(str(v.progress)),
   };
+  if (v.id != null && str(v.id)) t.id = clamp(str(v.id));
   if (v.instruction != null) t.instruction = clamp(str(v.instruction));
+  if (v.model != null && str(v.model)) t.model = clamp(str(v.model));
+  if (v.supervising != null) t.supervising = bool(v.supervising);
   if (v.blocker != null && str(v.blocker)) t.blocker = clamp(str(v.blocker));
   if (v.complete != null) t.complete = bool(v.complete);
   const tests = normalizeTests(v.tests);
@@ -81,6 +103,21 @@ const num = (v: unknown): number | undefined => {
   return Number.isFinite(n) && n >= 0 ? n : undefined;
 };
 
+const MAX_ACTIVITY = 12;
+
+function normalizeActivity(v: unknown): BrainActivity[] {
+  if (!Array.isArray(v)) return [];
+  return v.slice(0, MAX_ACTIVITY).filter(isObj).map((item) => {
+    const state = item.state === "running" || item.state === "failed" ? item.state : "ok";
+    return {
+      feature: clamp(str(item.feature, "Brain")),
+      headline: clamp(str(item.headline, "Working")),
+      state,
+      startedAt: Math.max(0, int(item.startedAt)),
+    };
+  });
+}
+
 /** Returns a safe BrainStatus, or null if the payload isn't usable. */
 export function normalizeBrainStatus(p: unknown): BrainStatus | null {
   if (!isObj(p)) return null;
@@ -93,12 +130,16 @@ export function normalizeBrainStatus(p: unknown): BrainStatus | null {
     isRunning: bool(p.isRunning),
     pass: int(p.pass),
     terminals,
+    runningCalls: Math.max(0, int(p.runningCalls)),
+    activity: normalizeActivity(p.activity),
   };
   const tokens = num(p.tokens);
   if (tokens != null) b.tokens = Math.trunc(tokens);
   const cost = num(p.costUSD);
   if (cost != null) b.costUSD = cost;
   if (p.summary != null && str(p.summary)) b.summary = clamp(str(p.summary));
+  const invokes = num(p.invokes);
+  if (invokes != null) b.invokes = Math.trunc(invokes);
   return b;
 }
 
@@ -111,6 +152,24 @@ export function normalizePresence(p: unknown, at: number): Presence | null {
     cwd: clamp(str(p.cwd)),
     afkRunning: bool(p.afkRunning),
     provider: clamp(str(p.provider, "brain")),
+    taskPhase: p.taskPhase === "preparing" || p.taskPhase === "running"
+      ? p.taskPhase
+      : bool(p.afkRunning) ? "running" : "idle",
     at,
+  };
+}
+
+/** Returns a safe acknowledgement for a control request, or null when it cannot be matched. */
+export function normalizeControlResult(p: unknown): ControlResult | null {
+  if (!isObj(p)) return null;
+  const requestId = clamp(str(p.requestId)).slice(0, 120);
+  const action = clamp(str(p.action)).slice(0, 80);
+  if (!requestId || !action) return null;
+  const ok = bool(p.ok);
+  return {
+    requestId,
+    action,
+    ok,
+    message: clamp(str(p.message, ok ? "Accepted." : "Request rejected.")),
   };
 }

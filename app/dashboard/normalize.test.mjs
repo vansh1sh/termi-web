@@ -5,7 +5,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 const mod = await import(process.env.NORMALIZE_PATH || "./normalize.js");
-const { normalizeBrainStatus, normalizePresence } = mod;
+const { normalizeBrainStatus, normalizePresence, normalizeControlResult } = mod;
 
 test("brain: rejects non-objects", () => {
   for (const bad of [null, undefined, "x", 5, [1, 2, 3], true]) {
@@ -74,6 +74,11 @@ test("presence: coerces and clamps", () => {
   assert.equal(p.at, 1000);
 });
 
+test("presence: older running payloads infer task phase from afkRunning", () => {
+  const result = normalizePresence({ afkRunning: true }, 123);
+  assert.equal(result.taskPhase, "running");
+});
+
 test("brain: parses tokens/cost/summary and per-terminal tokens", () => {
   const b = normalizeBrainStatus({
     status: "working", terminals: [{ title: "t1", progress: "p", tokens: "1200" }],
@@ -91,4 +96,55 @@ test("brain: omits token/cost fields when absent or invalid", () => {
   assert.equal(b.costUSD, undefined); // negative rejected
   assert.equal(b.summary, undefined);
   assert.equal(b.terminals[0].tokens, undefined);
+});
+
+test("brain: parses and bounds live activity", () => {
+  const activity = Array.from({ length: 40 }, (_, i) => ({
+    feature: i === 0 ? "AFK" : `feature-${i}`,
+    headline: i === 0 ? "Reviewing terminal progress" : "working",
+    state: i === 0 ? "running" : i === 1 ? "failed" : "ok",
+    startedAt: String(1000 + i),
+  }));
+  const b = normalizeBrainStatus({ terminals: [], runningCalls: "2", activity });
+  assert.equal(b.runningCalls, 2);
+  assert.equal(b.activity.length, 12);
+  assert.deepEqual(b.activity[0], {
+    feature: "AFK",
+    headline: "Reviewing terminal progress",
+    state: "running",
+    startedAt: 1000,
+  });
+  assert.equal(b.activity[1].state, "failed");
+});
+
+test("brain: coerces unknown activity state to ok", () => {
+  const b = normalizeBrainStatus({ terminals: [], activity: [{ state: "mystery" }] });
+  assert.equal(b.activity[0].state, "ok");
+});
+
+test("control result: validates acknowledgement payloads", () => {
+  assert.deepEqual(normalizeControlResult({
+    type: "control_result",
+    requestId: "req-123",
+    action: "task_start",
+    ok: true,
+    message: "Planning your task.",
+  }), {
+    requestId: "req-123",
+    action: "task_start",
+    ok: true,
+    message: "Planning your task.",
+  });
+  assert.equal(normalizeControlResult(null), null);
+  assert.equal(normalizeControlResult({ requestId: "", action: "task_start" }), null);
+});
+
+test("control result: rejected string values use rejected fallback copy", () => {
+  const result = normalizeControlResult({ requestId: "req-1", action: "task_start", ok: "false" });
+  assert.deepEqual(result, {
+    requestId: "req-1",
+    action: "task_start",
+    ok: false,
+    message: "Request rejected.",
+  });
 });

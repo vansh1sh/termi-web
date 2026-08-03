@@ -10,6 +10,7 @@ export const demoPresence: Presence = {
   cwd: "~/kafene",
   afkRunning: true,
   provider: "brain",
+  taskPhase: "running",
   at: Date.now(),
 };
 
@@ -21,12 +22,23 @@ export const demoBrain: BrainStatus = {
   pass: 7,
   tokens: 128_400,
   costUSD: 0.19,   // already scaled for display (real reported cost / 10) — labeled "(Appx)"
+  invokes: 34,
+  runningCalls: 2,
+  activity: [
+    { feature: "AFK", headline: "Reviewing storefront and checkout progress", state: "running", startedAt: Date.now() - 8_000 },
+    { feature: "AFK", headline: "All cart and checkout checks passed", state: "ok", startedAt: Date.now() - 48_000 },
+    { feature: "Goal", headline: "Routed content data to the frontend terminal", state: "ok", startedAt: Date.now() - 92_000 },
+    { feature: "AFK", headline: "3D scene still needs camera easing", state: "ok", startedAt: Date.now() - 145_000 },
+  ],
   terminals: [
     {
+      id: "demo-terminal-1",
       title: "term-1 · web frontend",
       progress: "Wired the menu grid + product detail to the cart store.",
       instruction: "Build the storefront UI (menu, product, cart drawer).",
       complete: false,
+      supervising: true,
+      model: "Claude Opus",
       blocker: undefined,
       tokens: 41_200,
       tests: [
@@ -35,10 +47,12 @@ export const demoBrain: BrainStatus = {
       ],
     },
     {
+      id: "demo-terminal-2",
       title: "term-2 · logic",
       progress: "Zustand cart store + checkout totals done; free-shipping rule wired.",
       instruction: "Own cart/checkout state and mock checkout.",
       complete: true,
+      model: "GPT-5 Codex",
       blocker: undefined,
       tokens: 28_900,
       tests: [
@@ -47,19 +61,23 @@ export const demoBrain: BrainStatus = {
       ],
     },
     {
+      id: "demo-terminal-3",
       title: "term-3 · 3D scene",
       progress: "Three.js scroll animation running; tuning camera easing.",
       instruction: "Own the WebGL scene (#scene) and scroll interaction.",
       complete: false,
+      model: "Gemini Pro",
       blocker: undefined,
       tokens: 39_500,
       tests: [{ name: "scene mounts", passed: true }],
     },
     {
+      id: "demo-terminal-4",
       title: "term-4 · content",
       progress: "content.json authored — brand copy, 8 products, checkout strings.",
       instruction: "Author all site data (no code).",
       complete: true,
+      model: "Claude Sonnet",
       blocker: undefined,
       tokens: 18_800,
       tests: [],
