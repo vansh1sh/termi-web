@@ -56,19 +56,17 @@ Only the **publishable** (anon) key belongs in the client — never the secret k
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase → Project Settings → API → `anon` / publishable key |
 | `NEXT_PUBLIC_DMG_URL` *(optional)* | Direct link to the `Termi.dmg` release asset (defaults to `/downloads/Termi.dmg`) |
-| `DEMO_REQUEST_WEBHOOK_URL` *(optional)* | HTTPS endpoint that receives validated enterprise demo requests |
-| `DEMO_REQUEST_WEBHOOK_SECRET` *(optional)* | Bearer token sent only from the server to the demo webhook |
-| `RESEND_API_KEY` *(optional)* | Alternative server-side email delivery for demo requests |
-| `DEMO_REQUEST_RECIPIENT` *(optional)* | Inbox for demo requests; defaults to the Termi team inbox |
-| `DEMO_REQUEST_FROM` *(optional)* | Verified sender used by Resend |
-| `NEXT_PUBLIC_DEMO_EMAIL` *(optional)* | Address used by the honest email fallback |
+| `SUPABASE_SECRET_KEY` | Server-only Supabase secret key used to save enterprise demo requests |
+| `SUPABASE_SERVICE_ROLE_KEY` *(legacy alternative)* | Legacy server-only service-role key; use only when a secret key is unavailable |
 
-If these are unset the site still builds and serves — auth just shows an
-"Auth not configured" state instead of crashing.
+If the public variables are unset, the site still builds and serves; auth shows an
+"Auth not configured" state. If the server secret is unset, demo booking returns a
+temporary-unavailable error and does not pretend the request was saved.
 
-The demo endpoint includes a small per-instance rate limit. Production deployments
-should also enable an edge-level rate limit in Vercel Firewall (or the equivalent
-trusted proxy) before using email or webhook delivery at high volume.
+Demo requests are stored in the RLS-protected `demo_requests` table. The browser has
+no direct table access; only the server API can insert records using the secret key.
+The endpoint includes a small per-instance rate limit. Production deployments should
+also enable an edge-level rate limit in Vercel Firewall (or the equivalent trusted proxy).
 
 ### Supabase configuration
 
@@ -99,6 +97,7 @@ can never crash the dashboard. Presence older than 20s is treated as stale (Term
 ## Deploy (Vercel)
 
 1. Import the repo; framework preset **Next.js**.
-2. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (and
-   optionally `NEXT_PUBLIC_DMG_URL`) in Project → Settings → Environment Variables.
+2. Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and
+   `SUPABASE_SECRET_KEY` (plus optional `NEXT_PUBLIC_DMG_URL`) in Project → Settings
+   → Environment Variables. Mark the secret key as sensitive and server-only.
 3. Add the deployed URL's `/auth/callback` to Supabase redirect URLs.

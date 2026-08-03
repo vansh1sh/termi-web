@@ -4,22 +4,9 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type FormState = { email: string; phone: string; details: string; companyWebsite: string };
-type SubmitState = "idle" | "submitting" | "sent" | "email-fallback";
+type SubmitState = "idle" | "submitting" | "sent";
 
 const INITIAL_FORM: FormState = { email: "", phone: "", details: "", companyWebsite: "" };
-const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL || "vanshbadkul@gmail.com";
-
-function mailtoFor(form: FormState): string {
-  const subject = "Termi enterprise demo request";
-  const body = [
-    `Email: ${form.email.trim()}`,
-    `Phone: ${form.phone.trim() || "Not provided"}`,
-    "",
-    "Details:",
-    form.details.trim() || "No additional details",
-  ].join("\n");
-  return `mailto:${DEMO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
 
 export default function BookDemo() {
   const [mounted, setMounted] = useState(false);
@@ -92,23 +79,18 @@ export default function BookDemo() {
         body: JSON.stringify(form),
         signal: controller.signal,
       });
-      const result = await response.json() as { ok?: boolean; error?: string; emailFallback?: boolean };
+      const result = await response.json() as { ok?: boolean; error?: string };
       if (controller.signal.aborted || requestRef.current !== controller) return;
       if (response.ok && result.ok) {
         setSubmitState("sent");
-        return;
-      }
-      if (result.emailFallback) {
-        setSubmitState("email-fallback");
-        window.location.href = mailtoFor(form);
         return;
       }
       setSubmitState("idle");
       setError(result.error || "Unable to send your request. Please try again.");
     } catch {
       if (controller.signal.aborted || requestRef.current !== controller) return;
-      setSubmitState("email-fallback");
-      window.location.href = mailtoFor(form);
+      setSubmitState("idle");
+      setError("Unable to save your request. Please try again.");
     } finally {
       if (requestRef.current === controller) requestRef.current = null;
     }
@@ -118,6 +100,7 @@ export default function BookDemo() {
     requestRef.current?.abort();
     requestRef.current = null;
     setOpen(false);
+    setForm(INITIAL_FORM);
     setError("");
     setSubmitState("idle");
   };
@@ -208,10 +191,6 @@ export default function BookDemo() {
               </div>
 
               {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
-              {submitState === "email-fallback" && (
-                <p role="status" className="text-sm leading-relaxed text-amber-300">Your email app is opening with the request prepared. Send that message to finish booking.</p>
-              )}
-
               <button
                 type="submit"
                 disabled={submitState === "submitting" || !form.email.trim()}
