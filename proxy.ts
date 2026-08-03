@@ -1,10 +1,10 @@
 import { type NextRequest } from "next/server";
-import { createClient } from "@/utils/supabase/middleware";
+import { refreshSession } from "@/utils/supabase/middleware";
 
 // Refreshes the Supabase auth session on every request so Server Components see a
 // valid user. (Next 16 renamed the "middleware" convention to "proxy".)
 export async function proxy(request: NextRequest) {
-  return createClient(request);
+  return refreshSession(request);
 }
 
 export const config = {

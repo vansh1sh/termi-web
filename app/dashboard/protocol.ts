@@ -21,8 +21,12 @@ export function createControlMessage(
   return { type, instruction, requestId, t: at };
 }
 
-export function shouldOpenRealtime(_isDemo: boolean, configured: boolean): boolean {
-  return configured;
+export function shouldOpenRealtime(isDemo: boolean, configured: boolean): boolean {
+  return configured && !isDemo;
+}
+
+export function isPrivateRealtimeRoom(isDemo: boolean): boolean {
+  return !isDemo;
 }
 
 export function isMatchingControlResult(

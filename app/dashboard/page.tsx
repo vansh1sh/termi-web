@@ -34,6 +34,7 @@ import {
 import {
   createControlMessage,
   isMatchingControlResult,
+  isPrivateRealtimeRoom,
   shouldOpenRealtime,
   type ControlAction,
 } from "./protocol";
@@ -148,7 +149,12 @@ export default function Dashboard() {
     }
     setStatus("connecting");
     const supabase = createClient();
-    const channel = supabase.channel(room, { config: { broadcast: { self: false } } });
+    const channel = supabase.channel(room, {
+      config: {
+        private: isPrivateRealtimeRoom(isDemo),
+        broadcast: { self: false },
+      },
+    });
     channelRef.current = channel;
 
     channel.on("broadcast", { event: "msg" }, ({ payload }) => {
