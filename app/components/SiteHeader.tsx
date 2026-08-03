@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 import NavLinks from "./NavLinks";
 import { shouldCompactHeader } from "./headerState";
+import BookDemo from "./BookDemo";
 
 export default function SiteHeader() {
   const [compact, setCompact] = useState(false);
@@ -44,7 +45,8 @@ export default function SiteHeader() {
         </Link>
         <div className="flex items-center gap-4 sm:gap-7 text-sm text-[--color-muted]">
           <NavLinks />
-          <Link href="/login" className="hover:text-[--color-fg] transition">Sign in</Link>
+          <Link href="/login" className="hidden hover:text-[--color-fg] transition sm:inline">Sign in</Link>
+          <BookDemo />
           <a
             href="/downloads/Termi.dmg"
             download="Termi.dmg"

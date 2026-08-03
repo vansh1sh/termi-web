@@ -56,9 +56,19 @@ Only the **publishable** (anon) key belongs in the client — never the secret k
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase → Project Settings → API → `anon` / publishable key |
 | `NEXT_PUBLIC_DMG_URL` *(optional)* | Direct link to the `Termi.dmg` release asset (defaults to `/downloads/Termi.dmg`) |
+| `DEMO_REQUEST_WEBHOOK_URL` *(optional)* | HTTPS endpoint that receives validated enterprise demo requests |
+| `DEMO_REQUEST_WEBHOOK_SECRET` *(optional)* | Bearer token sent only from the server to the demo webhook |
+| `RESEND_API_KEY` *(optional)* | Alternative server-side email delivery for demo requests |
+| `DEMO_REQUEST_RECIPIENT` *(optional)* | Inbox for demo requests; defaults to the Termi team inbox |
+| `DEMO_REQUEST_FROM` *(optional)* | Verified sender used by Resend |
+| `NEXT_PUBLIC_DEMO_EMAIL` *(optional)* | Address used by the honest email fallback |
 
 If these are unset the site still builds and serves — auth just shows an
 "Auth not configured" state instead of crashing.
+
+The demo endpoint includes a small per-instance rate limit. Production deployments
+should also enable an edge-level rate limit in Vercel Firewall (or the equivalent
+trusted proxy) before using email or webhook delivery at high volume.
 
 ### Supabase configuration
 
