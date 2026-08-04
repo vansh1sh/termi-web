@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 // Section ids to track, in document order.
 const SECTIONS = [
   { id: "demo", label: "Demo" },
+  { id: "cloud", label: "Cloud" },
   { id: "features", label: "Features" },
   { id: "faq", label: "FAQ" },
 ];

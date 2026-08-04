@@ -43,9 +43,9 @@ export default function SiteHeader() {
         <Link href="/" aria-label="Termi home">
           <Logo size={28} />
         </Link>
-        <div className="flex items-center gap-4 sm:gap-7 text-sm text-[--color-muted]">
+        <div className="flex items-center gap-4 sm:gap-5 lg:gap-7 text-sm text-[--color-muted]">
           <NavLinks />
-          <Link href="/login" className="hidden hover:text-[--color-fg] transition sm:inline">Sign in</Link>
+          <Link href="/login" className="hidden hover:text-[--color-fg] transition lg:inline">Sign in</Link>
           <BookDemo />
           <a
             href="/downloads/Termi.dmg"

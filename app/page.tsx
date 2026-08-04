@@ -8,6 +8,7 @@ import ConsolePreview from "./components/ConsolePreview";
 import TradeoffChart from "./components/TradeoffChart";
 import { Logo } from "./components/Logo";
 import SiteHeader from "./components/SiteHeader";
+import CloudInfrastructure from "./components/CloudInfrastructure";
 
 export default function Landing() {
   return (
@@ -22,6 +23,7 @@ export default function Landing() {
         <Demo />
         <TradeoffChart />
         <Console />
+        <CloudInfrastructure />
         <How />
         <FAQ />
       </main>

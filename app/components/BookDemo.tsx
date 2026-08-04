@@ -8,7 +8,12 @@ type SubmitState = "idle" | "submitting" | "sent";
 
 const INITIAL_FORM: FormState = { email: "", phone: "", details: "", companyWebsite: "" };
 
-export default function BookDemo() {
+type BookDemoProps = {
+  label?: string;
+  variant?: "nav" | "primary";
+};
+
+export default function BookDemo({ label = "Book demo", variant = "nav" }: BookDemoProps) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
@@ -213,9 +218,11 @@ export default function BookDemo() {
         type="button"
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
-        className="whitespace-nowrap rounded-md border border-[--color-coral]/60 px-3 py-1.5 font-medium text-[--color-fg] transition hover:border-[--color-coral] hover:bg-[--color-coral]/10"
+        className={variant === "primary"
+          ? "whitespace-nowrap rounded-md bg-[--color-coral] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[--color-coral-600]"
+          : "whitespace-nowrap rounded-md border border-[--color-coral]/60 px-3 py-1.5 font-medium text-[--color-fg] transition hover:border-[--color-coral] hover:bg-[--color-coral]/10"}
       >
-        Book demo
+        {label}
       </button>
       {mounted && modal ? createPortal(modal, document.body) : null}
     </>
